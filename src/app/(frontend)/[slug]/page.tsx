@@ -8,7 +8,6 @@ import React, { cache } from 'react'
 
 import RichText from '@/components/RichText'
 import { generateMeta } from '@/utilities/generateMeta'
-import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
 export async function generateStaticParams() {
@@ -24,15 +23,9 @@ export async function generateStaticParams() {
     },
   })
 
-  const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug !== 'home'
-    })
-    .map(({ slug }) => {
-      return { slug }
-    })
-
-  return params
+  return pages.docs
+    ?.filter((doc) => doc.slug !== 'home')
+    .map(({ slug }) => ({ slug }))
 }
 
 type Args = {
@@ -54,14 +47,22 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   return (
-    <article className="pt-16 pb-24">
-      <PageClient />
+    <article className="py-[var(--space-4xl)]">
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
-      <div className="container">
-        <h1 className="text-4xl font-bold mb-8">{page.title}</h1>
+      <div className="container max-w-4xl mx-auto">
+        <h1
+          className="font-bold mb-[var(--space-xl)]"
+          style={{
+            fontSize: 'var(--font-size-4xl)',
+            fontFamily: 'var(--font-heading)',
+            color: 'var(--color-heading)',
+          }}
+        >
+          {page.title}
+        </h1>
         <RichText data={page.content} enableGutter={false} />
       </div>
     </article>

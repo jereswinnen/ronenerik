@@ -1,17 +1,15 @@
 import type { Metadata } from 'next/types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
-import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
-import PageClient from './page.client'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
 
-export default async function Page() {
+export default async function ArticlesPage() {
   const payload = await getPayload({ config: configPromise })
 
   const posts = await payload.find({
@@ -19,6 +17,7 @@ export default async function Page() {
     depth: 1,
     limit: 12,
     overrideAccess: false,
+    sort: '-publishedAt',
     select: {
       title: true,
       slug: true,
@@ -28,21 +27,18 @@ export default async function Page() {
   })
 
   return (
-    <div className="pt-24 pb-24">
-      <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>Posts</h1>
-        </div>
-      </div>
-
-      <div className="container mb-8">
-        <PageRange
-          collection="posts"
-          currentPage={posts.page}
-          limit={12}
-          totalDocs={posts.totalDocs}
-        />
+    <div className="py-[var(--space-4xl)]">
+      <div className="container mb-[var(--space-2xl)]">
+        <h1
+          className="font-bold"
+          style={{
+            fontSize: 'var(--font-size-4xl)',
+            fontFamily: 'var(--font-heading)',
+            color: 'var(--color-heading)',
+          }}
+        >
+          Articles
+        </h1>
       </div>
 
       <CollectionArchive posts={posts.docs} />
@@ -58,6 +54,6 @@ export default async function Page() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Payload Website Template Posts`,
+    title: 'Articles',
   }
 }

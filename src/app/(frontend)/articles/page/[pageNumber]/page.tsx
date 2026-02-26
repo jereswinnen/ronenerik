@@ -1,12 +1,10 @@
 import type { Metadata } from 'next/types'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
-import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
-import PageClient from './page.client'
 import { notFound } from 'next/navigation'
 
 export const revalidate = 600
@@ -17,7 +15,7 @@ type Args = {
   }>
 }
 
-export default async function Page({ params: paramsPromise }: Args) {
+export default async function ArticlesPageNumber({ params: paramsPromise }: Args) {
   const { pageNumber } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
 
@@ -31,24 +29,22 @@ export default async function Page({ params: paramsPromise }: Args) {
     limit: 12,
     page: sanitizedPageNumber,
     overrideAccess: false,
+    sort: '-publishedAt',
   })
 
   return (
-    <div className="pt-24 pb-24">
-      <PageClient />
-      <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
-          <h1>Posts</h1>
-        </div>
-      </div>
-
-      <div className="container mb-8">
-        <PageRange
-          collection="posts"
-          currentPage={posts.page}
-          limit={12}
-          totalDocs={posts.totalDocs}
-        />
+    <div className="py-[var(--space-4xl)]">
+      <div className="container mb-[var(--space-2xl)]">
+        <h1
+          className="font-bold"
+          style={{
+            fontSize: 'var(--font-size-4xl)',
+            fontFamily: 'var(--font-heading)',
+            color: 'var(--color-heading)',
+          }}
+        >
+          Articles
+        </h1>
       </div>
 
       <CollectionArchive posts={posts.docs} />
@@ -65,7 +61,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
   return {
-    title: `Payload Website Template Posts Page ${pageNumber || ''}`,
+    title: `Articles — Page ${pageNumber || ''}`,
   }
 }
 
@@ -76,7 +72,7 @@ export async function generateStaticParams() {
     overrideAccess: false,
   })
 
-  const totalPages = Math.ceil(totalDocs / 10)
+  const totalPages = Math.ceil(totalDocs / 12)
 
   const pages: { pageNumber: string }[] = []
 

@@ -9,7 +9,6 @@ import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 
 import { generateMeta } from '@/utilities/generateMeta'
-import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import { formatAuthors } from '@/utilities/formatAuthors'
@@ -27,11 +26,7 @@ export async function generateStaticParams() {
     },
   })
 
-  const params = posts.docs.map(({ slug }) => {
-    return { slug }
-  })
-
-  return params
+  return posts.docs.map(({ slug }) => ({ slug }))
 }
 
 type Args = {
@@ -40,32 +35,43 @@ type Args = {
   }>
 }
 
-export default async function Post({ params: paramsPromise }: Args) {
+export default async function ArticlePage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const url = '/posts/' + decodedSlug
+  const url = '/articles/' + decodedSlug
   const post = await queryPostBySlug({ slug: decodedSlug })
 
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article className="pt-16 pb-16">
-      <PageClient />
+    <article className="py-[var(--space-4xl)]">
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
       <div className="container max-w-4xl mx-auto">
         {post.heroImage && typeof post.heroImage !== 'number' && (
-          <div className="mb-8 rounded-lg overflow-hidden">
+          <div className="mb-[var(--space-xl)]" style={{ borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
             <Media resource={post.heroImage} />
           </div>
         )}
 
-        <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+        <h1
+          className="font-bold mb-[var(--space-md)]"
+          style={{
+            fontSize: 'var(--font-size-4xl)',
+            fontFamily: 'var(--font-heading)',
+            color: 'var(--color-heading)',
+          }}
+        >
+          {post.title}
+        </h1>
 
-        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-8">
+        <div
+          className="flex items-center gap-4 mb-[var(--space-2xl)]"
+          style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}
+        >
           {post.populatedAuthors && post.populatedAuthors.length > 0 && (
             <span>{formatAuthors(post.populatedAuthors)}</span>
           )}
