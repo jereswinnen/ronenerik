@@ -6,6 +6,10 @@ import Link from 'next/link'
 
 import type { SiteSetting } from '@/payload-types'
 import { Card } from '@/components/Card'
+import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
+import { fetchYouTubeVideos } from '@/utilities/rss/fetchYouTube'
+import { PodcastEpisodeCard } from '@/components/PodcastEpisodeCard'
+import { YouTubeVideoCard } from '@/components/YouTubeVideoCard'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -28,6 +32,14 @@ export default async function HomePage() {
       publishedAt: true,
     },
   })
+
+  const podcastFeedUrl = siteSettings?.externalLinks?.podcastFeedUrl
+  const youtubeChannelUrl = siteSettings?.externalLinks?.youtubeChannelUrl
+
+  const [episodes, videos] = await Promise.all([
+    podcastFeedUrl ? fetchPodcastEpisodes(podcastFeedUrl, 4) : Promise.resolve([]),
+    youtubeChannelUrl ? fetchYouTubeVideos(youtubeChannelUrl, 4) : Promise.resolve([]),
+  ])
 
   return (
     <div className="py-[var(--space-4xl)]">
@@ -56,25 +68,7 @@ export default async function HomePage() {
       {/* Latest Articles */}
       {articles.docs.length > 0 && (
         <section className="container mb-[var(--space-4xl)]">
-          <div className="flex items-center justify-between mb-[var(--space-xl)]">
-            <h2
-              className="font-bold"
-              style={{
-                fontSize: 'var(--font-size-2xl)',
-                fontFamily: 'var(--font-heading)',
-                color: 'var(--color-heading)',
-              }}
-            >
-              Latest Articles
-            </h2>
-            <Link
-              href="/articles"
-              className="text-sm font-medium"
-              style={{ color: 'var(--color-accent)' }}
-            >
-              View all
-            </Link>
-          </div>
+          <SectionHeader title="Latest Articles" href="/articles" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {articles.docs.map((article, i) => (
               <Card key={i} doc={article} relationTo="posts" showCategories className="h-full" />
@@ -83,57 +77,61 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Latest Podcasts — placeholder, wired in Phase 4 */}
+      {/* Latest Podcasts */}
       <section className="container mb-[var(--space-4xl)]">
-        <div className="flex items-center justify-between mb-[var(--space-xl)]">
-          <h2
-            className="font-bold"
-            style={{
-              fontSize: 'var(--font-size-2xl)',
-              fontFamily: 'var(--font-heading)',
-              color: 'var(--color-heading)',
-            }}
-          >
-            Latest Podcasts
-          </h2>
-          <Link
-            href="/podcasts"
-            className="text-sm font-medium"
-            style={{ color: 'var(--color-accent)' }}
-          >
-            View all
-          </Link>
-        </div>
-        <p style={{ color: 'var(--color-text-muted)' }}>
-          Podcast episodes will appear here once your RSS feed is configured in Site Settings.
-        </p>
+        <SectionHeader title="Latest Podcasts" href="/podcasts" />
+        {episodes.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {episodes.map((ep, i) => (
+              <PodcastEpisodeCard key={i} episode={ep} />
+            ))}
+          </div>
+        ) : (
+          <p style={{ color: 'var(--color-text-muted)' }}>
+            {podcastFeedUrl
+              ? 'No episodes found.'
+              : 'Configure your podcast RSS feed in Site Settings.'}
+          </p>
+        )}
       </section>
 
-      {/* Latest Videos — placeholder, wired in Phase 4 */}
+      {/* Latest Videos */}
       <section className="container mb-[var(--space-4xl)]">
-        <div className="flex items-center justify-between mb-[var(--space-xl)]">
-          <h2
-            className="font-bold"
-            style={{
-              fontSize: 'var(--font-size-2xl)',
-              fontFamily: 'var(--font-heading)',
-              color: 'var(--color-heading)',
-            }}
-          >
-            Latest Videos
-          </h2>
-          <Link
-            href="/videos"
-            className="text-sm font-medium"
-            style={{ color: 'var(--color-accent)' }}
-          >
-            View all
-          </Link>
-        </div>
-        <p style={{ color: 'var(--color-text-muted)' }}>
-          YouTube videos will appear here once your channel URL is configured in Site Settings.
-        </p>
+        <SectionHeader title="Latest Videos" href="/videos" />
+        {videos.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {videos.map((video, i) => (
+              <YouTubeVideoCard key={i} video={video} />
+            ))}
+          </div>
+        ) : (
+          <p style={{ color: 'var(--color-text-muted)' }}>
+            {youtubeChannelUrl
+              ? 'No videos found.'
+              : 'Configure your YouTube channel URL in Site Settings.'}
+          </p>
+        )}
       </section>
+    </div>
+  )
+}
+
+function SectionHeader({ title, href }: { title: string; href: string }) {
+  return (
+    <div className="flex items-center justify-between mb-[var(--space-xl)]">
+      <h2
+        className="font-bold"
+        style={{
+          fontSize: 'var(--font-size-2xl)',
+          fontFamily: 'var(--font-heading)',
+          color: 'var(--color-heading)',
+        }}
+      >
+        {title}
+      </h2>
+      <Link href={href} className="text-sm font-medium" style={{ color: 'var(--color-accent)' }}>
+        View all
+      </Link>
     </div>
   )
 }
