@@ -8,8 +8,6 @@ import React, { cache } from 'react'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 
-import type { Post as PostType } from '@/payload-types'
-
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
