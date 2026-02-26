@@ -6,11 +6,28 @@ const config = {
         DEFAULT: {
           css: [
             {
-              '--tw-prose-body': 'var(--text)',
-              '--tw-prose-headings': 'var(--text)',
+              '--tw-prose-body': 'var(--color-text)',
+              '--tw-prose-headings': 'var(--color-heading)',
               h1: {
-                fontWeight: 'normal',
+                fontFamily: 'var(--font-heading)',
+                fontWeight: '700',
                 marginBottom: '0.25em',
+              },
+              h2: {
+                fontFamily: 'var(--font-heading)',
+                fontWeight: '600',
+              },
+              h3: {
+                fontFamily: 'var(--font-heading)',
+                fontWeight: '600',
+              },
+              a: {
+                color: 'var(--color-accent)',
+                textDecoration: 'underline',
+                textUnderlineOffset: '2px',
+                '&:hover': {
+                  color: 'var(--color-accent-hover)',
+                },
               },
             },
           ],
@@ -18,25 +35,18 @@ const config = {
         base: {
           css: [
             {
-              h1: {
-                fontSize: '2.5rem',
-              },
-              h2: {
-                fontSize: '1.25rem',
-                fontWeight: 600,
-              },
+              h1: { fontSize: 'var(--font-size-4xl)' },
+              h2: { fontSize: 'var(--font-size-2xl)' },
+              h3: { fontSize: 'var(--font-size-xl)' },
             },
           ],
         },
         md: {
           css: [
             {
-              h1: {
-                fontSize: '3.5rem',
-              },
-              h2: {
-                fontSize: '1.5rem',
-              },
+              h1: { fontSize: 'var(--font-size-5xl)' },
+              h2: { fontSize: 'var(--font-size-3xl)' },
+              h3: { fontSize: 'var(--font-size-2xl)' },
             },
           ],
         },
