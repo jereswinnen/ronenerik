@@ -1,41 +1,70 @@
 import type { Metadata } from 'next/types'
 import React from 'react'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
-import { PodcastEpisodeCard } from '@/components/PodcastEpisodeCard'
+import { ContentCard, formatUploadDate } from '@/components/(frontend)/ContentCard'
 import { PatreonSection } from '@/components/sections/PatreonSection'
-import type { SiteSetting } from '@/payload-types'
+import type { SiteSetting, Media as MediaType } from '@/payload-types'
 
 export const dynamic = 'force-static'
 export const revalidate = 3600
 
-export default async function PodcastsPage() {
+export default async function PodcastPage() {
+  const payload = await getPayload({ config: configPromise })
   const siteSettings = (await getCachedGlobal('site-settings', 1)()) as SiteSetting
   const feedUrl = siteSettings?.externalLinks?.podcastFeedUrl
 
-  const episodes = feedUrl ? await fetchPodcastEpisodes(feedUrl) : []
+  const [episodes, episodeDocs] = await Promise.all([
+    feedUrl ? fetchPodcastEpisodes(feedUrl) : Promise.resolve([]),
+    payload.find({
+      collection: 'podcast-episodes',
+      limit: 100,
+      depth: 1,
+      select: { slug: true, featuredImage: true },
+    }),
+  ])
+
+  const defaultImage =
+    typeof siteSettings?.podcast?.defaultEpisodeImage === 'object'
+      ? siteSettings.podcast.defaultEpisodeImage
+      : null
+  const imageMap = new Map<string, MediaType | null>()
+  for (const doc of episodeDocs.docs) {
+    const img =
+      typeof doc.featuredImage === 'object' && doc.featuredImage
+        ? doc.featuredImage
+        : defaultImage
+    imageMap.set(doc.slug, img ?? null)
+  }
 
   return (
-    <div className="py-24">
-      <div className="container mb-12">
-        <h1>Podcasts</h1>
-      </div>
+    <div className="pt-24 pb-16">
+      <header className="container mb-16">
+        <p className="text-sm text-c-foreground/50 mb-4">De Ron en Erik Podcast</p>
+        <h1>Elke maandag komen Ron en Erik in je oren</h1>
+      </header>
 
-      <div className="container">
+      <section className="container mb-16">
+        <h2 className="text-xl font-bold mb-8">Alle podcasts</h2>
         {episodes.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {episodes.map((ep, i) => (
-              <PodcastEpisodeCard key={i} episode={ep} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {episodes.map((ep) => (
+              <ContentCard
+                key={ep.slug}
+                href={`/podcast/${ep.slug}`}
+                title={ep.title}
+                image={imageMap.get(ep.slug)}
+                imageSrc={ep.image}
+                meta={ep.pubDate ? formatUploadDate(ep.pubDate) : undefined}
+              />
             ))}
           </div>
         ) : (
-          <p className="text-c-foreground/60">
-            {feedUrl
-              ? 'No episodes found.'
-              : 'Configure your podcast RSS feed in Site Settings.'}
-          </p>
+          <p className="text-c-foreground/60">Geen afleveringen gevonden.</p>
         )}
-      </div>
+      </section>
 
       <PatreonSection />
     </div>
@@ -43,7 +72,5 @@ export default async function PodcastsPage() {
 }
 
 export function generateMetadata(): Metadata {
-  return {
-    title: 'Podcasts',
-  }
+  return { title: 'Podcasts' }
 }

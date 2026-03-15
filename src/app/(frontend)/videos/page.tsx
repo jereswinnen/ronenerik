@@ -2,7 +2,7 @@ import type { Metadata } from 'next/types'
 import React from 'react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { fetchYouTubeVideos } from '@/utilities/rss/fetchYouTube'
-import { YouTubeVideoCard } from '@/components/YouTubeVideoCard'
+import { ContentCard, formatUploadDate, youtubeMaxRes } from '@/components/(frontend)/ContentCard'
 import type { SiteSetting } from '@/payload-types'
 
 export const dynamic = 'force-static'
@@ -15,32 +15,34 @@ export default async function VideosPage() {
   const videos = channelUrl ? await fetchYouTubeVideos(channelUrl) : []
 
   return (
-    <div className="py-24">
-      <div className="container mb-12">
-        <h1>Videos</h1>
-      </div>
+    <div className="pt-24 pb-16">
+      <header className="container mb-16">
+        <p className="text-sm text-c-foreground/50 mb-4">Op YouTube</p>
+        <h1>Bekijk de laatste video&apos;s</h1>
+      </header>
 
-      <div className="container">
+      <section className="container mb-16">
+        <h2 className="text-xl font-bold mb-8">Alle video&apos;s</h2>
         {videos.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {videos.map((video, i) => (
-              <YouTubeVideoCard key={i} video={video} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {videos.map((video) => (
+              <ContentCard
+                key={video.videoId}
+                href={video.link}
+                title={video.title}
+                imageSrc={youtubeMaxRes(video.videoId)}
+                meta={video.pubDate ? formatUploadDate(video.pubDate) : undefined}
+              />
             ))}
           </div>
         ) : (
-          <p className="text-c-foreground/60">
-            {channelUrl
-              ? 'No videos found.'
-              : 'Configure your YouTube channel URL in Site Settings.'}
-          </p>
+          <p className="text-c-foreground/60">Geen video&apos;s gevonden.</p>
         )}
-      </div>
+      </section>
     </div>
   )
 }
 
 export function generateMetadata(): Metadata {
-  return {
-    title: 'Videos',
-  }
+  return { title: "Video's" }
 }
