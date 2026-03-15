@@ -35,7 +35,7 @@ export default async function ArticlesPageNumber({ params: paramsPromise }: Args
   return (
     <div className="py-24">
       <div className="container mb-12">
-        <h1 className="text-4xl font-bold">Articles</h1>
+        <h1>Articles</h1>
       </div>
 
       <CollectionArchive posts={posts.docs} />

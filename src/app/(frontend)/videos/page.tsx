@@ -17,7 +17,7 @@ export default async function VideosPage() {
   return (
     <div className="py-24">
       <div className="container mb-12">
-        <h1 className="text-4xl font-bold">Videos</h1>
+        <h1>Videos</h1>
       </div>
 
       <div className="container">

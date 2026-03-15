@@ -53,7 +53,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <div className="container max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">
+        <h1 className="mb-8">
           {page.title}
         </h1>
         <RichText data={page.content} enableGutter={false} />

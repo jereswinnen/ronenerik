@@ -25,7 +25,7 @@ export const YouTubeVideoCard: React.FC<{ video: YouTubeVideo }> = ({ video }) =
         />
       </div>
       <div className="p-3">
-        <h3 className="font-semibold text-sm line-clamp-2">
+        <h3 className="text-sm line-clamp-2">
           {video.title}
         </h3>
         {formattedDate && (

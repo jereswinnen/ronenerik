@@ -45,7 +45,7 @@ export default async function HomePage() {
     <div className="py-24">
       {/* Hero */}
       <section className="container mb-24">
-        <h1 className="text-5xl font-bold mb-4">
+        <h1 className="mb-4">
           {siteSettings?.general?.siteName || 'Welcome'}
         </h1>
         {siteSettings?.general?.tagline && (
@@ -109,7 +109,7 @@ export default async function HomePage() {
 function SectionHeader({ title, href }: { title: string; href: string }) {
   return (
     <div className="flex items-center justify-between mb-8">
-      <h2 className="text-2xl font-bold">{title}</h2>
+      <h2>{title}</h2>
       <Link href={href} className="text-sm font-medium text-c-accent">
         View all
       </Link>

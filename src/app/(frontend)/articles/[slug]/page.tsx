@@ -57,7 +57,7 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
           </div>
         )}
 
-        <h1 className="text-4xl font-bold mb-4">
+        <h1 className="mb-4">
           {post.title}
         </h1>
 
