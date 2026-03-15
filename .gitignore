@@ -12,13 +12,8 @@ public/media/
 public/robots.txt
 public/sitemap*.xml
 
+# Build artifacts
+tsconfig.tsbuildinfo
 
 # Claude
 CLAUDE.md
-
-# Playwright
-node_modules/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
