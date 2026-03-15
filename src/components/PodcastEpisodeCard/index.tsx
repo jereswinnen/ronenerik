@@ -1,16 +1,18 @@
 import React from 'react'
 import Link from 'next/link'
 import type { PodcastEpisode } from '@/utilities/rss/types'
+import type { Media as MediaType } from '@/payload-types'
+import { Media } from '@/components/Media'
 
 interface PodcastEpisodeCardProps {
   episode: PodcastEpisode
-  /** Overrides the RSS image (e.g. Payload featured image or default image URL) */
-  imageOverride?: string | null
+  /** Payload media resource — uses optimized sizes. Falls back to RSS image. */
+  image?: MediaType | null
 }
 
 export const PodcastEpisodeCard: React.FC<PodcastEpisodeCardProps> = ({
   episode,
-  imageOverride,
+  image,
 }) => {
   const formattedDate = episode.pubDate
     ? new Date(episode.pubDate).toLocaleDateString('en-US', {
@@ -20,20 +22,24 @@ export const PodcastEpisodeCard: React.FC<PodcastEpisodeCardProps> = ({
       })
     : null
 
-  const imageSrc = imageOverride || episode.image
-
   return (
     <Link
       href={`/podcast/${episode.slug}`}
       className="flex gap-4 rounded-lg overflow-hidden border border-c-foreground/10 bg-c-foreground/5 transition-colors duration-200"
     >
-      {imageSrc && (
+      {image ? (
+        <Media
+          resource={image}
+          imgClassName="w-24 h-24 object-cover flex-shrink-0"
+          size="96px"
+        />
+      ) : episode.image ? (
         <img
-          src={imageSrc}
+          src={episode.image}
           alt=""
           className="w-24 h-24 object-cover flex-shrink-0"
         />
-      )}
+      ) : null}
       <div className="py-3 pr-4 flex flex-col justify-center min-w-0">
         <h3 className="text-base line-clamp-2">
           {episode.title}

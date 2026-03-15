@@ -15,8 +15,9 @@ export const PodcastEpisodes: CollectionConfig = {
     read: anyone,
     update: authenticated,
   },
+  defaultSort: '-publishedAt',
   admin: {
-    defaultColumns: ['title', 'slug', 'featuredImage', 'updatedAt'],
+    defaultColumns: ['title', 'publishedAt', 'featuredImage'],
     useAsTitle: 'title',
     description: 'Automatisch aangemaakt vanuit de podcast RSS-feed. Upload een uitgelichte afbeelding per aflevering.',
   },
@@ -39,6 +40,18 @@ export const PodcastEpisodes: CollectionConfig = {
       admin: {
         readOnly: true,
         description: 'Slug uit de RSS-feed (automatisch ingevuld)',
+      },
+    },
+    {
+      name: 'publishedAt',
+      type: 'date',
+      label: 'Publicatiedatum',
+      admin: {
+        readOnly: true,
+        date: {
+          pickerAppearance: 'dayOnly',
+        },
+        description: 'Datum uit de RSS-feed (automatisch ingevuld)',
       },
     },
     {

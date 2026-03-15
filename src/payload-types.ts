@@ -421,6 +421,10 @@ export interface PodcastEpisode {
    */
   slug: string;
   /**
+   * Datum uit de RSS-feed (automatisch ingevuld)
+   */
+  publishedAt?: string | null;
+  /**
    * Optioneel — overschrijft de standaard podcast afbeelding
    */
   featuredImage?: (number | null) | Media;
@@ -815,6 +819,7 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface PodcastEpisodesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
+  publishedAt?: T;
   featuredImage?: T;
   updatedAt?: T;
   createdAt?: T;

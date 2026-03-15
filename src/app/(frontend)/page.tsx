@@ -4,7 +4,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import React from 'react'
 import Link from 'next/link'
 
-import type { SiteSetting } from '@/payload-types'
+import type { SiteSetting, Media as MediaType } from '@/payload-types'
 import { Card } from '@/components/Card'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import { fetchYouTubeVideos } from '@/utilities/rss/fetchYouTube'
@@ -49,16 +49,16 @@ export default async function HomePage() {
     }),
   ])
 
-  // Build a map of slug → featured image URL for quick lookup
+  // Build a map of slug → Payload media resource for quick lookup
   const defaultImage =
     typeof siteSettings?.podcast?.defaultEpisodeImage === 'object'
-      ? siteSettings.podcast.defaultEpisodeImage?.url
+      ? siteSettings.podcast.defaultEpisodeImage
       : null
-  const episodeImageMap = new Map<string, string | null>()
+  const episodeImageMap = new Map<string, MediaType | null>()
   for (const doc of episodeDocs.docs) {
     const img =
-      typeof doc.featuredImage === 'object' && doc.featuredImage?.url
-        ? doc.featuredImage.url
+      typeof doc.featuredImage === 'object' && doc.featuredImage
+        ? doc.featuredImage
         : defaultImage
     episodeImageMap.set(doc.slug, img ?? null)
   }
@@ -95,7 +95,7 @@ export default async function HomePage() {
         {episodes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {episodes.map((ep, i) => (
-              <PodcastEpisodeCard key={i} episode={ep} imageOverride={episodeImageMap.get(ep.slug)} />
+              <PodcastEpisodeCard key={i} episode={ep} image={episodeImageMap.get(ep.slug)} />
             ))}
           </div>
         ) : (

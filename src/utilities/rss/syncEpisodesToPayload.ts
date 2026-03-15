@@ -34,6 +34,7 @@ export async function syncEpisodesToPayload(
       data: {
         title: episode.title,
         slug: episode.slug,
+        publishedAt: episode.pubDate ? new Date(episode.pubDate).toISOString() : undefined,
       },
     })
 
