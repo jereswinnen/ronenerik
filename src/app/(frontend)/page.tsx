@@ -12,6 +12,7 @@ import { PodcastEpisodeCard } from '@/components/PodcastEpisodeCard'
 import { YouTubeVideoCard } from '@/components/YouTubeVideoCard'
 import { PatreonSection } from '@/components/sections/PatreonSection'
 import { AllContentLinks } from '@/components/sections/AllContentLinks'
+import { FeaturedSection } from '@/components/sections/FeaturedSection'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -20,25 +21,24 @@ export default async function HomePage() {
   const payload = await getPayload({ config: configPromise })
   const siteSettings = (await getCachedGlobal('site-settings', 1)()) as SiteSetting
 
-  const articles = await payload.find({
-    collection: 'posts',
-    depth: 1,
-    limit: 6,
-    overrideAccess: false,
-    sort: '-publishedAt',
-    select: {
-      title: true,
-      slug: true,
-      categories: true,
-      meta: true,
-      publishedAt: true,
-    },
-  })
-
   const podcastFeedUrl = siteSettings?.externalLinks?.podcastFeedUrl
   const youtubeChannelUrl = siteSettings?.externalLinks?.youtubeChannelUrl
 
-  const [episodes, videos, episodeDocs] = await Promise.all([
+  const [articles, episodes, videos, episodeDocs] = await Promise.all([
+    payload.find({
+      collection: 'posts',
+      depth: 1,
+      limit: 6,
+      overrideAccess: false,
+      sort: '-publishedAt',
+      select: {
+        title: true,
+        slug: true,
+        categories: true,
+        meta: true,
+        publishedAt: true,
+      },
+    }),
     podcastFeedUrl ? fetchPodcastEpisodes(podcastFeedUrl, 4) : Promise.resolve([]),
     youtubeChannelUrl ? fetchYouTubeVideos(youtubeChannelUrl, 4) : Promise.resolve([]),
     payload.find({
@@ -63,6 +63,13 @@ export default async function HomePage() {
     episodeImageMap.set(doc.slug, img ?? null)
   }
 
+  // Featured section: latest episode + first 4 articles
+  const latestEpisode = episodes[0] || null
+  const featuredArticles = articles.docs.slice(0, 4)
+  // Remaining content for the sections below
+  const remainingEpisodes = episodes.slice(1)
+  const remainingArticles = articles.docs.slice(4)
+
   return (
     <div className="py-24">
       {/* Hero */}
@@ -77,39 +84,40 @@ export default async function HomePage() {
         )}
       </section>
 
-      {/* Latest Articles */}
-      {articles.docs.length > 0 && (
+      {/* Featured: latest episode + latest articles */}
+      <FeaturedSection
+        episode={latestEpisode}
+        episodeImage={latestEpisode ? episodeImageMap.get(latestEpisode.slug) : null}
+        articles={featuredArticles}
+      />
+
+      {/* More Podcasts */}
+      {remainingEpisodes.length > 0 && (
         <section className="container mb-24">
-          <SectionHeader title="Latest Articles" href="/artikels" />
+          <SectionHeader title="Meer afleveringen" href="/podcast" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {remainingEpisodes.map((ep, i) => (
+              <PodcastEpisodeCard key={i} episode={ep} image={episodeImageMap.get(ep.slug)} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* More Articles */}
+      {remainingArticles.length > 0 && (
+        <section className="container mb-24">
+          <SectionHeader title="Meer artikels" href="/artikels" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articles.docs.map((article, i) => (
+            {remainingArticles.map((article, i) => (
               <Card key={i} doc={article} relationTo="posts" showCategories className="h-full" />
             ))}
           </div>
         </section>
       )}
 
-      {/* Latest Podcasts */}
-      <section className="container mb-24">
-        <SectionHeader title="Latest Podcasts" href="/podcast" />
-        {episodes.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {episodes.map((ep, i) => (
-              <PodcastEpisodeCard key={i} episode={ep} image={episodeImageMap.get(ep.slug)} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-c-foreground/60">
-            {podcastFeedUrl
-              ? 'No episodes found.'
-              : 'Configure your podcast RSS feed in Site Settings.'}
-          </p>
-        )}
-      </section>
-
       {/* Latest Videos */}
       <section className="container mb-24">
-        <SectionHeader title="Latest Videos" href="/videos" />
+        <SectionHeader title="Laatste video's" href="/videos" />
         {videos.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {videos.map((video, i) => (
@@ -139,7 +147,7 @@ function SectionHeader({ title, href }: { title: string; href: string }) {
     <div className="flex items-center justify-between mb-8">
       <h2>{title}</h2>
       <Link href={href} className="text-sm font-medium text-c-accent">
-        View all
+        Bekijk alle
       </Link>
     </div>
   )
