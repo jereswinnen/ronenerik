@@ -2,7 +2,8 @@ import type { YouTubeVideo } from './types'
 
 /**
  * Fetches latest videos from a YouTube channel via its RSS feed.
- * YouTube exposes RSS at: https://www.youtube.com/feeds/videos.xml?channel_id=CHANNEL_ID
+ * Caching is controlled at the page level — pages set `export const revalidate`
+ * and the Vercel cron (`/api/revalidate-rss`) triggers on-demand revalidation.
  *
  * Accepts either:
  * - A full channel URL (https://youtube.com/@handle or https://youtube.com/channel/UC...)
@@ -20,9 +21,7 @@ export async function fetchYouTubeVideos(
       return []
     }
 
-    const res = await fetch(feedUrl, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    })
+    const res = await fetch(feedUrl)
 
     if (!res.ok) {
       console.error(`Failed to fetch YouTube feed: ${res.status}`)

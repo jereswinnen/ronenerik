@@ -3,16 +3,15 @@ import { slugify } from '@/utilities/slugify'
 
 /**
  * Fetches and parses a podcast RSS feed.
- * Uses Next.js fetch with revalidation for caching.
+ * Caching is controlled at the page level — pages set `export const revalidate`
+ * and the Vercel cron (`/api/revalidate-rss`) triggers on-demand revalidation.
  */
 export async function fetchPodcastEpisodes(
   feedUrl: string,
   limit = 20,
 ): Promise<PodcastEpisode[]> {
   try {
-    const res = await fetch(feedUrl, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    })
+    const res = await fetch(feedUrl)
 
     if (!res.ok) {
       console.error(`Failed to fetch podcast feed: ${res.status}`)
