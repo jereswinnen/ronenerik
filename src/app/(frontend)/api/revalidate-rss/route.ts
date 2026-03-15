@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server'
 
 /**
  * On-demand revalidation for RSS-dependent pages.
- * Called by the Vercel cron (vercel.json) every Monday at 06:00 CET.
+ * Called by the Vercel cron (vercel.json) daily at 06:00 CET.
  *
  * Revalidates all pages that display content from external RSS feeds:
  * - Podcast episodes (main feed)
