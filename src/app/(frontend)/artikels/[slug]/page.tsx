@@ -12,6 +12,8 @@ import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import { formatAuthors } from '@/utilities/formatAuthors'
+import { PatreonSection } from '@/components/sections/PatreonSection'
+import { MoreContentSection } from '@/components/sections/MoreContentSection'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -39,7 +41,7 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = '' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const url = '/articles/' + decodedSlug
+  const url = '/artikels/' + decodedSlug
   const post = await queryPostBySlug({ slug: decodedSlug })
 
   if (!post) return <PayloadRedirects url={url} />
@@ -70,6 +72,9 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
 
         <RichText data={post.content} enableGutter={false} />
       </div>
+
+      <PatreonSection />
+      <MoreContentSection excludeSlug={slug} />
     </article>
   )
 }

@@ -57,6 +57,41 @@ export const SiteSettings: GlobalConfig = {
     },
     {
       type: 'group',
+      name: 'patreon',
+      label: 'Patreon Section',
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          defaultValue: 'De extra podcast van deze week',
+        },
+        {
+          name: 'description',
+          type: 'text',
+          admin: {
+            description: 'Optional subtitle or description for the Patreon section',
+          },
+        },
+        {
+          name: 'ctaText',
+          type: 'text',
+          defaultValue: 'Steun de show',
+        },
+        {
+          name: 'patreonPodcastFeedUrl',
+          type: 'text',
+          label: 'Patreon Podcast RSS Feed URL',
+          access: {
+            read: ({ req }) => Boolean(req.user),
+          },
+          admin: {
+            description: 'Separate RSS feed URL for Patreon-exclusive episodes',
+          },
+        },
+      ],
+    },
+    {
+      type: 'group',
       name: 'socials',
       label: 'Social Media',
       fields: [

@@ -983,6 +983,18 @@ export interface SiteSetting {
      */
     patreonUrl?: string | null;
   };
+  patreon?: {
+    heading?: string | null;
+    /**
+     * Optional subtitle or description for the Patreon section
+     */
+    description?: string | null;
+    ctaText?: string | null;
+    /**
+     * Separate RSS feed URL for Patreon-exclusive episodes
+     */
+    patreonPodcastFeedUrl?: string | null;
+  };
   socials?: {
     twitter?: string | null;
     instagram?: string | null;
@@ -1054,6 +1066,14 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         youtubeChannelUrl?: T;
         podcastFeedUrl?: T;
         patreonUrl?: T;
+      };
+  patreon?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        ctaText?: T;
+        patreonPodcastFeedUrl?: T;
       };
   socials?:
     | T

@@ -10,6 +10,8 @@ import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import { fetchYouTubeVideos } from '@/utilities/rss/fetchYouTube'
 import { PodcastEpisodeCard } from '@/components/PodcastEpisodeCard'
 import { YouTubeVideoCard } from '@/components/YouTubeVideoCard'
+import { PatreonSection } from '@/components/sections/PatreonSection'
+import { AllContentLinks } from '@/components/sections/AllContentLinks'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -58,7 +60,7 @@ export default async function HomePage() {
       {/* Latest Articles */}
       {articles.docs.length > 0 && (
         <section className="container mb-24">
-          <SectionHeader title="Latest Articles" href="/articles" />
+          <SectionHeader title="Latest Articles" href="/artikels" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {articles.docs.map((article, i) => (
               <Card key={i} doc={article} relationTo="posts" showCategories className="h-full" />
@@ -69,7 +71,7 @@ export default async function HomePage() {
 
       {/* Latest Podcasts */}
       <section className="container mb-24">
-        <SectionHeader title="Latest Podcasts" href="/podcasts" />
+        <SectionHeader title="Latest Podcasts" href="/podcast" />
         {episodes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {episodes.map((ep, i) => (
@@ -102,6 +104,12 @@ export default async function HomePage() {
           </p>
         )}
       </section>
+
+      {/* Patreon Section */}
+      <PatreonSection />
+
+      {/* All Content Links */}
+      <AllContentLinks />
     </div>
   )
 }

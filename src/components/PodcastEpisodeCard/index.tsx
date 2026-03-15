@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import type { PodcastEpisode } from '@/utilities/rss/types'
 
 export const PodcastEpisodeCard: React.FC<{ episode: PodcastEpisode }> = ({ episode }) => {
@@ -11,10 +12,8 @@ export const PodcastEpisodeCard: React.FC<{ episode: PodcastEpisode }> = ({ epis
     : null
 
   return (
-    <a
-      href={episode.link}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      href={`/podcast/${episode.slug}`}
       className="flex gap-4 rounded-lg overflow-hidden border border-c-foreground/10 bg-c-foreground/5 transition-colors duration-200"
     >
       {episode.image && (
@@ -34,6 +33,6 @@ export const PodcastEpisodeCard: React.FC<{ episode: PodcastEpisode }> = ({ epis
           {episode.duration && <span>{episode.duration}</span>}
         </div>
       </div>
-    </a>
+    </Link>
   )
 }

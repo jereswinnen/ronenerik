@@ -5,6 +5,7 @@ import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
+import { PatreonSection } from '@/components/sections/PatreonSection'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -39,6 +40,8 @@ export default async function ArticlesPage() {
           <Pagination page={posts.page} totalPages={posts.totalPages} />
         )}
       </div>
+
+      <PatreonSection />
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import type { PodcastEpisode } from './types'
+import { slugify } from '@/utilities/slugify'
 
 /**
  * Fetches and parses a podcast RSS feed.
@@ -58,8 +59,10 @@ function parsePodcastXml(xml: string, limit: number): PodcastEpisode[] {
     const image = episodeImageMatch?.[1] || channelImage
 
     if (title) {
+      const cleanTitle = cleanHtml(title)
       episodes.push({
-        title: cleanHtml(title),
+        title: cleanTitle,
+        slug: slugify(cleanTitle),
         description: cleanHtml(description).slice(0, 300),
         audioUrl,
         link: link || audioUrl,

@@ -37,7 +37,7 @@ export const Pagination: React.FC<{
               aria-label="Go to previous page"
               className={cn(navClass, !hasPrevPage && 'pointer-events-none opacity-50')}
               disabled={!hasPrevPage}
-              onClick={() => router.push(`/articles/page/${page - 1}`)}
+              onClick={() => router.push(`/artikels/pagina/${page - 1}`)}
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" /></svg>
               <span>Previous</span>
@@ -57,7 +57,7 @@ export const Pagination: React.FC<{
             <li>
               <button
                 className={linkClass}
-                onClick={() => router.push(`/articles/page/${page - 1}`)}
+                onClick={() => router.push(`/artikels/pagina/${page - 1}`)}
               >
                 {page - 1}
               </button>
@@ -68,7 +68,7 @@ export const Pagination: React.FC<{
             <button
               aria-current="page"
               className={cn(linkClass, activeClass)}
-              onClick={() => router.push(`/articles/page/${page}`)}
+              onClick={() => router.push(`/artikels/pagina/${page}`)}
             >
               {page}
             </button>
@@ -78,7 +78,7 @@ export const Pagination: React.FC<{
             <li>
               <button
                 className={linkClass}
-                onClick={() => router.push(`/articles/page/${page + 1}`)}
+                onClick={() => router.push(`/artikels/pagina/${page + 1}`)}
               >
                 {page + 1}
               </button>
@@ -99,7 +99,7 @@ export const Pagination: React.FC<{
               aria-label="Go to next page"
               className={cn(navClass, !hasNextPage && 'pointer-events-none opacity-50')}
               disabled={!hasNextPage}
-              onClick={() => router.push(`/articles/page/${page + 1}`)}
+              onClick={() => router.push(`/artikels/pagina/${page + 1}`)}
             >
               <span>Next</span>
               <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>

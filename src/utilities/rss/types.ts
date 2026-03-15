@@ -1,5 +1,6 @@
 export interface PodcastEpisode {
   title: string
+  slug: string
   description: string
   audioUrl: string
   link: string

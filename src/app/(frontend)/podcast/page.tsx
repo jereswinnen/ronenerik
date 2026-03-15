@@ -3,6 +3,7 @@ import React from 'react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import { PodcastEpisodeCard } from '@/components/PodcastEpisodeCard'
+import { PatreonSection } from '@/components/sections/PatreonSection'
 import type { SiteSetting } from '@/payload-types'
 
 export const dynamic = 'force-static'
@@ -35,6 +36,8 @@ export default async function PodcastsPage() {
           </p>
         )}
       </div>
+
+      <PatreonSection />
     </div>
   )
 }
