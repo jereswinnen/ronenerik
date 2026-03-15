@@ -8,6 +8,7 @@ import type { SiteSetting, Media as MediaType } from '@/payload-types'
 import { Card } from '@/components/Card'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import { fetchYouTubeVideos } from '@/utilities/rss/fetchYouTube'
+import { matchEpisodeToVideo } from '@/utilities/rss/matchEpisodeToVideo'
 import { PodcastEpisodeCard } from '@/components/PodcastEpisodeCard'
 import { YouTubeVideoCard } from '@/components/YouTubeVideoCard'
 import { PatreonSection } from '@/components/sections/PatreonSection'
@@ -40,7 +41,7 @@ export default async function HomePage() {
       },
     }),
     podcastFeedUrl ? fetchPodcastEpisodes(podcastFeedUrl, 4) : Promise.resolve([]),
-    youtubeChannelUrl ? fetchYouTubeVideos(youtubeChannelUrl, 4) : Promise.resolve([]),
+    youtubeChannelUrl ? fetchYouTubeVideos(youtubeChannelUrl) : Promise.resolve([]),
     payload.find({
       collection: 'podcast-episodes',
       limit: 20,
@@ -63,33 +64,20 @@ export default async function HomePage() {
     episodeImageMap.set(doc.slug, img ?? null)
   }
 
-  // Featured section: latest episode + first 4 articles
   const latestEpisode = episodes[0] || null
-  const featuredArticles = articles.docs.slice(0, 4)
-  // Remaining content for the sections below
+  const matchedVideo = latestEpisode ? matchEpisodeToVideo(latestEpisode, videos) : null
   const remainingEpisodes = episodes.slice(1)
-  const remainingArticles = articles.docs.slice(4)
 
   return (
-    <div className="py-24">
-      {/* Hero */}
-      <section className="container mb-24">
-        <h1 className="mb-4">
-          {siteSettings?.general?.siteName || 'Welcome'}
-        </h1>
-        {siteSettings?.general?.tagline && (
-          <p className="max-w-2xl text-xl text-c-foreground/60">
-            {siteSettings.general.tagline}
-          </p>
-        )}
-      </section>
-
-      {/* Featured: latest episode + latest articles */}
-      <FeaturedSection
-        episode={latestEpisode}
-        episodeImage={latestEpisode ? episodeImageMap.get(latestEpisode.slug) : null}
-        articles={featuredArticles}
-      />
+    <div>
+      {/* Featured: latest episode as full-width hero */}
+      {latestEpisode && (
+        <FeaturedSection
+          episode={latestEpisode}
+          episodeImage={episodeImageMap.get(latestEpisode.slug)}
+          matchedVideo={matchedVideo}
+        />
+      )}
 
       {/* More Podcasts */}
       {remainingEpisodes.length > 0 && (
@@ -103,12 +91,12 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* More Articles */}
-      {remainingArticles.length > 0 && (
+      {/* Latest Articles */}
+      {articles.docs.length > 0 && (
         <section className="container mb-24">
-          <SectionHeader title="Meer artikels" href="/artikels" />
+          <SectionHeader title="Laatste artikels" href="/artikels" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {remainingArticles.map((article, i) => (
+            {articles.docs.map((article, i) => (
               <Card key={i} doc={article} relationTo="posts" showCategories className="h-full" />
             ))}
           </div>
@@ -116,22 +104,16 @@ export default async function HomePage() {
       )}
 
       {/* Latest Videos */}
-      <section className="container mb-24">
-        <SectionHeader title="Laatste video's" href="/videos" />
-        {videos.length > 0 ? (
+      {videos.length > 0 && (
+        <section className="container mb-24">
+          <SectionHeader title="Laatste video's" href="/videos" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {videos.map((video, i) => (
+            {videos.slice(0, 4).map((video, i) => (
               <YouTubeVideoCard key={i} video={video} />
             ))}
           </div>
-        ) : (
-          <p className="text-c-foreground/60">
-            {youtubeChannelUrl
-              ? 'No videos found.'
-              : 'Configure your YouTube channel URL in Site Settings.'}
-          </p>
-        )}
-      </section>
+        </section>
+      )}
 
       {/* Patreon Section */}
       <PatreonSection />

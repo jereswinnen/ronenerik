@@ -4,12 +4,10 @@ import { cn } from '@/utilities/ui'
 import { Host_Grotesk } from 'next/font/google'
 import React from 'react'
 
-import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/components/(frontend)/Header'
 import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { draftMode } from 'next/headers'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -19,9 +17,7 @@ const hostGrotesk = Host_Grotesk({
   variable: '--font-host-grotesk',
 })
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = await draftMode()
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html className={cn(hostGrotesk.variable)} lang="en">
       <head>
@@ -30,11 +26,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
