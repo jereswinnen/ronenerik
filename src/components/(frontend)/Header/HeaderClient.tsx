@@ -66,16 +66,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
           </Link>
 
           {/* CTA */}
-          {patreonUrl && (
-            <Link
-              href={patreonUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full bg-c-accent px-5 py-2 text-sm font-semibold text-c-background transition-opacity hover:opacity-90"
-            >
-              Steun de show
-            </Link>
-          )}
+          <Link
+            href="/patreon"
+            className="rounded-full bg-c-accent px-5 py-2 text-sm font-semibold text-c-background transition-opacity hover:opacity-90"
+          >
+            Steun de show
+          </Link>
         </div>
       </header>
 
