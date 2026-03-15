@@ -4,9 +4,9 @@ import React, { useState, useEffect, useCallback } from 'react'
 
 import type { Header, SiteSetting, Media as MediaType } from '@/payload-types'
 import type { PodcastEpisode } from '@/utilities/rss/types'
-import { Media } from '@/components/Media'
 import { Logo } from '@/components/(frontend)/Logo'
 import { Button } from '@/components/(frontend)/Button'
+import { ContentCard, formatUploadDate, formatAuthor } from '@/components/(frontend)/ContentCard'
 
 interface MenuArticle {
   title: string
@@ -126,40 +126,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                         </span>
 
                         {latestEpisode && (
-                          <Link
+                          <ContentCard
                             href={`/podcast/${latestEpisode.slug}`}
+                            title={latestEpisode.title}
+                            image={episodeImage}
+                            imageSrc={latestEpisode.image}
+                            meta={latestEpisode.pubDate ? formatUploadDate(latestEpisode.pubDate) : undefined}
                             onClick={handleNavClick}
-                            className="block rounded-lg border border-c-accent/40 overflow-hidden mb-3"
-                          >
-                            {episodeImage ? (
-                              <Media
-                                resource={episodeImage}
-                                imgClassName="w-full aspect-video object-cover"
-                                size="33vw"
-                              />
-                            ) : latestEpisode.image ? (
-                              <img
-                                src={latestEpisode.image}
-                                alt=""
-                                className="w-full aspect-video object-cover"
-                              />
-                            ) : null}
-                            <div className="p-3">
-                              <h3 className="text-sm font-medium text-c-accent line-clamp-2">
-                                {latestEpisode.title}
-                              </h3>
-                              {latestEpisode.pubDate && (
-                                <p className="text-xs text-c-foreground/50 mt-1">
-                                  geüpload op:{' '}
-                                  {new Date(latestEpisode.pubDate).toLocaleDateString('nl-NL', {
-                                    day: 'numeric',
-                                    month: 'long',
-                                    year: 'numeric',
-                                  })}
-                                </p>
-                              )}
-                            </div>
-                          </Link>
+                          />
                         )}
 
                         <div className="flex items-center justify-between mt-3">
@@ -198,29 +172,13 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                         </span>
 
                         {latestArticle && (
-                          <Link
+                          <ContentCard
                             href={`/artikels/${latestArticle.slug}`}
+                            title={latestArticle.title}
+                            image={latestArticle.image}
+                            meta={latestArticle.author ? formatAuthor(latestArticle.author) : undefined}
                             onClick={handleNavClick}
-                            className="block rounded-lg border border-c-accent/40 overflow-hidden mb-3"
-                          >
-                            {latestArticle.image ? (
-                              <Media
-                                resource={latestArticle.image}
-                                imgClassName="w-full aspect-video object-cover"
-                                size="33vw"
-                              />
-                            ) : null}
-                            <div className="p-3">
-                              <h3 className="text-sm font-medium text-c-accent line-clamp-2">
-                                {latestArticle.title}
-                              </h3>
-                              {latestArticle.author && (
-                                <p className="text-xs text-c-foreground/50 mt-1">
-                                  geschreven door: {latestArticle.author}
-                                </p>
-                              )}
-                            </div>
-                          </Link>
+                          />
                         )}
 
                         <div className="flex items-center justify-end mt-3">
