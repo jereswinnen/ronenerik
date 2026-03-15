@@ -1,4 +1,4 @@
-import { HeaderClient } from './Component.client'
+import { HeaderClient } from './HeaderClient'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
