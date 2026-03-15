@@ -5,6 +5,7 @@ import { revalidateHeader } from './hooks/revalidateHeader'
 
 export const Header: GlobalConfig = {
   slug: 'header',
+  label: 'Koptekst',
   access: {
     read: () => true,
   },

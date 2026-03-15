@@ -1,4 +1,5 @@
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
+import { nl } from '@payloadcms/translations/languages/nl'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -47,6 +48,10 @@ export default buildConfig({
         },
       ],
     },
+  },
+  i18n: {
+    supportedLanguages: { nl },
+    fallbackLanguage: 'nl',
   },
   editor: defaultLexical,
   db: vercelPostgresAdapter({

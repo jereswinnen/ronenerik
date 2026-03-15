@@ -971,27 +971,27 @@ export interface SiteSetting {
   };
   externalLinks?: {
     /**
-     * Full URL to your YouTube channel (e.g. https://youtube.com/@yourchannel)
+     * Volledige URL naar je YouTube-kanaal (bijv. https://youtube.com/@jouwkanaal)
      */
     youtubeChannelUrl?: string | null;
     /**
-     * RSS feed URL for your podcast
+     * RSS-feed-URL van je podcast
      */
     podcastFeedUrl?: string | null;
     /**
-     * Full URL to your Patreon page
+     * Volledige URL naar je Patreon-pagina
      */
     patreonUrl?: string | null;
   };
   patreon?: {
     heading?: string | null;
     /**
-     * Optional subtitle or description for the Patreon section
+     * Optionele ondertitel of beschrijving voor de Patreon-sectie
      */
     description?: string | null;
     ctaText?: string | null;
     /**
-     * Separate RSS feed URL for Patreon-exclusive episodes
+     * Aparte RSS-feed-URL voor exclusieve Patreon-afleveringen
      */
     patreonPodcastFeedUrl?: string | null;
   };

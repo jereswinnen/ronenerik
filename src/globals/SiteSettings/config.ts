@@ -2,7 +2,7 @@ import type { GlobalConfig } from 'payload'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
-  label: 'Site Settings',
+  label: 'Site-instellingen',
   access: {
     read: () => true,
   },
@@ -10,7 +10,7 @@ export const SiteSettings: GlobalConfig = {
     {
       type: 'group',
       name: 'general',
-      label: 'General',
+      label: 'Algemeen',
       fields: [
         {
           name: 'siteName',
@@ -27,14 +27,14 @@ export const SiteSettings: GlobalConfig = {
     {
       type: 'group',
       name: 'externalLinks',
-      label: 'External Links',
+      label: 'Externe links',
       fields: [
         {
           name: 'youtubeChannelUrl',
           type: 'text',
           label: 'YouTube Channel URL',
           admin: {
-            description: 'Full URL to your YouTube channel (e.g. https://youtube.com/@yourchannel)',
+            description: 'Volledige URL naar je YouTube-kanaal (bijv. https://youtube.com/@jouwkanaal)',
           },
         },
         {
@@ -42,7 +42,7 @@ export const SiteSettings: GlobalConfig = {
           type: 'text',
           label: 'Podcast RSS Feed URL',
           admin: {
-            description: 'RSS feed URL for your podcast',
+            description: 'RSS-feed-URL van je podcast',
           },
         },
         {
@@ -50,7 +50,7 @@ export const SiteSettings: GlobalConfig = {
           type: 'text',
           label: 'Patreon URL',
           admin: {
-            description: 'Full URL to your Patreon page',
+            description: 'Volledige URL naar je Patreon-pagina',
           },
         },
       ],
@@ -58,7 +58,7 @@ export const SiteSettings: GlobalConfig = {
     {
       type: 'group',
       name: 'patreon',
-      label: 'Patreon Section',
+      label: 'Patreon-sectie',
       fields: [
         {
           name: 'heading',
@@ -69,7 +69,7 @@ export const SiteSettings: GlobalConfig = {
           name: 'description',
           type: 'text',
           admin: {
-            description: 'Optional subtitle or description for the Patreon section',
+            description: 'Optionele ondertitel of beschrijving voor de Patreon-sectie',
           },
         },
         {
@@ -85,7 +85,7 @@ export const SiteSettings: GlobalConfig = {
             read: ({ req }) => Boolean(req.user),
           },
           admin: {
-            description: 'Separate RSS feed URL for Patreon-exclusive episodes',
+            description: 'Aparte RSS-feed-URL voor exclusieve Patreon-afleveringen',
           },
         },
       ],
@@ -93,7 +93,7 @@ export const SiteSettings: GlobalConfig = {
     {
       type: 'group',
       name: 'socials',
-      label: 'Social Media',
+      label: 'Sociale media',
       fields: [
         {
           name: 'twitter',

@@ -6,11 +6,11 @@ export type LinkAppearances = 'default' | 'outline'
 
 export const appearanceOptions: Record<LinkAppearances, { label: string; value: string }> = {
   default: {
-    label: 'Default',
+    label: 'Standaard',
     value: 'default',
   },
   outline: {
-    label: 'Outline',
+    label: 'Omlijning',
     value: 'outline',
   },
 }
@@ -42,11 +42,11 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
             defaultValue: 'reference',
             options: [
               {
-                label: 'Internal link',
+                label: 'Interne link',
                 value: 'reference',
               },
               {
-                label: 'Custom URL',
+                label: 'Aangepaste URL',
                 value: 'custom',
               },
             ],
@@ -60,7 +60,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
               },
               width: '50%',
             },
-            label: 'Open in new tab',
+            label: 'Openen in nieuw tabblad',
           },
         ],
       },
@@ -74,7 +74,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       admin: {
         condition: (_, siblingData) => siblingData?.type === 'reference',
       },
-      label: 'Document to link to',
+      label: 'Document om naar te linken',
       relationTo: ['pages', 'posts'],
       required: true,
     },
@@ -84,7 +84,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       admin: {
         condition: (_, siblingData) => siblingData?.type === 'custom',
       },
-      label: 'Custom URL',
+      label: 'Aangepaste URL',
       required: true,
     },
   ]
@@ -108,7 +108,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
           admin: {
             width: '50%',
           },
-          label: 'Label',
+          label: 'Labeltekst',
           required: true,
         },
       ],
@@ -128,7 +128,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       name: 'appearance',
       type: 'select',
       admin: {
-        description: 'Choose how the link should be rendered.',
+        description: 'Kies hoe de link wordt weergegeven.',
       },
       defaultValue: 'default',
       options: appearanceOptionsToUse,

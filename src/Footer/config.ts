@@ -5,6 +5,7 @@ import { revalidateFooter } from './hooks/revalidateFooter'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
+  label: 'Voettekst',
   access: {
     read: () => true,
   },
