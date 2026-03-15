@@ -71,6 +71,7 @@ export interface Config {
     posts: Post;
     media: Media;
     categories: Category;
+    'podcast-episodes': PodcastEpisode;
     users: User;
     redirects: Redirect;
     'payload-kv': PayloadKv;
@@ -90,6 +91,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    'podcast-episodes': PodcastEpisodesSelect<false> | PodcastEpisodesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -403,6 +405,29 @@ export interface User {
   collection: 'users';
 }
 /**
+ * Automatisch aangemaakt vanuit de podcast RSS-feed. Upload een uitgelichte afbeelding per aflevering.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "podcast-episodes".
+ */
+export interface PodcastEpisode {
+  id: number;
+  /**
+   * Titel uit de RSS-feed (automatisch ingevuld)
+   */
+  title: string;
+  /**
+   * Slug uit de RSS-feed (automatisch ingevuld)
+   */
+  slug: string;
+  /**
+   * Optioneel — overschrijft de standaard podcast afbeelding
+   */
+  featuredImage?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -559,6 +584,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'podcast-episodes';
+        value: number | PodcastEpisode;
       } | null)
     | ({
         relationTo: 'users';
@@ -781,6 +810,17 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "podcast-episodes_select".
+ */
+export interface PodcastEpisodesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  featuredImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -969,6 +1009,12 @@ export interface SiteSetting {
     siteName: string;
     tagline?: string | null;
   };
+  podcast?: {
+    /**
+     * Wordt gebruikt als een aflevering geen eigen uitgelichte afbeelding heeft
+     */
+    defaultEpisodeImage?: (number | null) | Media;
+  };
   externalLinks?: {
     /**
      * Volledige URL naar je YouTube-kanaal (bijv. https://youtube.com/@jouwkanaal)
@@ -1059,6 +1105,11 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | {
         siteName?: T;
         tagline?: T;
+      };
+  podcast?:
+    | T
+    | {
+        defaultEpisodeImage?: T;
       };
   externalLinks?:
     | T

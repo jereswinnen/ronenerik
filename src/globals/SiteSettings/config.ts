@@ -26,6 +26,22 @@ export const SiteSettings: GlobalConfig = {
     },
     {
       type: 'group',
+      name: 'podcast',
+      label: 'Podcast',
+      fields: [
+        {
+          name: 'defaultEpisodeImage',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Standaard aflevering afbeelding',
+          admin: {
+            description: 'Wordt gebruikt als een aflevering geen eigen uitgelichte afbeelding heeft',
+          },
+        },
+      ],
+    },
+    {
+      type: 'group',
       name: 'externalLinks',
       label: 'Externe links',
       fields: [

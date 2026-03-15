@@ -38,10 +38,30 @@ export default async function HomePage() {
   const podcastFeedUrl = siteSettings?.externalLinks?.podcastFeedUrl
   const youtubeChannelUrl = siteSettings?.externalLinks?.youtubeChannelUrl
 
-  const [episodes, videos] = await Promise.all([
+  const [episodes, videos, episodeDocs] = await Promise.all([
     podcastFeedUrl ? fetchPodcastEpisodes(podcastFeedUrl, 4) : Promise.resolve([]),
     youtubeChannelUrl ? fetchYouTubeVideos(youtubeChannelUrl, 4) : Promise.resolve([]),
+    payload.find({
+      collection: 'podcast-episodes',
+      limit: 20,
+      depth: 1,
+      select: { slug: true, featuredImage: true },
+    }),
   ])
+
+  // Build a map of slug → featured image URL for quick lookup
+  const defaultImage =
+    typeof siteSettings?.podcast?.defaultEpisodeImage === 'object'
+      ? siteSettings.podcast.defaultEpisodeImage?.url
+      : null
+  const episodeImageMap = new Map<string, string | null>()
+  for (const doc of episodeDocs.docs) {
+    const img =
+      typeof doc.featuredImage === 'object' && doc.featuredImage?.url
+        ? doc.featuredImage.url
+        : defaultImage
+    episodeImageMap.set(doc.slug, img ?? null)
+  }
 
   return (
     <div className="py-24">
@@ -75,7 +95,7 @@ export default async function HomePage() {
         {episodes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {episodes.map((ep, i) => (
-              <PodcastEpisodeCard key={i} episode={ep} />
+              <PodcastEpisodeCard key={i} episode={ep} imageOverride={episodeImageMap.get(ep.slug)} />
             ))}
           </div>
         ) : (

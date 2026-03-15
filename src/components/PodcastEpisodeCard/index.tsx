@@ -2,7 +2,16 @@ import React from 'react'
 import Link from 'next/link'
 import type { PodcastEpisode } from '@/utilities/rss/types'
 
-export const PodcastEpisodeCard: React.FC<{ episode: PodcastEpisode }> = ({ episode }) => {
+interface PodcastEpisodeCardProps {
+  episode: PodcastEpisode
+  /** Overrides the RSS image (e.g. Payload featured image or default image URL) */
+  imageOverride?: string | null
+}
+
+export const PodcastEpisodeCard: React.FC<PodcastEpisodeCardProps> = ({
+  episode,
+  imageOverride,
+}) => {
   const formattedDate = episode.pubDate
     ? new Date(episode.pubDate).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -11,14 +20,16 @@ export const PodcastEpisodeCard: React.FC<{ episode: PodcastEpisode }> = ({ epis
       })
     : null
 
+  const imageSrc = imageOverride || episode.image
+
   return (
     <Link
       href={`/podcast/${episode.slug}`}
       className="flex gap-4 rounded-lg overflow-hidden border border-c-foreground/10 bg-c-foreground/5 transition-colors duration-200"
     >
-      {episode.image && (
+      {imageSrc && (
         <img
-          src={episode.image}
+          src={imageSrc}
           alt=""
           className="w-24 h-24 object-cover flex-shrink-0"
         />
