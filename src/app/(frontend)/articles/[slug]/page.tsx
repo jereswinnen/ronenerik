@@ -45,33 +45,23 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article className="py-[var(--space-4xl)]">
+    <article className="py-24">
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
       <div className="container max-w-4xl mx-auto">
         {post.heroImage && typeof post.heroImage !== 'number' && (
-          <div className="mb-[var(--space-xl)]" style={{ borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+          <div className="mb-8 rounded-lg overflow-hidden">
             <Media resource={post.heroImage} />
           </div>
         )}
 
-        <h1
-          className="font-bold mb-[var(--space-md)]"
-          style={{
-            fontSize: 'var(--font-size-4xl)',
-            fontFamily: 'var(--font-heading)',
-            color: 'var(--color-heading)',
-          }}
-        >
+        <h1 className="text-4xl font-bold mb-4">
           {post.title}
         </h1>
 
-        <div
-          className="flex items-center gap-4 mb-[var(--space-2xl)]"
-          style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}
-        >
+        <div className="flex items-center gap-4 mb-12 text-sm text-c-foreground/60">
           {post.populatedAuthors && post.populatedAuthors.length > 0 && (
             <span>{formatAuthors(post.populatedAuthors)}</span>
           )}

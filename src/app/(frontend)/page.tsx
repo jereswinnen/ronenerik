@@ -42,24 +42,14 @@ export default async function HomePage() {
   ])
 
   return (
-    <div className="py-[var(--space-4xl)]">
+    <div className="py-24">
       {/* Hero */}
-      <section className="container mb-[var(--space-4xl)]">
-        <h1
-          className="font-bold mb-[var(--space-md)]"
-          style={{
-            fontSize: 'var(--font-size-5xl)',
-            fontFamily: 'var(--font-heading)',
-            color: 'var(--color-heading)',
-          }}
-        >
+      <section className="container mb-24">
+        <h1 className="text-5xl font-bold mb-4">
           {siteSettings?.general?.siteName || 'Welcome'}
         </h1>
         {siteSettings?.general?.tagline && (
-          <p
-            className="max-w-2xl"
-            style={{ fontSize: 'var(--font-size-xl)', color: 'var(--color-text-muted)' }}
-          >
+          <p className="max-w-2xl text-xl text-c-foreground/60">
             {siteSettings.general.tagline}
           </p>
         )}
@@ -67,7 +57,7 @@ export default async function HomePage() {
 
       {/* Latest Articles */}
       {articles.docs.length > 0 && (
-        <section className="container mb-[var(--space-4xl)]">
+        <section className="container mb-24">
           <SectionHeader title="Latest Articles" href="/articles" />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {articles.docs.map((article, i) => (
@@ -78,7 +68,7 @@ export default async function HomePage() {
       )}
 
       {/* Latest Podcasts */}
-      <section className="container mb-[var(--space-4xl)]">
+      <section className="container mb-24">
         <SectionHeader title="Latest Podcasts" href="/podcasts" />
         {episodes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -87,7 +77,7 @@ export default async function HomePage() {
             ))}
           </div>
         ) : (
-          <p style={{ color: 'var(--color-text-muted)' }}>
+          <p className="text-c-foreground/60">
             {podcastFeedUrl
               ? 'No episodes found.'
               : 'Configure your podcast RSS feed in Site Settings.'}
@@ -96,7 +86,7 @@ export default async function HomePage() {
       </section>
 
       {/* Latest Videos */}
-      <section className="container mb-[var(--space-4xl)]">
+      <section className="container mb-24">
         <SectionHeader title="Latest Videos" href="/videos" />
         {videos.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -105,7 +95,7 @@ export default async function HomePage() {
             ))}
           </div>
         ) : (
-          <p style={{ color: 'var(--color-text-muted)' }}>
+          <p className="text-c-foreground/60">
             {youtubeChannelUrl
               ? 'No videos found.'
               : 'Configure your YouTube channel URL in Site Settings.'}
@@ -118,18 +108,9 @@ export default async function HomePage() {
 
 function SectionHeader({ title, href }: { title: string; href: string }) {
   return (
-    <div className="flex items-center justify-between mb-[var(--space-xl)]">
-      <h2
-        className="font-bold"
-        style={{
-          fontSize: 'var(--font-size-2xl)',
-          fontFamily: 'var(--font-heading)',
-          color: 'var(--color-heading)',
-        }}
-      >
-        {title}
-      </h2>
-      <Link href={href} className="text-sm font-medium" style={{ color: 'var(--color-accent)' }}>
+    <div className="flex items-center justify-between mb-8">
+      <h2 className="text-2xl font-bold">{title}</h2>
+      <Link href={href} className="text-sm font-medium text-c-accent">
         View all
       </Link>
     </div>

@@ -33,18 +33,9 @@ export default async function ArticlesPageNumber({ params: paramsPromise }: Args
   })
 
   return (
-    <div className="py-[var(--space-4xl)]">
-      <div className="container mb-[var(--space-2xl)]">
-        <h1
-          className="font-bold"
-          style={{
-            fontSize: 'var(--font-size-4xl)',
-            fontFamily: 'var(--font-heading)',
-            color: 'var(--color-heading)',
-          }}
-        >
-          Articles
-        </h1>
+    <div className="py-24">
+      <div className="container mb-12">
+        <h1 className="text-4xl font-bold">Articles</h1>
       </div>
 
       <CollectionArchive posts={posts.docs} />

@@ -20,12 +20,12 @@ type CMSLinkType = {
 
 const variantStyles: Record<string, string> = {
   default:
-    'inline-flex items-center justify-center rounded-md bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-accent-hover)] transition-[color,box-shadow]',
+    'inline-flex items-center justify-center rounded-md bg-c-accent px-4 py-2 text-sm font-medium text-c-background transition-opacity hover:opacity-80',
   outline:
-    'inline-flex items-center justify-center rounded-md border border-[var(--color-border)] bg-transparent px-4 py-2 text-sm font-medium hover:bg-[var(--color-surface)] transition-[color,box-shadow]',
+    'inline-flex items-center justify-center rounded-md border border-c-foreground/10 bg-transparent px-4 py-2 text-sm font-medium hover:bg-c-foreground/5 transition-colors',
   ghost:
-    'inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium hover:bg-[var(--color-surface)] transition-[color,box-shadow]',
-  link: 'text-[var(--color-accent)] underline-offset-4 hover:underline text-sm font-medium',
+    'inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium hover:bg-c-foreground/5 transition-colors',
+  link: 'text-c-accent underline-offset-4 hover:underline text-sm font-medium',
 }
 
 export const CMSLink: React.FC<CMSLinkType> = (props) => {

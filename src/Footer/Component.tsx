@@ -4,7 +4,6 @@ import React from 'react'
 
 import type { Footer as FooterType, SiteSetting } from '@/payload-types'
 
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 
 export async function Footer() {
@@ -16,17 +15,14 @@ export async function Footer() {
   const externalLinks = siteSettings?.externalLinks
 
   return (
-    <footer
-      className="mt-auto border-t"
-      style={{ borderColor: 'var(--color-border)', backgroundColor: 'var(--color-surface)' }}
-    >
+    <footer className="mt-auto border-t border-c-foreground/10">
       <div className="container py-8 flex flex-col gap-8 md:flex-row md:justify-between md:items-center">
         <div className="flex flex-col gap-4">
-          <Link href="/" className="font-bold text-lg" style={{ color: 'var(--color-heading)' }}>
+          <Link href="/" className="font-bold text-lg">
             {siteSettings?.general?.siteName || 'Home'}
           </Link>
           {siteSettings?.general?.tagline && (
-            <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+            <p className="text-sm text-c-foreground/60">
               {siteSettings.general.tagline}
             </p>
           )}
@@ -39,13 +35,12 @@ export async function Footer() {
         </nav>
 
         <div className="flex flex-col gap-4 items-start md:items-end">
-          <div className="flex gap-4 text-sm">
+          <div className="flex gap-4 text-sm text-c-foreground/60">
             {externalLinks?.youtubeChannelUrl && (
               <a
                 href={externalLinks.youtubeChannelUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--color-text-muted)' }}
               >
                 YouTube
               </a>
@@ -55,7 +50,6 @@ export async function Footer() {
                 href={externalLinks.patreonUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--color-text-muted)' }}
               >
                 Patreon
               </a>
@@ -65,7 +59,6 @@ export async function Footer() {
                 href={socials.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--color-text-muted)' }}
               >
                 Twitter
               </a>
@@ -75,7 +68,6 @@ export async function Footer() {
                 href={socials.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--color-text-muted)' }}
               >
                 Instagram
               </a>
@@ -85,13 +77,11 @@ export async function Footer() {
                 href={socials.discord}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--color-text-muted)' }}
               >
                 Discord
               </a>
             )}
           </div>
-          <ThemeSelector />
         </div>
       </div>
     </footer>

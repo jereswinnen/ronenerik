@@ -15,12 +15,7 @@ export const YouTubeVideoCard: React.FC<{ video: YouTubeVideo }> = ({ video }) =
       href={video.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="block rounded-lg overflow-hidden border group"
-      style={{
-        borderColor: 'var(--color-border)',
-        backgroundColor: 'var(--color-surface)',
-        transition: 'var(--transition-base)',
-      }}
+      className="block rounded-lg overflow-hidden border border-c-foreground/10 bg-c-foreground/5 transition-colors duration-200 group"
     >
       <div className="relative aspect-video">
         <img
@@ -30,20 +25,11 @@ export const YouTubeVideoCard: React.FC<{ video: YouTubeVideo }> = ({ video }) =
         />
       </div>
       <div className="p-3">
-        <h3
-          className="font-semibold line-clamp-2"
-          style={{
-            fontSize: 'var(--font-size-sm)',
-            color: 'var(--color-heading)',
-          }}
-        >
+        <h3 className="font-semibold text-sm line-clamp-2">
           {video.title}
         </h3>
         {formattedDate && (
-          <p
-            className="mt-1"
-            style={{ fontSize: 'var(--font-size-xs)', color: 'var(--color-text-muted)' }}
-          >
+          <p className="mt-1 text-xs text-c-foreground/60">
             {formattedDate}
           </p>
         )}

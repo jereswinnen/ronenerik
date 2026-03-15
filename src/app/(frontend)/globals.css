@@ -3,7 +3,6 @@
 
 @config '../../../tailwind.config.mjs';
 
-@custom-variant dark (&:is([data-theme='dark'] *));
 @custom-variant sm (@media (width >= theme(--breakpoint-sm)));
 @custom-variant md (@media (width >= theme(--breakpoint-md)));
 @custom-variant lg (@media (width >= theme(--breakpoint-lg)));
@@ -24,9 +23,6 @@
 
 @plugin "@tailwindcss/typography";
 
-@source inline("border-border");
-@source inline("bg-card");
-
 @theme {
   --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;
@@ -34,6 +30,9 @@
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
   --font-sans: var(--font-host-grotesk);
+  --color-c-background: hsla(0, 6%, 12%, 1);
+  --color-c-foreground: hsla(0, 0%, 100%, 1);
+  --color-c-accent: hsla(298, 73%, 71%, 1);
 }
 
 @layer utilities {
@@ -75,132 +74,9 @@
   }
 }
 
-/* ==========================================================================
-   Design Tokens — ready for designer handoff
-   Swap these values when the design system arrives.
-   ========================================================================== */
-
-:root {
-  /* Colors — core palette */
-  --color-bg: #ffffff;
-  --color-surface: #f8f8f8;
-  --color-text: #111111;
-  --color-text-muted: #666666;
-  --color-heading: #111111;
-  --color-accent: #2563eb;
-  --color-accent-hover: #1d4ed8;
-  --color-border: #e5e5e5;
-
-  /* Typography */
-  --font-heading: var(--font-host-grotesk);
-  --font-body: var(--font-host-grotesk);
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
-
-  /* Spacing */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-  --space-4xl: 6rem;
-
-  /* Layout */
-  --header-height: 4rem;
-  --radius: 0.5rem;
-  --radius-sm: 0.25rem;
-  --radius-lg: 0.75rem;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-
-  /* Legacy compat — keeps existing Tailwind classes working */
-  --background: var(--color-bg);
-  --foreground: var(--color-text);
-  --card: var(--color-surface);
-  --card-foreground: var(--color-text);
-  --primary: var(--color-accent);
-  --primary-foreground: #ffffff;
-  --muted: var(--color-surface);
-  --muted-foreground: var(--color-text-muted);
-  --border: var(--color-border);
-  --input: var(--color-border);
-  --ring: var(--color-accent);
-}
-
-[data-theme='dark'] {
-  --color-bg: #0a0a0a;
-  --color-surface: #171717;
-  --color-text: #f5f5f5;
-  --color-text-muted: #a3a3a3;
-  --color-heading: #ffffff;
-  --color-accent: #3b82f6;
-  --color-accent-hover: #60a5fa;
-  --color-border: #262626;
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
-
-  --background: var(--color-bg);
-  --foreground: var(--color-text);
-  --card: var(--color-surface);
-  --card-foreground: var(--color-text);
-  --primary: var(--color-accent);
-  --primary-foreground: #ffffff;
-  --muted: var(--color-surface);
-  --muted-foreground: var(--color-text-muted);
-  --border: var(--color-border);
-  --input: var(--color-border);
-  --ring: var(--color-accent);
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius);
-  --radius-lg: var(--radius-lg);
-  --radius-xl: calc(var(--radius-lg) + 4px);
-}
-
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
-    font-family: var(--font-body);
+    @apply bg-c-background text-c-foreground min-h-[100vh] flex flex-col;
+    font-family: var(--font-sans);
   }
-}
-
-html {
-  opacity: 0;
-}
-
-html[data-theme='dark'],
-html[data-theme='light'] {
-  opacity: initial;
 }

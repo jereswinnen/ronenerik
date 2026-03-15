@@ -15,12 +15,7 @@ export const PodcastEpisodeCard: React.FC<{ episode: PodcastEpisode }> = ({ epis
       href={episode.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex gap-4 rounded-lg overflow-hidden border"
-      style={{
-        borderColor: 'var(--color-border)',
-        backgroundColor: 'var(--color-surface)',
-        transition: 'var(--transition-base)',
-      }}
+      className="flex gap-4 rounded-lg overflow-hidden border border-c-foreground/10 bg-c-foreground/5 transition-colors duration-200"
     >
       {episode.image && (
         <img
@@ -30,19 +25,10 @@ export const PodcastEpisodeCard: React.FC<{ episode: PodcastEpisode }> = ({ epis
         />
       )}
       <div className="py-3 pr-4 flex flex-col justify-center min-w-0">
-        <h3
-          className="font-semibold line-clamp-2"
-          style={{
-            fontSize: 'var(--font-size-base)',
-            color: 'var(--color-heading)',
-          }}
-        >
+        <h3 className="font-semibold text-base line-clamp-2">
           {episode.title}
         </h3>
-        <div
-          className="flex items-center gap-2 mt-1"
-          style={{ fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)' }}
-        >
+        <div className="flex items-center gap-2 mt-1 text-sm text-c-foreground/60">
           {formattedDate && <span>{formattedDate}</span>}
           {formattedDate && episode.duration && <span>·</span>}
           {episode.duration && <span>{episode.duration}</span>}

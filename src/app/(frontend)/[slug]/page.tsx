@@ -47,20 +47,13 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   return (
-    <article className="py-[var(--space-4xl)]">
+    <article className="py-24">
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
       <div className="container max-w-4xl mx-auto">
-        <h1
-          className="font-bold mb-[var(--space-xl)]"
-          style={{
-            fontSize: 'var(--font-size-4xl)',
-            fontFamily: 'var(--font-heading)',
-            color: 'var(--color-heading)',
-          }}
-        >
+        <h1 className="text-4xl font-bold mb-8">
           {page.title}
         </h1>
         <RichText data={page.content} enableGutter={false} />

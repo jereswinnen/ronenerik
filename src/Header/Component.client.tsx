@@ -13,12 +13,9 @@ interface HeaderClientProps {
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data, siteName }) => {
   return (
-    <header
-      className="sticky top-0 z-20 bg-[var(--color-bg)]/80 backdrop-blur-md border-b border-[var(--color-border)]"
-      style={{ height: 'var(--header-height)' }}
-    >
+    <header className="sticky top-0 z-20 bg-c-background/80 backdrop-blur-md border-b border-c-foreground/10 h-16">
       <div className="container h-full flex items-center justify-between">
-        <Link href="/" className="font-bold text-lg" style={{ color: 'var(--color-heading)' }}>
+        <Link href="/" className="font-bold text-lg">
           {siteName || 'Home'}
         </Link>
         <HeaderNav data={data} />

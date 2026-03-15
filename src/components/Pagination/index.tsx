@@ -19,10 +19,10 @@ export const Pagination: React.FC<{
   const hasExtraNextPages = page + 1 < totalPages
 
   const linkClass =
-    'inline-flex items-center justify-center size-10 rounded-md text-sm font-medium hover:bg-[var(--color-surface)] transition-[color,box-shadow]'
-  const activeClass = 'border border-[var(--color-border)]'
+    'inline-flex items-center justify-center size-10 rounded-md text-sm font-medium hover:bg-c-foreground/5 transition-colors'
+  const activeClass = 'border border-c-foreground/10'
   const navClass =
-    'inline-flex items-center justify-center gap-1 rounded-md px-3 h-10 text-sm font-medium hover:bg-[var(--color-surface)] transition-[color,box-shadow]'
+    'inline-flex items-center justify-center gap-1 rounded-md px-3 h-10 text-sm font-medium hover:bg-c-foreground/5 transition-colors'
 
   return (
     <div className={cn('my-12', className)}>
