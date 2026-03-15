@@ -1,4 +1,3 @@
-import { Button, type ButtonProps } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 import Link from 'next/link'
 import React from 'react'
@@ -6,7 +5,7 @@ import React from 'react'
 import type { Page, Post } from '@/payload-types'
 
 type CMSLinkType = {
-  appearance?: 'inline' | ButtonProps['variant']
+  appearance?: 'inline' | 'default' | 'outline' | 'ghost' | 'link'
   children?: React.ReactNode
   className?: string
   label?: string | null
@@ -15,9 +14,18 @@ type CMSLinkType = {
     relationTo: 'pages' | 'posts'
     value: Page | Post | string | number
   } | null
-  size?: ButtonProps['size'] | null
   type?: 'custom' | 'reference' | null
   url?: string | null
+}
+
+const variantStyles: Record<string, string> = {
+  default:
+    'inline-flex items-center justify-center rounded-md bg-[var(--color-accent)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-accent-hover)] transition-[color,box-shadow]',
+  outline:
+    'inline-flex items-center justify-center rounded-md border border-[var(--color-border)] bg-transparent px-4 py-2 text-sm font-medium hover:bg-[var(--color-surface)] transition-[color,box-shadow]',
+  ghost:
+    'inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium hover:bg-[var(--color-surface)] transition-[color,box-shadow]',
+  link: 'text-[var(--color-accent)] underline-offset-4 hover:underline text-sm font-medium',
 }
 
 export const CMSLink: React.FC<CMSLinkType> = (props) => {
@@ -29,7 +37,6 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     label,
     newTab,
     reference,
-    size: sizeFromProps,
     url,
   } = props
 
@@ -40,10 +47,8 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
 
   if (!href) return null
 
-  const size = appearance === 'link' ? 'clear' : sizeFromProps
   const newTabProps = newTab ? { rel: 'noopener noreferrer', target: '_blank' } : {}
 
-  /* Ensure we don't break any styles set by richText */
   if (appearance === 'inline') {
     return (
       <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
@@ -54,11 +59,13 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   }
 
   return (
-    <Button asChild className={className} size={size} variant={appearance}>
-      <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
-        {label && label}
-        {children && children}
-      </Link>
-    </Button>
+    <Link
+      className={cn(variantStyles[appearance] || variantStyles.default, className)}
+      href={href || url || ''}
+      {...newTabProps}
+    >
+      {label && label}
+      {children && children}
+    </Link>
   )
 }
