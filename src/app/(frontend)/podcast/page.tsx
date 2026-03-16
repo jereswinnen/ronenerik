@@ -5,6 +5,7 @@ import configPromise from '@payload-config'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import { ContentCard, formatUploadDate } from '@/components/(frontend)/ContentCard'
+import { ContentGrid } from '@/components/(frontend)/ContentGrid'
 import { PatreonSection } from '@/components/sections/PatreonSection'
 import type { SiteSetting, Media as MediaType } from '@/payload-types'
 
@@ -33,9 +34,7 @@ export default async function PodcastPage() {
   const imageMap = new Map<string, MediaType | null>()
   for (const doc of episodeDocs.docs) {
     const img =
-      typeof doc.featuredImage === 'object' && doc.featuredImage
-        ? doc.featuredImage
-        : defaultImage
+      typeof doc.featuredImage === 'object' && doc.featuredImage ? doc.featuredImage : defaultImage
     imageMap.set(doc.slug, img ?? null)
   }
 
@@ -48,22 +47,18 @@ export default async function PodcastPage() {
 
       <section className="container mb-16">
         <h2 className="text-xl font-bold mb-8">Alle podcasts</h2>
-        {episodes.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {episodes.map((ep) => (
-              <ContentCard
-                key={ep.slug}
-                href={`/podcast/${ep.slug}`}
-                title={ep.title}
-                image={imageMap.get(ep.slug)}
-                imageSrc={ep.image}
-                meta={ep.pubDate ? formatUploadDate(ep.pubDate) : undefined}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="text-c-foreground/60">Geen afleveringen gevonden.</p>
-        )}
+        <ContentGrid emptyMessage="Geen afleveringen gevonden.">
+          {episodes.map((ep) => (
+            <ContentCard
+              key={ep.slug}
+              href={`/podcast/${ep.slug}`}
+              title={ep.title}
+              image={imageMap.get(ep.slug)}
+              imageSrc={ep.image}
+              meta={ep.pubDate ? formatUploadDate(ep.pubDate) : undefined}
+            />
+          ))}
+        </ContentGrid>
       </section>
 
       <PatreonSection />

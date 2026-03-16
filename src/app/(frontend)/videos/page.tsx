@@ -3,6 +3,7 @@ import React from 'react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { fetchYouTubeVideos } from '@/utilities/rss/fetchYouTube'
 import { ContentCard, formatUploadDate, youtubeMaxRes } from '@/components/(frontend)/ContentCard'
+import { ContentGrid } from '@/components/(frontend)/ContentGrid'
 import type { SiteSetting } from '@/payload-types'
 
 export const dynamic = 'force-static'
@@ -23,21 +24,17 @@ export default async function VideosPage() {
 
       <section className="container mb-16">
         <h2 className="text-xl font-bold mb-8">Alle video&apos;s</h2>
-        {videos.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {videos.map((video) => (
-              <ContentCard
-                key={video.videoId}
-                href={video.link}
-                title={video.title}
-                imageSrc={youtubeMaxRes(video.videoId)}
-                meta={video.pubDate ? formatUploadDate(video.pubDate) : undefined}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="text-c-foreground/60">Geen video&apos;s gevonden.</p>
-        )}
+        <ContentGrid emptyMessage="Geen video's gevonden.">
+          {videos.map((video) => (
+            <ContentCard
+              key={video.videoId}
+              href={video.link}
+              title={video.title}
+              imageSrc={youtubeMaxRes(video.videoId)}
+              meta={video.pubDate ? formatUploadDate(video.pubDate) : undefined}
+            />
+          ))}
+        </ContentGrid>
       </section>
     </div>
   )

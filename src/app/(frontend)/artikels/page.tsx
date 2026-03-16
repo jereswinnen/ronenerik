@@ -3,6 +3,7 @@ import React from 'react'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { ContentCard, formatAuthor } from '@/components/(frontend)/ContentCard'
+import { ContentGrid } from '@/components/(frontend)/ContentGrid'
 import { PatreonSection } from '@/components/sections/PatreonSection'
 import type { Media as MediaType } from '@/payload-types'
 
@@ -35,27 +36,23 @@ export default async function ArticlesPage() {
 
       <section className="container mb-16">
         <h2 className="text-xl font-bold mb-8">Alle artikelen</h2>
-        {posts.docs.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {posts.docs.map((post) => {
-              const metaImage: MediaType | null =
-                post.meta && typeof post.meta.image === 'object' ? post.meta.image : null
-              const author = post.populatedAuthors?.[0]?.name
+        <ContentGrid emptyMessage="Geen artikelen gevonden.">
+          {posts.docs.map((post) => {
+            const metaImage: MediaType | null =
+              post.meta && typeof post.meta.image === 'object' ? post.meta.image : null
+            const author = post.populatedAuthors?.[0]?.name
 
-              return (
-                <ContentCard
-                  key={post.slug}
-                  href={`/artikels/${post.slug}`}
-                  title={post.title}
-                  image={metaImage}
-                  meta={author ? formatAuthor(author) : undefined}
-                />
-              )
-            })}
-          </div>
-        ) : (
-          <p className="text-c-foreground/60">Geen artikelen gevonden.</p>
-        )}
+            return (
+              <ContentCard
+                key={post.slug}
+                href={`/artikels/${post.slug}`}
+                title={post.title}
+                image={metaImage}
+                meta={author ? formatAuthor(author) : undefined}
+              />
+            )
+          })}
+        </ContentGrid>
       </section>
 
       <PatreonSection />

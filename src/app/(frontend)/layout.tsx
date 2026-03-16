@@ -14,6 +14,7 @@ import { getServerSideURL } from '@/utilities/getURL'
 
 const hostGrotesk = Host_Grotesk({
   subsets: ['latin'],
+  style: ['normal', 'italic'],
   variable: '--font-host-grotesk',
 })
 
