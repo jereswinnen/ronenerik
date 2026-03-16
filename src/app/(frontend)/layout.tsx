@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
-      <body>
+      <body className="antialiased text-balance">
         <Providers>
           <Header />
           <main className="flex-1 flex flex-col gap-y-8 md:gap-y-20">{children}</main>
