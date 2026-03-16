@@ -344,9 +344,11 @@ export interface Post {
         id?: string | null;
         name?: string | null;
         subtitle?: string | null;
+        bio?: string | null;
         avatarUrl?: string | null;
         bluesky?: string | null;
         twitter?: string | null;
+        instagram?: string | null;
       }[]
     | null;
   /**
@@ -393,10 +395,15 @@ export interface User {
    * Bijv. "Co-host" of "Redacteur"
    */
   subtitle?: string | null;
+  /**
+   * Korte biografie
+   */
+  bio?: string | null;
   avatar?: (number | null) | Media;
   socials?: {
     bluesky?: string | null;
     twitter?: string | null;
+    instagram?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -705,9 +712,11 @@ export interface PostsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
         subtitle?: T;
+        bio?: T;
         avatarUrl?: T;
         bluesky?: T;
         twitter?: T;
+        instagram?: T;
       };
   generateSlug?: T;
   slug?: T;
@@ -848,12 +857,14 @@ export interface PodcastEpisodesSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   subtitle?: T;
+  bio?: T;
   avatar?: T;
   socials?:
     | T
     | {
         bluesky?: T;
         twitter?: T;
+        instagram?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1039,6 +1050,15 @@ export interface SiteSetting {
     siteName: string;
     tagline?: string | null;
   };
+  about?: {
+    heading?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+    /**
+     * Selecteer de auteurs die in de over-ons sectie worden getoond
+     */
+    authors?: (number | User)[] | null;
+  };
   podcast?: {
     /**
      * Wordt gebruikt als een aflevering geen eigen uitgelichte afbeelding heeft
@@ -1137,6 +1157,14 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | {
         siteName?: T;
         tagline?: T;
+      };
+  about?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        image?: T;
+        authors?: T;
       };
   podcast?:
     | T

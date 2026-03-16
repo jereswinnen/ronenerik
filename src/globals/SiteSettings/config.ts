@@ -26,6 +26,39 @@ export const SiteSettings: GlobalConfig = {
     },
     {
       type: 'group',
+      name: 'about',
+      label: 'Over ons',
+      fields: [
+        {
+          name: 'heading',
+          type: 'text',
+          defaultValue: 'Wij zijn Ron en Erik',
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+          label: 'Beschrijving',
+        },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Afbeelding',
+        },
+        {
+          name: 'authors',
+          type: 'relationship',
+          relationTo: 'users',
+          hasMany: true,
+          label: 'Auteurs',
+          admin: {
+            description: 'Selecteer de auteurs die in de over-ons sectie worden getoond',
+          },
+        },
+      ],
+    },
+    {
+      type: 'group',
       name: 'podcast',
       label: 'Podcast',
       fields: [

@@ -34,6 +34,14 @@ export const Users: CollectionConfig = {
       },
     },
     {
+      name: 'bio',
+      type: 'textarea',
+      label: 'Bio',
+      admin: {
+        description: 'Korte biografie',
+      },
+    },
+    {
       name: 'avatar',
       type: 'upload',
       relationTo: 'media',
@@ -53,6 +61,11 @@ export const Users: CollectionConfig = {
           name: 'twitter',
           type: 'text',
           label: 'X / Twitter URL',
+        },
+        {
+          name: 'instagram',
+          type: 'text',
+          label: 'Instagram URL',
         },
       ],
     },

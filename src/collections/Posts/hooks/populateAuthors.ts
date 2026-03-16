@@ -26,12 +26,14 @@ export const populateAuthors: CollectionAfterReadHook = async ({ doc, req: { pay
       id: author.id,
       name: author.name,
       subtitle: author.subtitle || null,
+      bio: author.bio || null,
       avatarUrl:
         typeof author.avatar === 'object' && author.avatar?.url
           ? author.avatar.url
           : null,
       bluesky: author.socials?.bluesky || null,
       twitter: author.socials?.twitter || null,
+      instagram: author.socials?.instagram || null,
     }))
   }
 

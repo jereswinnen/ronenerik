@@ -12,6 +12,7 @@ import { PatreonSection } from '@/components/sections/PatreonSection'
 import { AllContentLinks } from '@/components/sections/AllContentLinks'
 import { FeaturedSection } from '@/components/sections/FeaturedSection'
 import { SocialsSection } from '@/components/sections/SocialsSection'
+import { AboutSection } from '@/components/sections/AboutSection'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -159,6 +160,7 @@ export default async function HomePage() {
       )}
 
       <PatreonSection />
+      <AboutSection />
       <AllContentLinks />
     </>
   )
