@@ -11,6 +11,7 @@ import { matchEpisodeToVideo } from '@/utilities/rss/matchEpisodeToVideo'
 import { PatreonSection } from '@/components/sections/PatreonSection'
 import { AllContentLinks } from '@/components/sections/AllContentLinks'
 import { FeaturedSection } from '@/components/sections/FeaturedSection'
+import { SocialsSection } from '@/components/sections/SocialsSection'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -115,6 +116,8 @@ export default async function HomePage() {
           matchedVideo={matchedVideo}
         />
       )}
+
+      <SocialsSection />
 
       {recentContent.length > 0 && (
         <section className="container flex flex-col gap-8">

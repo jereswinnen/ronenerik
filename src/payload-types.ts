@@ -1075,6 +1075,8 @@ export interface SiteSetting {
     twitter?: string | null;
     instagram?: string | null;
     discord?: string | null;
+    spotify?: string | null;
+    tiktok?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1162,6 +1164,8 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         twitter?: T;
         instagram?: T;
         discord?: T;
+        spotify?: T;
+        tiktok?: T;
       };
   updatedAt?: T;
   createdAt?: T;

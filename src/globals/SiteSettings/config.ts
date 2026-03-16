@@ -126,6 +126,16 @@ export const SiteSettings: GlobalConfig = {
           type: 'text',
           label: 'Discord URL',
         },
+        {
+          name: 'spotify',
+          type: 'text',
+          label: 'Spotify URL',
+        },
+        {
+          name: 'tiktok',
+          type: 'text',
+          label: 'TikTok URL',
+        },
       ],
     },
   ],
