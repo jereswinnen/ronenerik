@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { PodcastEpisode, YouTubeVideo } from '@/utilities/rss/types'
 import type { Media as MediaType } from '@/payload-types'
 import { Media } from '@/components/Media'
+import { FeaturedParallax } from './FeaturedParallax'
 
 interface FeaturedSectionProps {
   episode: PodcastEpisode
@@ -14,14 +15,16 @@ export function FeaturedSection({ episode, episodeImage, matchedVideo }: Feature
   return (
     <section className="-mt-20">
       <Link href={`/podcast/${episode.slug}`} className="block relative">
-        {/* Hero image — full bleed, behind nav */}
-        <figure className="w-full aspect-[16/8] sm:aspect-[16/7] lg:aspect-[16/6] overflow-hidden">
-          {episodeImage ? (
-            <Media resource={episodeImage} imgClassName="w-full h-full object-cover" size="100vw" />
-          ) : episode.image ? (
-            <img src={episode.image} alt="" className="w-full h-full object-cover" />
-          ) : null}
-        </figure>
+        {/* Hero image — full bleed, behind nav, with parallax */}
+        <FeaturedParallax>
+          <figure className="w-full h-[50vh] sm:h-[55vh] lg:h-[60vh]">
+            {episodeImage ? (
+              <Media resource={episodeImage} imgClassName="w-full h-full object-cover" size="100vw" />
+            ) : episode.image ? (
+              <img src={episode.image} alt="" className="w-full h-full object-cover" />
+            ) : null}
+          </figure>
+        </FeaturedParallax>
 
         {/* YouTube thumbnail — overlaps bottom of image, container-aligned */}
         {matchedVideo && (
