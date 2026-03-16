@@ -9,7 +9,14 @@ interface LogoProps {
 export function Logo({ className }: LogoProps) {
   return (
     <Link href="/" className={className}>
-      <Image src="/logo.svg" alt="Ron en Erik" width={76} height={50} className="h-[50px] w-auto" priority />
+      <Image
+        src="/Logo.svg"
+        alt="Ron en Erik"
+        width={76}
+        height={50}
+        className="h-12.5 w-auto"
+        priority
+      />
     </Link>
   )
 }

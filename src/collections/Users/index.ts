@@ -25,6 +25,23 @@ export const Users: CollectionConfig = {
       name: 'name',
       type: 'text',
     },
+    {
+      type: 'group',
+      name: 'socials',
+      label: 'Sociale media',
+      fields: [
+        {
+          name: 'bluesky',
+          type: 'text',
+          label: 'BlueSky URL',
+        },
+        {
+          name: 'twitter',
+          type: 'text',
+          label: 'X / Twitter URL',
+        },
+      ],
+    },
   ],
   timestamps: true,
 }

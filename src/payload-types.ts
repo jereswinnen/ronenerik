@@ -385,6 +385,10 @@ export interface Category {
 export interface User {
   id: number;
   name?: string | null;
+  socials?: {
+    bluesky?: string | null;
+    twitter?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -830,6 +834,12 @@ export interface PodcastEpisodesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  socials?:
+    | T
+    | {
+        bluesky?: T;
+        twitter?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   email?: T;
