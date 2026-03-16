@@ -26,6 +26,20 @@ export const Users: CollectionConfig = {
       type: 'text',
     },
     {
+      name: 'subtitle',
+      type: 'text',
+      label: 'Ondertitel',
+      admin: {
+        description: 'Bijv. "Co-host" of "Redacteur"',
+      },
+    },
+    {
+      name: 'avatar',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Avatar',
+    },
+    {
       type: 'group',
       name: 'socials',
       label: 'Sociale media',

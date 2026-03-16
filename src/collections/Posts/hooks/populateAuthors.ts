@@ -1,36 +1,38 @@
 import type { CollectionAfterReadHook } from 'payload'
-import { User } from 'src/payload-types'
+import type { User } from 'src/payload-types'
 
-// The `user` collection has access control locked so that users are not publicly accessible
-// This means that we need to populate the authors manually here to protect user privacy
-// GraphQL will not return mutated user data that differs from the underlying schema
-// So we use an alternative `populatedAuthors` field to populate the user data, hidden from the admin UI
+// The `user` collection has access control locked so that users are not publicly accessible.
+// We populate author data manually here to protect user privacy while exposing what's needed.
 export const populateAuthors: CollectionAfterReadHook = async ({ doc, req: { payload } }) => {
-  if (doc?.authors && doc?.authors?.length > 0) {
-    const authorDocs: User[] = []
+  if (!doc?.authors?.length) return doc
 
-    for (const author of doc.authors) {
-      try {
-        const authorDoc = await payload.findByID({
-          id: typeof author === 'object' ? author?.id : author,
-          collection: 'users',
-          depth: 0,
-        })
+  const authorDocs: User[] = []
 
-        if (authorDoc) {
-          authorDocs.push(authorDoc)
-        }
-
-        if (authorDocs.length > 0) {
-          doc.populatedAuthors = authorDocs.map((authorDoc) => ({
-            id: authorDoc.id,
-            name: authorDoc.name,
-          }))
-        }
-      } catch {
-        // swallow error
-      }
+  for (const author of doc.authors) {
+    try {
+      const authorDoc = await payload.findByID({
+        id: typeof author === 'object' ? author?.id : author,
+        collection: 'users',
+        depth: 1,
+      })
+      if (authorDoc) authorDocs.push(authorDoc)
+    } catch {
+      // User may have been deleted
     }
+  }
+
+  if (authorDocs.length > 0) {
+    doc.populatedAuthors = authorDocs.map((author) => ({
+      id: author.id,
+      name: author.name,
+      subtitle: author.subtitle || null,
+      avatarUrl:
+        typeof author.avatar === 'object' && author.avatar?.url
+          ? author.avatar.url
+          : null,
+      bluesky: author.socials?.bluesky || null,
+      twitter: author.socials?.twitter || null,
+    }))
   }
 
   return doc

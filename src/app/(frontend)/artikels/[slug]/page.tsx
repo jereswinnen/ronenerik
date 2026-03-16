@@ -11,9 +11,9 @@ import { Media } from '@/components/Media'
 import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { formatDateTime } from '@/utilities/formatDateTime'
-import { formatAuthors } from '@/utilities/formatAuthors'
 import { PatreonSection } from '@/components/sections/PatreonSection'
 import { MoreContentSection } from '@/components/sections/MoreContentSection'
+import { AuthorCard } from '@/components/(frontend)/AuthorCard'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -63,11 +63,17 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
           {post.title}
         </h1>
 
-        <div className="flex items-center gap-4 mb-12 text-sm text-c-foreground/60">
-          {post.populatedAuthors && post.populatedAuthors.length > 0 && (
-            <span>{formatAuthors(post.populatedAuthors)}</span>
+        <div className="flex flex-col gap-4 mb-12">
+          {post.publishedAt && (
+            <time className="text-sm text-c-foreground/50">{formatDateTime(post.publishedAt)}</time>
           )}
-          {post.publishedAt && <time>{formatDateTime(post.publishedAt)}</time>}
+          {post.populatedAuthors && post.populatedAuthors.length > 0 && (
+            <div className="flex flex-col gap-3">
+              {post.populatedAuthors.map((author) => (
+                <AuthorCard key={author.id} author={author} />
+              ))}
+            </div>
+          )}
         </div>
 
         <RichText data={post.content} enableGutter={false} />

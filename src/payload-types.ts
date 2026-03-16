@@ -343,6 +343,10 @@ export interface Post {
     | {
         id?: string | null;
         name?: string | null;
+        subtitle?: string | null;
+        avatarUrl?: string | null;
+        bluesky?: string | null;
+        twitter?: string | null;
       }[]
     | null;
   /**
@@ -385,6 +389,11 @@ export interface Category {
 export interface User {
   id: number;
   name?: string | null;
+  /**
+   * Bijv. "Co-host" of "Redacteur"
+   */
+  subtitle?: string | null;
+  avatar?: (number | null) | Media;
   socials?: {
     bluesky?: string | null;
     twitter?: string | null;
@@ -695,6 +704,10 @@ export interface PostsSelect<T extends boolean = true> {
     | {
         id?: T;
         name?: T;
+        subtitle?: T;
+        avatarUrl?: T;
+        bluesky?: T;
+        twitter?: T;
       };
   generateSlug?: T;
   slug?: T;
@@ -834,6 +847,8 @@ export interface PodcastEpisodesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  subtitle?: T;
+  avatar?: T;
   socials?:
     | T
     | {

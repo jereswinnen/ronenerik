@@ -162,14 +162,12 @@ export const Posts: CollectionConfig<'posts'> = {
         readOnly: true,
       },
       fields: [
-        {
-          name: 'id',
-          type: 'text',
-        },
-        {
-          name: 'name',
-          type: 'text',
-        },
+        { name: 'id', type: 'text' },
+        { name: 'name', type: 'text' },
+        { name: 'subtitle', type: 'text' },
+        { name: 'avatarUrl', type: 'text' },
+        { name: 'bluesky', type: 'text' },
+        { name: 'twitter', type: 'text' },
       ],
     },
     slugField(),
