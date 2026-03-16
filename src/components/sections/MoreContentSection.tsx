@@ -4,9 +4,8 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
-import { PodcastEpisodeCard } from '@/components/PodcastEpisodeCard'
-import { Card } from '@/components/Card'
-import type { SiteSetting } from '@/payload-types'
+import { ContentCard, formatUploadDate, formatAuthor } from '@/components/(frontend)/ContentCard'
+import type { SiteSetting, Media as MediaType } from '@/payload-types'
 
 interface MoreContentSectionProps {
   excludeSlug?: string
@@ -27,8 +26,8 @@ export async function MoreContentSection({ excludeSlug }: MoreContentSectionProp
       select: {
         title: true,
         slug: true,
-        categories: true,
         meta: true,
+        populatedAuthors: true,
         publishedAt: true,
       },
     }),
@@ -46,36 +45,47 @@ export async function MoreContentSection({ excludeSlug }: MoreContentSectionProp
   return (
     <section className="container py-16">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* More Episodes */}
         {filteredEpisodes.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-semibold">More Episodes</h2>
-              <Link href="/podcast" className="text-sm text-c-accent">
-                View all
-              </Link>
+              <h2 className="text-lg font-semibold">Meer afleveringen</h2>
+              <Link href="/podcast" className="text-sm text-c-accent">Bekijk alle</Link>
             </div>
             <div className="flex flex-col gap-4">
-              {filteredEpisodes.slice(0, 3).map((ep, i) => (
-                <PodcastEpisodeCard key={i} episode={ep} />
+              {filteredEpisodes.slice(0, 3).map((ep) => (
+                <ContentCard
+                  key={ep.slug}
+                  href={`/podcast/${ep.slug}`}
+                  title={ep.title}
+                  imageSrc={ep.image}
+                  meta={ep.pubDate ? formatUploadDate(ep.pubDate) : undefined}
+                />
               ))}
             </div>
           </div>
         )}
 
-        {/* More Articles */}
         {filteredArticles.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-semibold">More Articles</h2>
-              <Link href="/artikels" className="text-sm text-c-accent">
-                View all
-              </Link>
+              <h2 className="text-lg font-semibold">Meer artikelen</h2>
+              <Link href="/artikels" className="text-sm text-c-accent">Bekijk alle</Link>
             </div>
             <div className="flex flex-col gap-4">
-              {filteredArticles.slice(0, 3).map((article, i) => (
-                <Card key={i} doc={article} relationTo="posts" showCategories />
-              ))}
+              {filteredArticles.slice(0, 3).map((article) => {
+                const metaImage: MediaType | null =
+                  article.meta && typeof article.meta.image === 'object' ? article.meta.image : null
+                const author = article.populatedAuthors?.[0]?.name
+                return (
+                  <ContentCard
+                    key={article.slug}
+                    href={`/artikels/${article.slug}`}
+                    title={article.title}
+                    image={metaImage}
+                    meta={author ? formatAuthor(author) : undefined}
+                  />
+                )
+              })}
             </div>
           </div>
         )}

@@ -11,16 +11,17 @@ type ContentCardProps = {
   imageSrc?: string | null
   meta?: string
   onClick?: () => void
+  className?: string
 }
 
-export function ContentCard({ href, title, image, imageSrc, meta, onClick }: ContentCardProps) {
+export function ContentCard({ href, title, image, imageSrc, meta, onClick, className = '' }: ContentCardProps) {
   const resolvedSrc = image ? null : imageSrc
 
   return (
     <Link
       href={href}
       onClick={onClick}
-      className="group relative flex flex-col gap-4 rounded-[20px] rounded-bl-none border border-c-accent overflow-hidden p-4 h-full"
+      className={`group relative flex flex-col gap-4 rounded-[20px] rounded-bl-none border border-c-accent overflow-hidden p-4 ${className}`}
     >
       {/* Hover background fill */}
       <span className="absolute inset-0 bg-c-accent scale-0 origin-bottom-left transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />

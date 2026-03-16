@@ -5,12 +5,11 @@ import React from 'react'
 import Link from 'next/link'
 
 import type { SiteSetting, Media as MediaType } from '@/payload-types'
-import { Card } from '@/components/Card'
+import { ContentCard, formatUploadDate, formatAuthor, youtubeMaxRes } from '@/components/(frontend)/ContentCard'
+import { ContentGrid } from '@/components/(frontend)/ContentGrid'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import { fetchYouTubeVideos } from '@/utilities/rss/fetchYouTube'
 import { matchEpisodeToVideo } from '@/utilities/rss/matchEpisodeToVideo'
-import { PodcastEpisodeCard } from '@/components/PodcastEpisodeCard'
-import { YouTubeVideoCard } from '@/components/YouTubeVideoCard'
 import { PatreonSection } from '@/components/sections/PatreonSection'
 import { AllContentLinks } from '@/components/sections/AllContentLinks'
 import { FeaturedSection } from '@/components/sections/FeaturedSection'
@@ -35,9 +34,9 @@ export default async function HomePage() {
       select: {
         title: true,
         slug: true,
-        categories: true,
         meta: true,
         publishedAt: true,
+        populatedAuthors: true,
       },
     }),
     podcastFeedUrl ? fetchPodcastEpisodes(podcastFeedUrl, 4) : Promise.resolve([]),
@@ -50,7 +49,6 @@ export default async function HomePage() {
     }),
   ])
 
-  // Build a map of slug → Payload media resource for quick lookup
   const defaultImage =
     typeof siteSettings?.podcast?.defaultEpisodeImage === 'object'
       ? siteSettings.podcast.defaultEpisodeImage
@@ -70,7 +68,6 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* Featured: latest episode as full-width hero */}
       {latestEpisode && (
         <FeaturedSection
           episode={latestEpisode}
@@ -79,46 +76,64 @@ export default async function HomePage() {
         />
       )}
 
-      {/* More Podcasts */}
       {remainingEpisodes.length > 0 && (
         <section className="container mb-24">
           <SectionHeader title="Meer afleveringen" href="/podcast" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {remainingEpisodes.map((ep, i) => (
-              <PodcastEpisodeCard key={i} episode={ep} image={episodeImageMap.get(ep.slug)} />
+          <ContentGrid>
+            {remainingEpisodes.map((ep) => (
+              <ContentCard
+                key={ep.slug}
+                href={`/podcast/${ep.slug}`}
+                title={ep.title}
+                image={episodeImageMap.get(ep.slug)}
+                imageSrc={ep.image}
+                meta={ep.pubDate ? formatUploadDate(ep.pubDate) : undefined}
+              />
             ))}
-          </div>
+          </ContentGrid>
         </section>
       )}
 
-      {/* Latest Articles */}
       {articles.docs.length > 0 && (
         <section className="container mb-24">
           <SectionHeader title="Laatste artikels" href="/artikels" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articles.docs.map((article, i) => (
-              <Card key={i} doc={article} relationTo="posts" showCategories className="h-full" />
-            ))}
-          </div>
+          <ContentGrid>
+            {articles.docs.map((article) => {
+              const metaImage: MediaType | null =
+                article.meta && typeof article.meta.image === 'object' ? article.meta.image : null
+              const author = article.populatedAuthors?.[0]?.name
+              return (
+                <ContentCard
+                  key={article.slug}
+                  href={`/artikels/${article.slug}`}
+                  title={article.title}
+                  image={metaImage}
+                  meta={author ? formatAuthor(author) : undefined}
+                />
+              )
+            })}
+          </ContentGrid>
         </section>
       )}
 
-      {/* Latest Videos */}
       {videos.length > 0 && (
         <section className="container mb-24">
           <SectionHeader title="Laatste video's" href="/videos" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {videos.slice(0, 4).map((video, i) => (
-              <YouTubeVideoCard key={i} video={video} />
+          <ContentGrid>
+            {videos.slice(0, 4).map((video) => (
+              <ContentCard
+                key={video.videoId}
+                href={video.link}
+                title={video.title}
+                imageSrc={youtubeMaxRes(video.videoId)}
+                meta={video.pubDate ? formatUploadDate(video.pubDate) : undefined}
+              />
             ))}
-          </div>
+          </ContentGrid>
         </section>
       )}
 
-      {/* Patreon Section */}
       <PatreonSection />
-
-      {/* All Content Links */}
       <AllContentLinks />
     </div>
   )
