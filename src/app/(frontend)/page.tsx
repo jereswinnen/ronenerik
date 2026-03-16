@@ -2,11 +2,9 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import React from 'react'
-import Link from 'next/link'
 
 import type { SiteSetting, Media as MediaType } from '@/payload-types'
-import { ContentCard, formatUploadDate, formatAuthor, youtubeMaxRes } from '@/components/(frontend)/ContentCard'
-import { ContentGrid } from '@/components/(frontend)/ContentGrid'
+import { ContentCard, formatUploadDate, formatAuthor } from '@/components/(frontend)/ContentCard'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import { fetchYouTubeVideos } from '@/utilities/rss/fetchYouTube'
 import { matchEpisodeToVideo } from '@/utilities/rss/matchEpisodeToVideo'
@@ -39,7 +37,7 @@ export default async function HomePage() {
         populatedAuthors: true,
       },
     }),
-    podcastFeedUrl ? fetchPodcastEpisodes(podcastFeedUrl, 4) : Promise.resolve([]),
+    podcastFeedUrl ? fetchPodcastEpisodes(podcastFeedUrl, 5) : Promise.resolve([]),
     youtubeChannelUrl ? fetchYouTubeVideos(youtubeChannelUrl) : Promise.resolve([]),
     payload.find({
       collection: 'podcast-episodes',
@@ -56,15 +54,57 @@ export default async function HomePage() {
   const episodeImageMap = new Map<string, MediaType | null>()
   for (const doc of episodeDocs.docs) {
     const img =
-      typeof doc.featuredImage === 'object' && doc.featuredImage
-        ? doc.featuredImage
-        : defaultImage
+      typeof doc.featuredImage === 'object' && doc.featuredImage ? doc.featuredImage : defaultImage
     episodeImageMap.set(doc.slug, img ?? null)
   }
 
   const latestEpisode = episodes[0] || null
   const matchedVideo = latestEpisode ? matchEpisodeToVideo(latestEpisode, videos) : null
-  const remainingEpisodes = episodes.slice(1)
+
+  // Build a unified list of recent content (podcasts + articles), sorted by date, max 4
+  type RecentItem = {
+    type: 'podcast' | 'artikel'
+    href: string
+    title: string
+    image?: MediaType | null
+    imageSrc?: string | null
+    meta?: string
+    date: Date
+  }
+
+  const recentItems: RecentItem[] = []
+
+  // Add podcast episodes (skip the featured one)
+  for (const ep of episodes.slice(1)) {
+    recentItems.push({
+      type: 'podcast',
+      href: `/podcast/${ep.slug}`,
+      title: ep.title,
+      image: episodeImageMap.get(ep.slug),
+      imageSrc: ep.image,
+      meta: ep.pubDate ? formatUploadDate(ep.pubDate) : undefined,
+      date: ep.pubDate ? new Date(ep.pubDate) : new Date(0),
+    })
+  }
+
+  // Add articles
+  for (const article of articles.docs) {
+    const metaImage: MediaType | null =
+      article.meta && typeof article.meta.image === 'object' ? article.meta.image : null
+    const author = article.populatedAuthors?.[0]?.name
+    recentItems.push({
+      type: 'artikel',
+      href: `/artikels/${article.slug}`,
+      title: article.title,
+      image: metaImage,
+      meta: author ? formatAuthor(author) : undefined,
+      date: article.publishedAt ? new Date(article.publishedAt) : new Date(0),
+    })
+  }
+
+  // Sort by date descending and take 4
+  recentItems.sort((a, b) => b.date.getTime() - a.date.getTime())
+  const recentContent = recentItems.slice(0, 4)
 
   return (
     <div>
@@ -76,76 +116,47 @@ export default async function HomePage() {
         />
       )}
 
-      {remainingEpisodes.length > 0 && (
-        <section className="container mb-24">
-          <SectionHeader title="Meer afleveringen" href="/podcast" />
-          <ContentGrid>
-            {remainingEpisodes.map((ep) => (
+      {recentContent.length > 0 && (
+        <section className="container flex flex-col gap-8">
+          <h5>Recente content</h5>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+            {/* First item: large featured card */}
+            {recentContent[0] && (
               <ContentCard
-                key={ep.slug}
-                href={`/podcast/${ep.slug}`}
-                title={ep.title}
-                image={episodeImageMap.get(ep.slug)}
-                imageSrc={ep.image}
-                meta={ep.pubDate ? formatUploadDate(ep.pubDate) : undefined}
+                href={recentContent[0].href}
+                title={recentContent[0].title}
+                image={recentContent[0].image}
+                imageSrc={recentContent[0].imageSrc}
+                meta={recentContent[0].meta}
+                tag={recentContent[0].type === 'podcast' ? 'Podcast' : 'Artikel'}
+                podcastCorners={recentContent[0].type === 'podcast'}
+                isLarge={true}
               />
-            ))}
-          </ContentGrid>
-        </section>
-      )}
+            )}
 
-      {articles.docs.length > 0 && (
-        <section className="container mb-24">
-          <SectionHeader title="Laatste artikels" href="/artikels" />
-          <ContentGrid>
-            {articles.docs.map((article) => {
-              const metaImage: MediaType | null =
-                article.meta && typeof article.meta.image === 'object' ? article.meta.image : null
-              const author = article.populatedAuthors?.[0]?.name
-              return (
+            {/* Remaining items: horizontal cards stacked */}
+            <div className="flex flex-col gap-6">
+              {recentContent.slice(1).map((item) => (
                 <ContentCard
-                  key={article.slug}
-                  href={`/artikels/${article.slug}`}
-                  title={article.title}
-                  image={metaImage}
-                  meta={author ? formatAuthor(author) : undefined}
+                  key={item.href}
+                  href={item.href}
+                  title={item.title}
+                  image={item.image}
+                  imageSrc={item.imageSrc}
+                  meta={item.meta}
+                  tag={item.type === 'podcast' ? 'Podcast' : 'Artikel'}
+                  horizontal
+                  podcastCorners={item.type === 'podcast'}
+                  isLarge={true}
                 />
-              )
-            })}
-          </ContentGrid>
-        </section>
-      )}
-
-      {videos.length > 0 && (
-        <section className="container mb-24">
-          <SectionHeader title="Laatste video's" href="/videos" />
-          <ContentGrid>
-            {videos.slice(0, 4).map((video) => (
-              <ContentCard
-                key={video.videoId}
-                href={video.link}
-                title={video.title}
-                imageSrc={youtubeMaxRes(video.videoId)}
-                meta={video.pubDate ? formatUploadDate(video.pubDate) : undefined}
-              />
-            ))}
-          </ContentGrid>
+              ))}
+            </div>
+          </div>
         </section>
       )}
 
       <PatreonSection />
       <AllContentLinks />
-    </div>
-  )
-}
-
-function SectionHeader({ title, href }: { title: string; href: string }) {
-  return (
-    <div className="flex items-center justify-between mb-8">
-      <h2>{title}</h2>
-      <Link href={href} className="text-sm font-medium text-c-accent">
-        Bekijk alle
-      </Link>
     </div>
   )
 }

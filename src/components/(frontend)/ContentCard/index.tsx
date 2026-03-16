@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import type { Media as MediaType } from '@/payload-types'
 import { Media } from '@/components/Media'
+import { Tag } from '@/components/(frontend)/Tag'
 
 type ContentCardProps = {
   href: string
@@ -10,24 +11,47 @@ type ContentCardProps = {
   /** External image URL (e.g. RSS or YouTube thumbnail) */
   imageSrc?: string | null
   meta?: string
+  /** Tag label shown above the title (e.g. "Podcast", "Artikel") */
+  tag?: string
+  /** Horizontal layout: image left, content right */
+  horizontal?: boolean
+  /** Use podcast-style rounding (bottom-left rounded, top-right square) */
+  podcastCorners?: boolean
+  /** Use larger title (h5 instead of h6) */
+  isLarge?: boolean
   onClick?: () => void
   className?: string
 }
 
-export function ContentCard({ href, title, image, imageSrc, meta, onClick, className = '' }: ContentCardProps) {
+export function ContentCard({
+  href,
+  title,
+  image,
+  imageSrc,
+  meta,
+  tag,
+  horizontal,
+  podcastCorners,
+  isLarge,
+  onClick,
+  className = '',
+}: ContentCardProps) {
   const resolvedSrc = image ? null : imageSrc
+  const cornerClass = podcastCorners
+    ? 'rounded-[20px] rounded-tr-none'
+    : 'rounded-[20px] rounded-bl-none'
 
   return (
     <Link
       href={href}
       onClick={onClick}
-      className={`group relative flex flex-col gap-4 rounded-[20px] rounded-bl-none border border-c-accent overflow-hidden p-4 ${className}`}
+      className={`group relative flex ${horizontal ? 'flex-row' : 'flex-col'} gap-4 ${cornerClass} border border-c-accent overflow-hidden p-4 ${className}`}
     >
       {/* Hover background fill */}
       <span className="absolute inset-0 bg-c-accent scale-0 origin-bottom-left transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-100" />
 
       {/* Image */}
-      <div className="relative overflow-hidden rounded-lg">
+      <div className={`relative overflow-hidden rounded-lg ${horizontal ? 'w-1/2 shrink-0' : ''}`}>
         {image ? (
           <Media
             resource={image}
@@ -45,7 +69,12 @@ export function ContentCard({ href, title, image, imageSrc, meta, onClick, class
 
       {/* Content */}
       <div className="relative flex flex-col gap-2 text-c-accent transition-all duration-500 ease-in-out group-hover:text-white">
-        <h3 className="text-lg font-medium leading-tight line-clamp-2">{title}</h3>
+        {tag && <Tag label={tag} />}
+        {isLarge ? (
+          <h5 className="font-medium leading-tight line-clamp-2">{title}</h5>
+        ) : (
+          <h6 className="font-medium leading-tight line-clamp-2">{title}</h6>
+        )}
         {meta && <p className="text-sm italic">{meta}</p>}
       </div>
     </Link>
