@@ -1,60 +1,90 @@
 'use client'
 
-import React from 'react'
-import { motion, type Variants } from 'motion/react'
+import React, { useState, useRef, useEffect } from 'react'
+import { motion, useInView } from 'motion/react'
 
 interface ContentGridProps {
   children: React.ReactNode
   emptyMessage?: string
 }
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.06,
-    },
-  },
-}
+function GridItem({
+  children,
+  index,
+  isHovered,
+  isDimmed,
+  onHoverStart,
+  onHoverEnd,
+}: {
+  children: React.ReactNode
+  index: number
+  isHovered: boolean
+  isDimmed: boolean
+  onHoverStart: () => void
+  onHoverEnd: () => void
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-50px' })
+  const [hasEntered, setHasEntered] = useState(false)
 
-const itemVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 16,
-    filter: 'blur(4px)',
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: {
-      duration: 0.5,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
+  // Mark entrance as done after the animation would have completed
+  useEffect(() => {
+    if (inView && !hasEntered) {
+      const timeout = setTimeout(() => setHasEntered(true), index * 60 + 600)
+      return () => clearTimeout(timeout)
+    }
+  }, [inView, hasEntered, index])
+
+  const entranceDelay = !hasEntered ? index * 0.06 : 0
+
+  return (
+    <motion.div
+      ref={ref}
+      className="h-full"
+      initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
+      animate={{
+        opacity: !inView ? 0 : isDimmed ? 0.5 : 1,
+        y: inView ? 0 : 12,
+        filter: inView ? 'blur(0px)' : 'blur(4px)',
+        scale: isHovered ? 1.05 : 1,
+      }}
+      transition={{
+        y: { duration: 0.5, delay: entranceDelay, ease: [0.16, 1, 0.3, 1] },
+        filter: { duration: 0.5, delay: entranceDelay },
+        opacity: { duration: 0.5, delay: entranceDelay },
+        scale: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+      }}
+      onHoverStart={onHoverStart}
+      onHoverEnd={onHoverEnd}
+      style={{ zIndex: isHovered ? 10 : 0 }}
+    >
+      {children}
+    </motion.div>
+  )
 }
 
 export function ContentGrid({ children, emptyMessage = 'Geen items gevonden.' }: ContentGridProps) {
   const items = React.Children.toArray(children)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   if (items.length === 0) {
-    return (
-      <p className="text-c-foreground/60 py-12 text-center">{emptyMessage}</p>
-    )
+    return <p className="text-c-foreground/60 py-12 text-center">{emptyMessage}</p>
   }
 
   return (
-    <motion.div
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-6"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
       {items.map((child, index) => (
-        <motion.div key={index} variants={itemVariants}>
+        <GridItem
+          key={index}
+          index={index}
+          isHovered={hoveredIndex === index}
+          isDimmed={hoveredIndex !== null && hoveredIndex !== index}
+          onHoverStart={() => setHoveredIndex(index)}
+          onHoverEnd={() => setHoveredIndex(null)}
+        >
           {child}
-        </motion.div>
+        </GridItem>
       ))}
-    </motion.div>
+    </div>
   )
 }

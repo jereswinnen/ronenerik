@@ -95,4 +95,5 @@
     @apply bg-c-background text-c-foreground min-h-[100vh] flex flex-col;
     font-family: var(--font-sans);
   }
+
 }
