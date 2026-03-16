@@ -7,13 +7,13 @@ export const revalidate = 3600
 
 export default function PatreonPage() {
   return (
-    <div className="py-24">
-      <div className="container mb-12">
+    <>
+      <div className="container">
         <h1>Patreon</h1>
       </div>
 
       <PatreonSection />
-    </div>
+    </>
   )
 }
 

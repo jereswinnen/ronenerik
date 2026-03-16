@@ -51,7 +51,7 @@ export default async function PodcastEpisodePage({ params: paramsPromise }: Args
     : null
 
   return (
-    <div className="py-24">
+    <>
       <article className="container max-w-4xl mx-auto">
         {/* YouTube embed */}
         {matchedVideo && (
@@ -93,7 +93,7 @@ export default async function PodcastEpisodePage({ params: paramsPromise }: Args
 
       <PatreonSection />
       <MoreContentSection excludeSlug={slug} />
-    </div>
+    </>
   )
 }
 

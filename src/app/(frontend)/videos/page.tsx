@@ -16,7 +16,7 @@ export default async function VideosPage() {
   const videos = channelUrl ? await fetchYouTubeVideos(channelUrl) : []
 
   return (
-    <div className="pt-24 pb-16">
+    <>
       <header className="container mb-16">
         <p className="text-sm text-c-foreground/50 mb-4">Op YouTube</p>
         <h1>Bekijk de laatste video&apos;s</h1>
@@ -36,7 +36,7 @@ export default async function VideosPage() {
           ))}
         </ContentGrid>
       </section>
-    </div>
+    </>
   )
 }
 

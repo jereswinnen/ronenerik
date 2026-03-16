@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Providers>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 flex flex-col gap-y-8 md:gap-y-20">{children}</main>
           <Footer />
         </Providers>
       </body>

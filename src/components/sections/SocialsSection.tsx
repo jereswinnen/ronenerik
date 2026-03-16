@@ -30,7 +30,7 @@ export async function SocialsSection() {
 
   return (
     <section className="container">
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-between gap-4">
         {links.map((link) => (
           <Button key={link.href} href={link.href} variant="secondary" icon={link.icon} external>
             {link.label}

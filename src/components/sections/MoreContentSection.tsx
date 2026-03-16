@@ -38,18 +38,18 @@ export async function MoreContentSection({ excludeSlug }: MoreContentSectionProp
     ? articles.docs.filter((doc) => doc.slug !== excludeSlug)
     : articles.docs
 
-  const filteredEpisodes = excludeSlug
-    ? episodes.filter((ep) => ep.slug !== excludeSlug)
-    : episodes
+  const filteredEpisodes = excludeSlug ? episodes.filter((ep) => ep.slug !== excludeSlug) : episodes
 
   return (
-    <section className="container py-16">
+    <section className="container">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {filteredEpisodes.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold">Meer afleveringen</h2>
-              <Link href="/podcast" className="text-sm text-c-accent">Bekijk alle</Link>
+              <Link href="/podcast" className="text-sm text-c-accent">
+                Bekijk alle
+              </Link>
             </div>
             <div className="flex flex-col gap-4">
               {filteredEpisodes.slice(0, 3).map((ep) => (
@@ -69,7 +69,9 @@ export async function MoreContentSection({ excludeSlug }: MoreContentSectionProp
           <div>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold">Meer artikelen</h2>
-              <Link href="/artikels" className="text-sm text-c-accent">Bekijk alle</Link>
+              <Link href="/artikels" className="text-sm text-c-accent">
+                Bekijk alle
+              </Link>
             </div>
             <div className="flex flex-col gap-4">
               {filteredArticles.slice(0, 3).map((article) => {

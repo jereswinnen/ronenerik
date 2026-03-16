@@ -108,7 +108,7 @@ export default async function HomePage() {
   const recentContent = recentItems.slice(0, 4)
 
   return (
-    <div>
+    <>
       {latestEpisode && (
         <FeaturedSection
           episode={latestEpisode}
@@ -160,6 +160,6 @@ export default async function HomePage() {
 
       <PatreonSection />
       <AllContentLinks />
-    </div>
+    </>
   )
 }

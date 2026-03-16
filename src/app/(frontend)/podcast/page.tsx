@@ -39,7 +39,7 @@ export default async function PodcastPage() {
   }
 
   return (
-    <div className="pt-24 pb-16">
+    <>
       <header className="container mb-16">
         <p className="text-sm text-c-foreground/50 mb-4">De Ron en Erik Podcast</p>
         <h1>Elke maandag komen Ron en Erik in je oren</h1>
@@ -62,7 +62,7 @@ export default async function PodcastPage() {
       </section>
 
       <PatreonSection />
-    </div>
+    </>
   )
 }
 

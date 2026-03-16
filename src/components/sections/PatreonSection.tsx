@@ -18,16 +18,14 @@ export async function PatreonSection() {
   const latestEpisode = episodes[0] || null
 
   return (
-    <section className="container py-16">
+    <section className="container">
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 mb-4">
             <Image src="/IconPatreonSmall.svg" alt="" width={24} height={24} />
             <h2>{heading}</h2>
           </div>
-          {description && (
-            <p className="text-c-foreground/60 mb-6">{description}</p>
-          )}
+          {description && <p className="text-c-foreground/60 mb-6">{description}</p>}
           {patreonUrl && (
             <Link
               href={patreonUrl}

@@ -47,7 +47,7 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article className="py-24">
+    <article>
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
@@ -59,9 +59,7 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
           </div>
         )}
 
-        <h1 className="mb-4">
-          {post.title}
-        </h1>
+        <h1 className="mb-4">{post.title}</h1>
 
         <div className="flex flex-col gap-4 mb-12">
           {post.publishedAt && (

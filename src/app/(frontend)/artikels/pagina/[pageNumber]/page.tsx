@@ -37,7 +37,7 @@ export default async function ArticlesPageNumber({ params: paramsPromise }: Args
   })
 
   return (
-    <div className="pt-24 pb-16">
+    <>
       <div className="container mb-12">
         <h1>Artikelen</h1>
       </div>
@@ -66,7 +66,7 @@ export default async function ArticlesPageNumber({ params: paramsPromise }: Args
           <Pagination page={posts.page} totalPages={posts.totalPages} />
         )}
       </div>
-    </div>
+    </>
   )
 }
 
