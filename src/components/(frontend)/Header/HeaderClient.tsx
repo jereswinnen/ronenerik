@@ -101,7 +101,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                 <span>{isOpen ? 'Sluit' : 'Menu'}</span>
               </button>
 
-              <Logo className="absolute left-1/2 -translate-x-1/2 transition-all ease-in-out duration-200 hover:scale-115 hover:-rotate-4" />
+              <Logo className="absolute left-1/2 -translate-x-1/2 transition-all ease-in-out duration-200 hover:scale-115 hover:-rotate-4" onClick={isOpen ? handleNavClick : undefined} />
 
               <Button href="/patreon" variant="primary">
                 Steun de show

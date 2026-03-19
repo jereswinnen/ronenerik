@@ -4,11 +4,12 @@ import Link from 'next/link'
 
 interface LogoProps {
   className?: string
+  onClick?: () => void
 }
 
-export function Logo({ className }: LogoProps) {
+export function Logo({ className, onClick }: LogoProps) {
   return (
-    <Link href="/" className={className}>
+    <Link href="/" className={className} onClick={onClick}>
       <Image
         src="/Logo.svg"
         alt="Ron en Erik"

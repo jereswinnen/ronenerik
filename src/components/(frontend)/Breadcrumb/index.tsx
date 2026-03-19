@@ -9,8 +9,8 @@ interface BreadcrumbProps {
 
 export function Breadcrumb({ parent, title, children }: BreadcrumbProps) {
   return (
-    <div className="container">
-      <div className="flex items-center justify-between gap-4 rounded-xl bg-c-muted px-6 py-4">
+    <div className="w-full max-w-4xl mx-auto">
+      <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-2 min-w-0">
           <Link
             href={parent.href}
