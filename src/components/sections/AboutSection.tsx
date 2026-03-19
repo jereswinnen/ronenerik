@@ -1,7 +1,5 @@
 import React from 'react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
 import type { SiteSetting, Media as MediaType, User } from '@/payload-types'
 import { Media } from '@/components/Media'
 import IconBlueSky from '../../../public/IconBlueSky.svg'
@@ -17,18 +15,9 @@ export async function AboutSection() {
   const description = about.description
   const aboutImage = typeof about.image === 'object' ? (about.image as MediaType) : null
 
-  // Resolve author relationships
-  const payload = await getPayload({ config: configPromise })
-  const authorIds = (about.authors || []).map((a) => (typeof a === 'object' ? a.id : a))
-  const authors: User[] = []
-  for (const id of authorIds) {
-    try {
-      const user = await payload.findByID({ id, collection: 'users', depth: 1 })
-      if (user) authors.push(user)
-    } catch {
-      // User may have been deleted
-    }
-  }
+  const authors = (about.authors || []).filter(
+    (a): a is User => typeof a === 'object' && a !== null,
+  )
 
   return (
     <section className="container">
@@ -52,13 +41,11 @@ export async function AboutSection() {
                       <img
                         src={avatarUrl}
                         alt={author.name || ''}
-                        className="w-20 h-20 rounded-full object-cover"
+                        className="size-24 rounded-full object-cover"
                       />
                     )}
-                    {author.name && <h6 className="font-semibold">{author.name}</h6>}
-                    {author.bio && (
-                      <p className="text-sm text-c-foreground/60 leading-relaxed">{author.bio}</p>
-                    )}
+                    {author.name && <h6>{author.name}</h6>}
+                    {author.bio && <p>{author.bio}</p>}
                     <AuthorSocials author={author} />
                   </div>
                 )
@@ -83,16 +70,10 @@ function AuthorSocials({ author }: { author: User }) {
   if (!socials?.bluesky && !socials?.twitter && !socials?.instagram) return null
 
   return (
-    <div className="flex gap-3">
+    <div className="flex *:first:rounded-full *:bg-c-foreground/5 *:text-c-foreground *:transition-all *:ease-in-out *:duration-300 *:hover:bg-c-foreground *:hover:text-c-background *:p-2 [&_svg]:size-7 [&_svg]:shrink-0">
       {socials.bluesky && (
-        <a
-          href={socials.bluesky}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="BlueSky"
-          className="text-c-foreground/50 hover:text-c-foreground transition-colors"
-        >
-          <IconBlueSky width={24} height={24} />
+        <a href={socials.bluesky} target="_blank" rel="noopener noreferrer" aria-label="BlueSky">
+          <IconBlueSky />
         </a>
       )}
       {socials.twitter && (
@@ -101,9 +82,8 @@ function AuthorSocials({ author }: { author: User }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="X / Twitter"
-          className="text-c-foreground/50 hover:text-c-foreground transition-colors"
         >
-          <IconX width={24} height={24} />
+          <IconX />
         </a>
       )}
       {socials.instagram && (
@@ -112,9 +92,8 @@ function AuthorSocials({ author }: { author: User }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram"
-          className="text-c-foreground/50 hover:text-c-foreground transition-colors"
         >
-          <IconInstagram width={24} height={24} />
+          <IconInstagram />
         </a>
       )}
     </div>

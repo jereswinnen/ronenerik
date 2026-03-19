@@ -24,7 +24,7 @@ export function Button({
   const variants = {
     primary: 'rounded-lg bg-c-accent text-c-background hover:text-c-accent hover:bg-white',
     secondary:
-      'rounded-full bg-c-foreground/10 text-c-foreground hover:bg-c-foreground hover:text-c-background',
+      'rounded-full bg-c-foreground/5 text-c-foreground hover:bg-c-foreground hover:text-c-background',
   }
 
   const linkProps = external ? { target: '_blank' as const, rel: 'noopener noreferrer' } : {}
