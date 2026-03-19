@@ -6,14 +6,16 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import RichText from '@/components/RichText'
-import { Media } from '@/components/Media'
 
 import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { formatDateTime } from '@/utilities/formatDateTime'
+import { Tag } from '@/components/(frontend)/Tag'
 import { PatreonSection } from '@/components/sections/PatreonSection'
 import { MoreContentSection } from '@/components/sections/MoreContentSection'
 import { AuthorCard } from '@/components/(frontend)/AuthorCard'
+import { Breadcrumb } from '@/components/(frontend)/Breadcrumb'
+import { ShareIcons } from '@/components/(frontend)/ShareIcons'
+import { getServerSideURL } from '@/utilities/getURL'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -47,39 +49,46 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <article>
+    <section className="flex flex-col gap-12 md:gap-20 pt-12 md:pt-30">
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
 
-      <div className="container max-w-4xl mx-auto">
-        {post.heroImage && typeof post.heroImage !== 'number' && (
-          <div className="mb-8 rounded-lg overflow-hidden">
-            <Media resource={post.heroImage} />
-          </div>
-        )}
+      <Breadcrumb
+        parent={{ label: 'Artikelen', href: '/artikels' }}
+        title={post.title}
+      ></Breadcrumb>
 
-        <h1 className="mb-4">{post.title}</h1>
+      <article className="max-w-2xl mx-auto flex flex-col gap-8 md:gap-14">
+        <header className="flex flex-col gap-4">
+          <h2 className="leading-tight">{post.title}</h2>
+          {post.subtitle && <p className="text-lg text-c-foreground/60">{post.subtitle}</p>}
 
-        <div className="flex flex-col gap-4 mb-12">
-          {post.publishedAt && (
-            <time className="text-sm text-c-foreground/50">{formatDateTime(post.publishedAt)}</time>
-          )}
-          {post.populatedAuthors && post.populatedAuthors.length > 0 && (
-            <div className="flex flex-col gap-3">
-              {post.populatedAuthors.map((author) => (
-                <AuthorCard key={author.id} author={author} />
-              ))}
+          {post.categories && post.categories.length > 0 && (
+            <div className="flex flex-wrap gap-2 text-c-accent">
+              {post.categories.map((cat) => {
+                if (!cat || typeof cat !== 'object') return null
+                return <Tag key={cat.id} label={cat.title} />
+              })}
             </div>
           )}
-        </div>
+        </header>
 
         <RichText data={post.content} enableGutter={false} />
+      </article>
+
+      <div className="w-full max-w-2xl mx-auto flex flex-col items-center gap-12">
+        {post.populatedAuthors && post.populatedAuthors.length > 0 && (
+          <div className="flex flex-col gap-3">
+            {post.populatedAuthors.map((author) => (
+              <AuthorCard key={author.id} author={author} />
+            ))}
+          </div>
+        )}
       </div>
 
       <PatreonSection />
-      <MoreContentSection excludeSlug={slug} />
-    </article>
+    </section>
   )
 }
 

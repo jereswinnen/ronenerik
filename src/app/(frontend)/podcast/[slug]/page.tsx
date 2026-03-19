@@ -7,6 +7,9 @@ import { fetchYouTubeVideos } from '@/utilities/rss/fetchYouTube'
 import { matchEpisodeToVideo } from '@/utilities/rss/matchEpisodeToVideo'
 import { PatreonSection } from '@/components/sections/PatreonSection'
 import { MoreContentSection } from '@/components/sections/MoreContentSection'
+import { Breadcrumb } from '@/components/(frontend)/Breadcrumb'
+import { ShareIcons } from '@/components/(frontend)/ShareIcons'
+import { getServerSideURL } from '@/utilities/getURL'
 import type { SiteSetting } from '@/payload-types'
 
 export const dynamic = 'force-static'
@@ -50,8 +53,21 @@ export default async function PodcastEpisodePage({ params: paramsPromise }: Args
       })
     : null
 
+  const episodeUrl = `${getServerSideURL()}/podcast/${slug}`
+  const spotifyUrl = siteSettings?.externalLinks?.spotifyUrl
+
   return (
-    <>
+    <section className="flex flex-col gap-12 md:gap-20 pt-12 md:pt-30">
+      <Breadcrumb parent={{ label: 'Podcast', href: '/podcast' }} title={episode.title}>
+        <ShareIcons
+          url={episodeUrl}
+          title={episode.title}
+          variant="podcast"
+          youtubeUrl={youtubeChannelUrl}
+          spotifyUrl={spotifyUrl}
+        />
+      </Breadcrumb>
+
       <article className="container max-w-4xl mx-auto">
         {/* YouTube embed */}
         {matchedVideo && (
@@ -75,15 +91,6 @@ export default async function PodcastEpisodePage({ params: paramsPromise }: Args
           {episode.duration && <span>{episode.duration}</span>}
         </div>
 
-        {/* Audio player */}
-        {episode.audioUrl && (
-          <div className="mb-8">
-            <audio controls className="w-full" preload="none">
-              <source src={episode.audioUrl} type="audio/mpeg" />
-            </audio>
-          </div>
-        )}
-
         {episode.description && (
           <div className="text-c-foreground/80 leading-relaxed whitespace-pre-line">
             {episode.description}
@@ -92,8 +99,7 @@ export default async function PodcastEpisodePage({ params: paramsPromise }: Args
       </article>
 
       <PatreonSection />
-      <MoreContentSection excludeSlug={slug} />
-    </>
+    </section>
   )
 }
 
