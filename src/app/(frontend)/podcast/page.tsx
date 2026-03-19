@@ -67,5 +67,5 @@ export default async function PodcastPage() {
 }
 
 export function generateMetadata(): Metadata {
-  return { title: 'Podcasts' }
+  return { title: 'Podcast' }
 }

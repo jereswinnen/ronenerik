@@ -19,6 +19,6 @@ export default function PatreonPage() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: 'Patreon',
+    title: 'Steun de show',
   }
 }

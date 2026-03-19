@@ -40,5 +40,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
+  title: {
+    default: 'Ron en Erik',
+    template: '%s | Ron en Erik',
+  },
+  description: 'De Ron en Erik Podcast',
   openGraph: mergeOpenGraph(),
 }

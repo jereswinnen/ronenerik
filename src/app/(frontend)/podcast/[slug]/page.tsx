@@ -58,20 +58,10 @@ export default async function PodcastEpisodePage({ params: paramsPromise }: Args
 
   return (
     <section className="flex flex-col gap-12 md:gap-20 pt-12 md:pt-30">
-      <Breadcrumb parent={{ label: 'Podcast', href: '/podcast' }} title={episode.title}>
-        <ShareIcons
-          url={episodeUrl}
-          title={episode.title}
-          variant="podcast"
-          youtubeUrl={youtubeChannelUrl}
-          spotifyUrl={spotifyUrl}
-        />
-      </Breadcrumb>
-
-      <article className="container max-w-4xl mx-auto">
+      <section className="container flex flex-col gap-8 md:gap-14">
         {/* YouTube embed */}
         {matchedVideo && (
-          <div className="mb-8 aspect-video rounded-lg overflow-hidden">
+          <div className="aspect-video rounded-lg overflow-hidden">
             <iframe
               src={`https://www.youtube.com/embed/${matchedVideo.videoId}`}
               title={matchedVideo.title}
@@ -83,20 +73,25 @@ export default async function PodcastEpisodePage({ params: paramsPromise }: Args
         )}
 
         {/* Episode info */}
-        <h1 className="mb-4">{episode.title}</h1>
+        <article className="max-w-4xl mx-auto flex flex-col gap-12">
+          <Breadcrumb parent={{ label: 'Podcast', href: '/podcast' }} title={episode.title}>
+            <ShareIcons
+              url={episodeUrl}
+              title={episode.title}
+              variant="podcast"
+              youtubeUrl={youtubeChannelUrl}
+              spotifyUrl={spotifyUrl}
+            />
+          </Breadcrumb>
 
-        <div className="flex items-center gap-3 mb-8 text-sm text-c-foreground/60">
-          {formattedDate && <time>{formattedDate}</time>}
-          {formattedDate && episode.duration && <span>·</span>}
-          {episode.duration && <span>{episode.duration}</span>}
-        </div>
-
-        {episode.description && (
-          <div className="text-c-foreground/80 leading-relaxed whitespace-pre-line">
-            {episode.description}
+          <div className="flex flex-col gap-6">
+            <h2 className="leading-tight">{episode.title}</h2>
+            {episode.description && (
+              <div className="leading-relaxed whitespace-pre-line">{episode.description}</div>
+            )}
           </div>
-        )}
-      </article>
+        </article>
+      </section>
 
       <PatreonSection />
     </section>
@@ -108,12 +103,12 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const siteSettings = (await getCachedGlobal('site-settings', 1)()) as SiteSetting
   const feedUrl = siteSettings?.externalLinks?.podcastFeedUrl
 
-  if (!feedUrl) return { title: 'Episode Not Found' }
+  if (!feedUrl) return { title: 'Aflevering niet gevonden' }
 
   const episodes = await fetchPodcastEpisodes(feedUrl, 100)
   const episode = episodes.find((ep) => ep.slug === slug)
 
-  if (!episode) return { title: 'Episode Not Found' }
+  if (!episode) return { title: 'Aflevering niet gevonden' }
 
   return {
     title: episode.title,
