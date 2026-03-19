@@ -312,6 +312,10 @@ export interface FolderInterface {
 export interface Post {
   id: number;
   title: string;
+  /**
+   * Optionele ondertitel die onder de titel wordt getoond
+   */
+  subtitle?: string | null;
   heroImage?: (number | null) | Media;
   content: {
     root: {
@@ -694,6 +698,7 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
+  subtitle?: T;
   heroImage?: T;
   content?: T;
   categories?: T;

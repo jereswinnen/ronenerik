@@ -141,7 +141,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                         />
                       )}
 
-                      <div className="flex items-center justify-between mt-3">
+                      <div className="mt-auto flex items-center justify-between">
                         <div className="flex gap-3 **:size-7 *:hover:text-c-foreground/60">
                           {externalLinks?.youtubeChannelUrl && (
                             <SocialIcon
@@ -184,7 +184,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                         />
                       )}
 
-                      <div className="flex items-center justify-between">
+                      <div className="mt-auto flex items-center justify-between">
                         {externalLinks?.unpauseUrl && (
                           <SocialIcon
                             className="*:size-7 hover:text-c-foreground/60 transition-all duration-300"
