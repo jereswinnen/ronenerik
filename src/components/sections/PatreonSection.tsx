@@ -18,7 +18,7 @@ export async function PatreonSection() {
   const latestEpisode = episodes[0] || null
 
   return (
-    <section className="bg-c-foreground/10 py-12 md:py-20">
+    <section className="bg-c-muted py-12 md:py-30">
       <div className="container flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
         <div className="flex flex-col gap-8 flex-1 min-w-0">
           <div className="flex flex-col gap-3">

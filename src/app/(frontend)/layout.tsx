@@ -4,7 +4,7 @@ import { cn } from '@/utilities/ui'
 import { Host_Grotesk } from 'next/font/google'
 import React from 'react'
 
-import { Footer } from '@/Footer/Component'
+import { Footer } from '@/components/(frontend)/Footer'
 import { Header } from '@/components/(frontend)/Header'
 import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
@@ -28,8 +28,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased text-balance">
         <Providers>
           <Header />
-          <main className="flex-1 flex flex-col gap-y-8 md:gap-y-20">{children}</main>
-          <Footer />
+          <main className="flex-1 flex flex-col gap-y-12 md:gap-y-30">{children}</main>
+          <Footer className="mt-8 md:mt-20" />
         </Providers>
       </body>
     </html>

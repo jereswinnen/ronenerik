@@ -47,8 +47,11 @@
   --breakpoint-2xl: 86rem;
   --font-sans: var(--font-host-grotesk);
   --color-c-background: hsla(0, 6%, 12%, 1);
+  --color-c-muted: hsla(0, 5%, 16%, 1);
+  --color-c-darkest: hsla(0, 6%, 9%, 1);
   --color-c-foreground: hsla(0, 0%, 100%, 1);
   --color-c-accent: hsla(298, 73%, 71%, 1);
+  --color-c-accent-background: hsla(296, 49%, 18%, 1);
 }
 
 @layer utilities {
@@ -95,5 +98,4 @@
     @apply bg-c-background text-c-foreground min-h-[100vh] flex flex-col;
     font-family: var(--font-sans);
   }
-
 }

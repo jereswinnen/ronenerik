@@ -74,7 +74,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
             isOpen ? 'w-full sm:w-4/5' : 'w-full sm:w-3/5'
           }`}
         >
-          <div className="rounded-xl bg-c-background/85 backdrop-blur-lg overflow-hidden">
+          <div className="rounded-xl bg-c-muted backdrop-blur-lg overflow-hidden">
             {/* Top bar */}
             <div className="flex items-center justify-between p-4 relative">
               <button
@@ -133,7 +133,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                             title={latestEpisode.title}
                             image={episodeImage}
                             imageSrc={latestEpisode.image}
-                            meta={latestEpisode.pubDate ? formatUploadDate(latestEpisode.pubDate) : undefined}
+                            meta={
+                              latestEpisode.pubDate
+                                ? formatUploadDate(latestEpisode.pubDate)
+                                : undefined
+                            }
                             onClick={handleNavClick}
                           />
                         )}
@@ -141,9 +145,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                         <div className="flex items-center justify-between mt-3">
                           <div className="flex gap-3">
                             {externalLinks?.youtubeChannelUrl && (
-                              <SocialIcon href={externalLinks.youtubeChannelUrl} icon="/IconYouTube.svg" label="YouTube" />
+                              <SocialIcon
+                                href={externalLinks.youtubeChannelUrl}
+                                icon="/IconYouTube.svg"
+                                label="YouTube"
+                              />
                             )}
-                            <SocialIcon href="https://open.spotify.com" icon="/IconSpotify.svg" label="Spotify" />
+                            <SocialIcon
+                              href="https://open.spotify.com"
+                              icon="/IconSpotify.svg"
+                              label="Spotify"
+                            />
                           </div>
                           <Link
                             href="/podcast"
@@ -170,7 +182,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                             href={`/artikels/${latestArticle.slug}`}
                             title={latestArticle.title}
                             image={latestArticle.image}
-                            meta={latestArticle.author ? formatAuthor(latestArticle.author) : undefined}
+                            meta={
+                              latestArticle.author ? formatAuthor(latestArticle.author) : undefined
+                            }
                             onClick={handleNavClick}
                           />
                         )}
@@ -212,13 +226,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
 
                         <div className="flex flex-col">
                           {socials?.discord && (
-                            <SocialLink href={socials.discord} icon="/IconDiscord.svg" label="Join de Discord-community" />
+                            <SocialLink
+                              href={socials.discord}
+                              icon="/IconDiscord.svg"
+                              label="Join de Discord-community"
+                            />
                           )}
                           {socials?.instagram && (
-                            <SocialLink href={socials.instagram} icon="/IconInstagram.svg" label="Volg ons op Instagram" />
+                            <SocialLink
+                              href={socials.instagram}
+                              icon="/IconInstagram.svg"
+                              label="Volg ons op Instagram"
+                            />
                           )}
                           {socials?.twitter && (
-                            <SocialLink href={socials.twitter} icon="/IconTikTok.svg" label="Volg ons op TikTok" />
+                            <SocialLink
+                              href={socials.twitter}
+                              icon="/IconTikTok.svg"
+                              label="Volg ons op TikTok"
+                            />
                           )}
                         </div>
                       </div>

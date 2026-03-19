@@ -1,6 +1,7 @@
 import React from 'react'
 import type { FC, SVGProps } from 'react'
 import Link from 'next/link'
+import IconArrow from '../../../public/IconArrow.svg'
 import IconHeadphones from '../../../public/IconHeadphones.svg'
 import IconPencil from '../../../public/IconPencil.svg'
 import IconPatreon from '../../../public/IconPatreonSmall.svg'
@@ -38,12 +39,10 @@ const cards: {
 export function AllContentLinks() {
   return (
     <section className="container">
-      <div className="flex flex-col items-center gap-12">
+      <div className="flex flex-col items-center gap-20">
         <div className="flex flex-col items-center gap-4 text-center">
           <h2>Nee, jij bedankt!</h2>
-          <p className="text-c-foreground/70">
-            Luister naar de podcast of vind een van de vele artikelen
-          </p>
+          <p className="text-lg">Luister naar de podcast of vind een van de vele artikelen</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
@@ -51,18 +50,18 @@ export function AllContentLinks() {
             <Link
               key={card.href}
               href={card.href}
-              className="group flex flex-col gap-6 rounded-2xl border border-c-foreground/10 p-8 transition-colors hover:border-c-foreground/30"
+              className="group flex flex-col gap-4 p-6 rounded-2xl bg-c-muted"
             >
-              <card.icon width={32} height={32} className="text-c-accent" />
-              <div className="flex flex-col gap-2">
-                <h5 className="font-semibold">{card.title}</h5>
-                <p className="text-sm text-c-foreground/60 leading-relaxed">
-                  {card.description}
-                </p>
+              <div className="w-fit p-2 rounded-full bg-c-accent-background text-c-accent">
+                <card.icon className="size-7" />
               </div>
-              <span className="mt-auto self-end flex items-center gap-2 text-sm font-medium text-c-accent">
+              <div className="flex flex-col gap-2">
+                <h5>{card.title}</h5>
+                <p>{card.description}</p>
+              </div>
+              <span className="mt-auto self-end inline-flex items-center gap-2 font-semibold text-base text-c-accent group-hover:text-white transition-all ease-in-out duration-300">
                 {card.cta}
-                <span className="text-lg leading-none">&#x2197;</span>
+                <IconArrow className="size-4 shrink-0" />
               </span>
             </Link>
           ))}
