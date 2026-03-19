@@ -1,6 +1,7 @@
 import {
   DefaultNodeTypes,
   SerializedLinkNode,
+  SerializedUploadNode,
   type DefaultTypedEditorState,
 } from '@payloadcms/richtext-lexical'
 import {
@@ -10,6 +11,8 @@ import {
 } from '@payloadcms/richtext-lexical/react'
 
 import { cn } from '@/utilities/ui'
+import { Media } from '@/components/Media'
+import type { Media as MediaType } from '@/payload-types'
 
 type NodeTypes = DefaultNodeTypes
 
@@ -25,6 +28,22 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
   ...defaultConverters,
   ...LinkJSXConverter({ internalDocToHref }),
+  upload: ({ node }: { node: SerializedUploadNode }) => {
+    const resource = node.value as MediaType
+    if (!resource) return null
+    const caption = (node.fields as Record<string, unknown>)?.caption as string | undefined
+
+    return (
+      <figure>
+        <Media resource={resource} imgClassName="w-full rounded-lg" size="100vw" />
+        {caption && (
+          <figcaption className="pl-3 border-l-2 border-c-accent text-sm text-c-foreground">
+            {caption}
+          </figcaption>
+        )}
+      </figure>
+    )
+  },
 })
 
 type Props = {
@@ -43,7 +62,8 @@ export default function RichText(props: Props) {
         {
           container: enableGutter,
           'max-w-none': !enableGutter,
-          'mx-auto prose md:prose-md dark:prose-invert': enableProse,
+          'text-c-foreground mx-auto prose prose-invert prose-headings:text-inherit prose-strong:text-inherit prose-p:my-0 prose-headings:my-4 prose-blockquote:border-c-accent prose-blockquote:text-c-foreground prose-blockquote:text-xl md:prose-md':
+            enableProse,
         },
         className,
       )}

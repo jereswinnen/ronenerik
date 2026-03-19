@@ -1,10 +1,12 @@
 import type { CollectionConfig } from 'payload'
 
 import {
+  BlockquoteFeature,
   FixedToolbarFeature,
   HeadingFeature,
   HorizontalRuleFeature,
   InlineToolbarFeature,
+  UploadFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
@@ -70,6 +72,14 @@ export const Posts: CollectionConfig<'posts'> = {
       required: true,
     },
     {
+      name: 'subtitle',
+      type: 'text',
+      label: 'Ondertitel',
+      admin: {
+        description: 'Optionele ondertitel die onder de titel wordt getoond',
+      },
+    },
+    {
       name: 'heroImage',
       type: 'upload',
       label: 'Hoofdafbeelding',
@@ -84,9 +94,23 @@ export const Posts: CollectionConfig<'posts'> = {
           return [
             ...rootFeatures,
             HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+            BlockquoteFeature(),
             FixedToolbarFeature(),
             InlineToolbarFeature(),
             HorizontalRuleFeature(),
+            UploadFeature({
+              collections: {
+                media: {
+                  fields: [
+                    {
+                      name: 'caption',
+                      type: 'text',
+                      label: 'Bijschrift',
+                    },
+                  ],
+                },
+              },
+            }),
           ]
         },
       }),
