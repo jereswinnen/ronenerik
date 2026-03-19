@@ -66,16 +66,19 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'title',
       type: 'text',
+      label: 'Titel',
       required: true,
     },
     {
       name: 'heroImage',
       type: 'upload',
+      label: 'Hoofdafbeelding',
       relationTo: 'media',
     },
     {
       name: 'content',
       type: 'richText',
+      label: 'Inhoud',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [
@@ -92,6 +95,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'categories',
       type: 'relationship',
+      label: 'Categorieën',
       admin: {
         position: 'sidebar',
       },
@@ -125,6 +129,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'publishedAt',
       type: 'date',
+      label: 'Publicatiedatum',
       admin: {
         date: {
           pickerAppearance: 'dayAndTime',
@@ -145,6 +150,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'authors',
       type: 'relationship',
+      label: 'Auteurs',
       admin: {
         position: 'sidebar',
       },

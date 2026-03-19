@@ -10,7 +10,7 @@ import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
+  return doc?.title ? `${doc.title} | Ron en Erik` : 'Ron en Erik'
 }
 
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
@@ -30,7 +30,7 @@ export const plugins: Plugin[] = [
             return {
               ...field,
               admin: {
-                description: 'You will need to rebuild the website when changing this field.',
+                description: 'De website moet opnieuw gebouwd worden na het wijzigen van dit veld.',
               },
             }
           }

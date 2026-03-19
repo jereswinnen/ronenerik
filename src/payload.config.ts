@@ -30,7 +30,7 @@ export default buildConfig({
     livePreview: {
       breakpoints: [
         {
-          label: 'Mobile',
+          label: 'Mobiel',
           name: 'mobile',
           width: 375,
           height: 667,

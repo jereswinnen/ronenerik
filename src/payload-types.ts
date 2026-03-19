@@ -458,7 +458,7 @@ export interface PodcastEpisode {
 export interface Redirect {
   id: number;
   /**
-   * You will need to rebuild the website when changing this field.
+   * De website moet opnieuw gebouwd worden na het wijzigen van dit veld.
    */
   from: string;
   to?: {

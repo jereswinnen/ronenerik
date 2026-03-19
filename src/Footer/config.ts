@@ -13,6 +13,7 @@ export const Footer: GlobalConfig = {
     {
       name: 'navItems',
       type: 'array',
+      label: 'Navigatie-items',
       fields: [
         link({
           appearances: false,

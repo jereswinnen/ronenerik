@@ -23,6 +23,7 @@ export const Categories: CollectionConfig = {
     {
       name: 'title',
       type: 'text',
+      label: 'Titel',
       required: true,
     },
     slugField({

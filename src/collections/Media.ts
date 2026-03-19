@@ -26,11 +26,13 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
+      label: 'Alt-tekst',
       //required: true,
     },
     {
       name: 'caption',
       type: 'richText',
+      label: 'Bijschrift',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]

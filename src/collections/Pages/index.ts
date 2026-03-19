@@ -53,11 +53,13 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       name: 'title',
       type: 'text',
+      label: 'Titel',
       required: true,
     },
     {
       name: 'content',
       type: 'richText',
+      label: 'Inhoud',
       required: true,
     },
     {
@@ -87,6 +89,7 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       name: 'publishedAt',
       type: 'date',
+      label: 'Publicatiedatum',
       admin: {
         position: 'sidebar',
       },

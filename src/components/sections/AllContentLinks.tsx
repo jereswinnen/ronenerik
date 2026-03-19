@@ -50,7 +50,7 @@ export function AllContentLinks() {
             <Link
               key={card.href}
               href={card.href}
-              className="group flex flex-col gap-4 p-6 rounded-2xl bg-c-muted"
+              className="group flex flex-col gap-4 p-6 rounded-2xl bg-c-muted hover:bg-c-muted/50 transition-all duration-300"
             >
               <div className="w-fit p-2 rounded-full bg-c-accent-background text-c-accent">
                 <card.icon className="size-7" />
@@ -59,7 +59,10 @@ export function AllContentLinks() {
                 <h5>{card.title}</h5>
                 <p>{card.description}</p>
               </div>
-              <Button variant="tertiary" className="mt-auto self-end text-c-accent group-hover:text-white">
+              <Button
+                variant="tertiary"
+                className="mt-auto self-end text-c-accent group-hover:text-white"
+              >
                 {card.cta}
               </Button>
             </Link>
