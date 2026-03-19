@@ -25,6 +25,7 @@ export async function Header() {
       select: {
         title: true,
         slug: true,
+        heroImage: true,
         meta: true,
         publishedAt: true,
         populatedAuthors: true,
@@ -54,11 +55,13 @@ export async function Header() {
       : defaultImage
     : defaultImage
 
-  // Article image
+  // Article image — prefer meta image, fall back to heroImage
   const articleImage: MediaType | null =
-    latestPost?.meta && typeof latestPost.meta.image === 'object'
+    latestPost?.meta?.image && typeof latestPost.meta.image === 'object'
       ? latestPost.meta.image
-      : null
+      : latestPost?.heroImage && typeof latestPost.heroImage === 'object'
+        ? latestPost.heroImage
+        : null
 
   return (
     <HeaderClient

@@ -19,27 +19,25 @@ export default async function ArticlesPage() {
     limit: 100,
     overrideAccess: false,
     sort: '-publishedAt',
-    select: {
-      title: true,
-      slug: true,
-      meta: true,
-      populatedAuthors: true,
-    },
   })
 
   return (
-    <>
-      <header className="container mb-16">
-        <p className="text-sm text-c-foreground/50 mb-4">Leesvoer</p>
+    <section className="pt-12 md:pt-30 flex flex-col gap-y-12 md:gap-y-30">
+      <header className="container">
+        <p className="uppercase text-sm italic text-c-foreground/50">Leesvoer</p>
         <h1>Elke maandag komen Ron en Erik in je oren</h1>
       </header>
 
-      <section className="container mb-16">
-        <h2 className="text-xl font-bold mb-8">Alle artikelen</h2>
+      <section className="container flex flex-col gap-6">
+        <h5>Alle artikelen</h5>
         <ContentGrid emptyMessage="Geen artikelen gevonden.">
           {posts.docs.map((post) => {
-            const metaImage: MediaType | null =
-              post.meta && typeof post.meta.image === 'object' ? post.meta.image : null
+            const articleImage =
+              post.meta?.image && typeof post.meta.image === 'object'
+                ? (post.meta.image as MediaType)
+                : post.heroImage && typeof post.heroImage === 'object'
+                  ? (post.heroImage as MediaType)
+                  : null
             const author = post.populatedAuthors?.[0]?.name
 
             return (
@@ -47,7 +45,7 @@ export default async function ArticlesPage() {
                 key={post.slug}
                 href={`/artikels/${post.slug}`}
                 title={post.title}
-                image={metaImage}
+                image={articleImage}
                 meta={author ? formatAuthor(author) : undefined}
               />
             )
@@ -56,7 +54,7 @@ export default async function ArticlesPage() {
       </section>
 
       <PatreonSection />
-    </>
+    </section>
   )
 }
 

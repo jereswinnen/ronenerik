@@ -28,8 +28,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased text-balance">
         <Providers>
           <Header />
-          <main className="flex-1 flex flex-col gap-y-12 md:gap-y-30">{children}</main>
-          <Footer className="mt-8 md:mt-20" />
+          <main className="mb-8 md:mb-20 flex-1 flex flex-col gap-y-12 md:gap-y-30">
+            {children}
+          </main>
+          <Footer />
         </Providers>
       </body>
     </html>

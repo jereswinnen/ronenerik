@@ -31,6 +31,7 @@ export default async function ArticlesPageNumber({ params: paramsPromise }: Args
     select: {
       title: true,
       slug: true,
+      heroImage: true,
       meta: true,
       populatedAuthors: true,
     },
@@ -46,7 +47,11 @@ export default async function ArticlesPageNumber({ params: paramsPromise }: Args
         <ContentGrid emptyMessage="Geen artikelen gevonden.">
           {posts.docs.map((post) => {
             const metaImage: MediaType | null =
-              post.meta && typeof post.meta.image === 'object' ? post.meta.image : null
+              post.meta?.image && typeof post.meta.image === 'object'
+                ? post.meta.image
+                : post.heroImage && typeof post.heroImage === 'object'
+                  ? post.heroImage
+                  : null
             const author = post.populatedAuthors?.[0]?.name
             return (
               <ContentCard

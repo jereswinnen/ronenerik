@@ -34,6 +34,7 @@ export default async function HomePage() {
       select: {
         title: true,
         slug: true,
+        heroImage: true,
         meta: true,
         publishedAt: true,
         populatedAuthors: true,
@@ -92,7 +93,11 @@ export default async function HomePage() {
   // Add articles
   for (const article of articles.docs) {
     const metaImage: MediaType | null =
-      article.meta && typeof article.meta.image === 'object' ? article.meta.image : null
+      article.meta?.image && typeof article.meta.image === 'object'
+        ? article.meta.image
+        : article.heroImage && typeof article.heroImage === 'object'
+          ? (article.heroImage as MediaType)
+          : null
     const author = article.populatedAuthors?.[0]?.name
     recentItems.push({
       type: 'artikel',

@@ -60,9 +60,9 @@ export function FooterClient({ data, siteSettings, className }: FooterClientProp
         <div className="flex flex-col gap-4">
           <p className="uppercase text-sm italic text-c-foreground/50">De Ron en Erik Podcast</p>
           <nav className="flex flex-wrap gap-x-6 *:font-semibold *:hover:text-c-foreground/60 *:last:text-c-accent *:last:hover:text-c-foreground *:transition-all *:duration-300">
-            <Link href="/">Alle podcasts</Link>
-            <Link href="/">Alle artikelen</Link>
-            <Link href="/">Steun de show</Link>
+            <Link href="/podcast">Alle podcasts</Link>
+            <Link href="/artikels">Alle artikelen</Link>
+            <Link href="/patreon">Steun de show</Link>
           </nav>
         </div>
 

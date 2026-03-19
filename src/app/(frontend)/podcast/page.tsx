@@ -39,14 +39,14 @@ export default async function PodcastPage() {
   }
 
   return (
-    <>
-      <header className="container mb-16">
-        <p className="text-sm text-c-foreground/50 mb-4">De Ron en Erik Podcast</p>
+    <section className="pt-12 md:pt-30 flex flex-col gap-y-12 md:gap-y-30">
+      <header className="container">
+        <p className="uppercase text-sm italic text-c-foreground/50">De Ron en Erik Podcast</p>
         <h1>Elke maandag komen Ron en Erik in je oren</h1>
       </header>
 
-      <section className="container mb-16">
-        <h2 className="text-xl font-bold mb-8">Alle podcasts</h2>
+      <section className="container flex flex-col gap-6">
+        <h5>Alle podcasts</h5>
         <ContentGrid emptyMessage="Geen afleveringen gevonden.">
           {episodes.map((ep) => (
             <ContentCard
@@ -62,7 +62,7 @@ export default async function PodcastPage() {
       </section>
 
       <PatreonSection />
-    </>
+    </section>
   )
 }
 

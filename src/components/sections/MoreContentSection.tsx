@@ -26,6 +26,7 @@ export async function MoreContentSection({ excludeSlug }: MoreContentSectionProp
       select: {
         title: true,
         slug: true,
+        heroImage: true,
         meta: true,
         populatedAuthors: true,
         publishedAt: true,
@@ -76,7 +77,11 @@ export async function MoreContentSection({ excludeSlug }: MoreContentSectionProp
             <div className="flex flex-col gap-4">
               {filteredArticles.slice(0, 3).map((article) => {
                 const metaImage: MediaType | null =
-                  article.meta && typeof article.meta.image === 'object' ? article.meta.image : null
+                  article.meta?.image && typeof article.meta.image === 'object'
+                    ? article.meta.image
+                    : article.heroImage && typeof article.heroImage === 'object'
+                      ? article.heroImage
+                      : null
                 const author = article.populatedAuthors?.[0]?.name
                 return (
                   <ContentCard
