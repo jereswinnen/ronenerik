@@ -1,7 +1,7 @@
 import React from 'react'
 import type { FC, SVGProps } from 'react'
 import Link from 'next/link'
-import IconArrow from '../../../public/IconArrow.svg'
+import { Button } from '@/components/(frontend)/Button'
 import IconHeadphones from '../../../public/IconHeadphones.svg'
 import IconPencil from '../../../public/IconPencil.svg'
 import IconPatreon from '../../../public/IconPatreonSmall.svg'
@@ -59,10 +59,9 @@ export function AllContentLinks() {
                 <h5>{card.title}</h5>
                 <p>{card.description}</p>
               </div>
-              <span className="mt-auto self-end inline-flex items-center gap-2 font-semibold text-base text-c-accent group-hover:text-white transition-all ease-in-out duration-300">
+              <Button variant="tertiary" className="mt-auto self-end text-c-accent group-hover:text-white">
                 {card.cta}
-                <IconArrow className="size-4 shrink-0" />
-              </span>
+              </Button>
             </Link>
           ))}
         </div>

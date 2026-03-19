@@ -16,8 +16,8 @@ export async function SocialsSection() {
 
   const allLinks = [
     { href: externalLinks?.youtubeChannelUrl, icon: IconYouTube, label: 'Luister via YouTube' },
-    { href: socials?.spotify, icon: IconSpotify, label: 'Luister via Spotify' },
-    { href: socials?.discord, icon: IconDiscord, label: 'Join de community' },
+    { href: externalLinks?.spotifyUrl, icon: IconSpotify, label: 'Luister via Spotify' },
+    { href: externalLinks?.discordUrl, icon: IconDiscord, label: 'Join de community' },
     { href: socials?.instagram, icon: IconInstagram, label: 'Volg via Instagram' },
     { href: socials?.tiktok, icon: IconTikTok, label: 'Volg via TikTok' },
   ]

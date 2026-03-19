@@ -4,7 +4,7 @@ import Link from 'next/link'
 import IconArrow from '../../../../public/IconArrow.svg'
 
 interface ButtonProps {
-  href: string
+  href?: string
   variant?: 'primary' | 'secondary' | 'tertiary'
   icon?: FC<SVGProps<SVGSVGElement>>
   external?: boolean
@@ -26,16 +26,28 @@ export function Button({
       'text-[1.125rem] px-4.5 py-3 rounded-lg bg-c-accent text-c-background hover:text-c-accent hover:bg-white',
     secondary:
       'text-[1.125rem] px-4.5 py-3 rounded-full bg-c-foreground/5 text-c-foreground hover:bg-c-foreground hover:text-c-background',
-    tertiary: 'text-base text-c-accent hover:text-white',
+    tertiary: 'text-base text-current',
+  }
+
+  const classes = `${base} ${variants[variant]} ${className}`
+
+  const content = (
+    <>
+      {Icon && <Icon width={24} height={24} className="shrink-0" />}
+      {children}
+      {variant === 'tertiary' && <IconArrow className="size-4 shrink-0" />}
+    </>
+  )
+
+  if (variant === 'tertiary') {
+    return <span className={classes}>{content}</span>
   }
 
   const linkProps = external ? { target: '_blank' as const, rel: 'noopener noreferrer' } : {}
 
   return (
-    <Link href={href} className={`${base} ${variants[variant]} ${className}`} {...linkProps}>
-      {Icon && <Icon width={24} height={24} className="shrink-0" />}
-      {children}
-      {variant === 'tertiary' && <IconArrow className="size-4 shrink-0" />}
+    <Link href={href!} className={classes} {...linkProps}>
+      {content}
     </Link>
   )
 }

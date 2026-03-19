@@ -42,9 +42,9 @@ export function FooterClient({ data, siteSettings, className }: FooterClientProp
       s.key === 'youtube'
         ? externalLinks?.youtubeChannelUrl
         : s.key === 'discord'
-          ? socials?.discord
+          ? externalLinks?.discordUrl
           : s.key === 'spotify'
-            ? socials?.spotify
+            ? externalLinks?.spotifyUrl
             : s.key === 'instagram'
               ? socials?.instagram
               : s.key === 'tiktok'

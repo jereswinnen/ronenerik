@@ -95,11 +95,35 @@ export const SiteSettings: GlobalConfig = {
           },
         },
         {
+          name: 'spotifyUrl',
+          type: 'text',
+          label: 'Spotify URL',
+          admin: {
+            description: 'Volledige URL naar je Spotify-podcast (bijv. https://open.spotify.com/show/...)',
+          },
+        },
+        {
           name: 'patreonUrl',
           type: 'text',
           label: 'Patreon URL',
           admin: {
             description: 'Volledige URL naar je Patreon-pagina',
+          },
+        },
+        {
+          name: 'discordUrl',
+          type: 'text',
+          label: 'Discord URL',
+          admin: {
+            description: 'Volledige URL naar je Discord-server',
+          },
+        },
+        {
+          name: 'unpauseUrl',
+          type: 'text',
+          label: 'Unpause URL',
+          admin: {
+            description: 'Volledige URL naar Unpause',
           },
         },
       ],
@@ -153,16 +177,6 @@ export const SiteSettings: GlobalConfig = {
           name: 'instagram',
           type: 'text',
           label: 'Instagram URL',
-        },
-        {
-          name: 'discord',
-          type: 'text',
-          label: 'Discord URL',
-        },
-        {
-          name: 'spotify',
-          type: 'text',
-          label: 'Spotify URL',
         },
         {
           name: 'tiktok',

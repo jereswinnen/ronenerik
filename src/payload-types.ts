@@ -1075,9 +1075,21 @@ export interface SiteSetting {
      */
     podcastFeedUrl?: string | null;
     /**
+     * Volledige URL naar je Spotify-podcast (bijv. https://open.spotify.com/show/...)
+     */
+    spotifyUrl?: string | null;
+    /**
      * Volledige URL naar je Patreon-pagina
      */
     patreonUrl?: string | null;
+    /**
+     * Volledige URL naar je Discord-server
+     */
+    discordUrl?: string | null;
+    /**
+     * Volledige URL naar Unpause
+     */
+    unpauseUrl?: string | null;
   };
   patreon?: {
     heading?: string | null;
@@ -1094,8 +1106,6 @@ export interface SiteSetting {
   socials?: {
     twitter?: string | null;
     instagram?: string | null;
-    discord?: string | null;
-    spotify?: string | null;
     tiktok?: string | null;
   };
   updatedAt?: string | null;
@@ -1176,7 +1186,10 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | {
         youtubeChannelUrl?: T;
         podcastFeedUrl?: T;
+        spotifyUrl?: T;
         patreonUrl?: T;
+        discordUrl?: T;
+        unpauseUrl?: T;
       };
   patreon?:
     | T
@@ -1191,8 +1204,6 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | {
         twitter?: T;
         instagram?: T;
-        discord?: T;
-        spotify?: T;
         tiktok?: T;
       };
   updatedAt?: T;
