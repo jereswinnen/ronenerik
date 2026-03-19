@@ -2,6 +2,7 @@ import React from 'react'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import type { SiteSetting, Media as MediaType, User } from '@/payload-types'
 import { Media } from '@/components/Media'
+import { Parallax } from './Parallax'
 import IconBlueSky from '../../../public/IconBlueSky.svg'
 import IconX from '../../../public/IconX.svg'
 import IconInstagram from '../../../public/IconInstagram.svg'
@@ -23,10 +24,10 @@ export async function AboutSection() {
     <section className="container">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         {/* Left: text content */}
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
-            <h2>{heading}</h2>
-            {description && <p className="text-c-foreground">{description}</p>}
+            <h3>{heading}</h3>
+            {description && <p className="text-lg text-c-foreground">{description}</p>}
           </div>
 
           {authors.length > 0 && (
@@ -56,9 +57,17 @@ export async function AboutSection() {
 
         {/* Right: image */}
         {aboutImage && (
-          <div className="overflow-hidden">
-            <Media resource={aboutImage} imgClassName="w-full h-full object-cover" size="50vw" />
-          </div>
+          <Parallax
+            className="h-[50vh] overflow-hidden"
+            offset={['start end', 'end start']}
+            range={['-10%', '10%']}
+          >
+            <Media
+              resource={aboutImage}
+              imgClassName="w-full h-[60vh] object-cover"
+              size="50vw"
+            />
+          </Parallax>
         )}
       </div>
     </section>
