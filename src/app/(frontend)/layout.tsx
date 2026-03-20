@@ -24,11 +24,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
+        <link href="/favicon-192.png" rel="icon" type="image/png" sizes="192x192" />
+        <link href="/favicon-512.png" rel="icon" type="image/png" sizes="512x512" />
       </head>
       <body className="antialiased text-balance">
         <Providers>
           <Header />
-          <main className="mb-8 md:mb-20 flex-1 flex flex-col gap-y-12 md:gap-y-30">
+          <main className="mb-12 md:mb-20 flex-1 flex flex-col gap-y-20 md:gap-y-34">
             {children}
           </main>
           <Footer />

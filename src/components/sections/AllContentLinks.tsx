@@ -17,14 +17,14 @@ const cards: {
     href: '/podcast',
     icon: IconHeadphones,
     title: 'Alle afleveringen',
-    description: 'Luister alle afleveringen van de Ron en Erik podcast terug.',
+    description: 'Luister alle afleveringen van de Ron en Erik Podcast terug.',
     cta: 'Bekijken',
   },
   {
     href: '/artikels',
     icon: IconPencil,
     title: 'Alle artikelen',
-    description: 'Lees onze artikelen over games, tech en meer.',
+    description: 'Lees onze artikelen over de wereld van videogames.',
     cta: 'Bekijken',
   },
   {
@@ -42,7 +42,7 @@ export function AllContentLinks() {
       <div className="flex flex-col items-center gap-20">
         <div className="flex flex-col items-center gap-4 text-center">
           <h2>Nee, jij bedankt!</h2>
-          <p className="text-lg">Luister naar de podcast of vind een van de vele artikelen</p>
+          <p className="text-lg">Luister naar de podcast of lees onze artikelen</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">

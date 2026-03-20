@@ -11,29 +11,50 @@
 
 @layer base {
   h1 {
-    font-size: 3.5rem;
+    font-size: 3rem;
     line-height: 1.2;
     font-weight: 700;
   }
   h2 {
-    font-size: 3rem;
+    font-size: 2.55rem;
     font-weight: 700;
   }
   h3 {
-    font-size: 2.5rem;
+    font-size: 2.125rem;
     font-weight: 700;
   }
   h4 {
-    font-size: 2rem;
+    font-size: 1.7rem;
     font-weight: 700;
   }
   h5 {
-    font-size: 1.5rem;
+    font-size: 1.275rem;
     font-weight: 700;
   }
   h6 {
-    font-size: 1.25rem;
+    font-size: 1.0625rem;
     font-weight: 700;
+  }
+
+  @media (width >= theme(--breakpoint-md)) {
+    h1 {
+      font-size: 3.5rem;
+    }
+    h2 {
+      font-size: 3rem;
+    }
+    h3 {
+      font-size: 2.5rem;
+    }
+    h4 {
+      font-size: 2rem;
+    }
+    h5 {
+      font-size: 1.5rem;
+    }
+    h6 {
+      font-size: 1.25rem;
+    }
   }
 }
 
@@ -107,11 +128,23 @@
 }
 
 .prose h2 {
-  font-size: 3rem;
+  font-size: 2.55rem;
 }
 .prose h3 {
-  font-size: 2.5rem;
+  font-size: 2.125rem;
 }
 .prose h4 {
-  font-size: 2rem;
+  font-size: 1.7rem;
+}
+
+@media (width >= theme(--breakpoint-md)) {
+  .prose h2 {
+    font-size: 3rem;
+  }
+  .prose h3 {
+    font-size: 2.5rem;
+  }
+  .prose h4 {
+    font-size: 2rem;
+  }
 }

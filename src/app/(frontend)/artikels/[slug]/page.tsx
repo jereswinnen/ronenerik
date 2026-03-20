@@ -78,6 +78,8 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
       </article>
 
       <div className="w-full max-w-2xl mx-auto flex flex-col items-center gap-12">
+        <ShareIcons url={`${getServerSideURL()}${url}`} title={post.title} />
+        <span className="w-full h-px bg-c-accent" />
         {post.populatedAuthors && post.populatedAuthors.length > 0 && (
           <div className="flex items-start gap-12">
             {post.rating && (

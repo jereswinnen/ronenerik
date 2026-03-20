@@ -17,9 +17,9 @@ export function FeaturedSection({ episode, episodeImage, matchedVideo }: Feature
       <Link href={`/podcast/${episode.slug}`} className="block relative">
         {/* Hero image — full bleed, behind nav, with parallax */}
         <Parallax>
-          <figure className="w-full h-[50vh] sm:h-[55vh] lg:h-[60vh]">
+          <figure className="w-full h-[40vh] sm:h-[50vh] lg:h-[60vh]">
             {episodeImage ? (
-              <Media resource={episodeImage} imgClassName="w-full h-full object-cover" size="100vw" />
+              <Media resource={episodeImage} className="h-full" imgClassName="w-full h-full object-cover" size="100vw" />
             ) : episode.image ? (
               <img src={episode.image} alt="" className="w-full h-full object-cover" />
             ) : null}
@@ -33,7 +33,7 @@ export function FeaturedSection({ episode, episodeImage, matchedVideo }: Feature
               <img
                 src={`https://i.ytimg.com/vi/${matchedVideo.videoId}/maxresdefault.jpg`}
                 alt={matchedVideo.title}
-                className="w-80 rounded-lg border-[3px] border-c-accent shadow-2xl"
+                className="w-40 sm:w-56 md:w-64 lg:w-80 rounded-lg border-[3px] border-c-accent shadow-2xl"
               />
             </div>
           </div>
@@ -41,7 +41,7 @@ export function FeaturedSection({ episode, episodeImage, matchedVideo }: Feature
       </Link>
 
       {/* Episode details */}
-      <div className={`container ${matchedVideo ? 'pt-24' : 'pt-12'}`}>
+      <div className={`container ${matchedVideo ? 'pt-8 sm:pt-16 lg:pt-24' : 'pt-8 sm:pt-12'}`}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           <header className="flex flex-col gap-2">
             <p>De laatste Ron en Erik</p>
