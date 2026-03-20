@@ -4,15 +4,11 @@ import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import { ContentCard, formatUploadDate } from '@/components/(frontend)/ContentCard'
 import { Button } from '@/components/(frontend)/Button'
 import type { SiteSetting } from '@/payload-types'
-import IconPatreon from '../../../public/IconPatreonSmall.svg'
 import IconPatreonLarge from '../../../public/IconPatreonLarge.svg'
 
 export async function PatreonSection() {
   const siteSettings = (await getCachedGlobal('site-settings', 1)()) as SiteSetting
-  const patreonUrl = siteSettings?.externalLinks?.patreonUrl
-  const patreonFeedUrl = siteSettings?.patreon?.patreonPodcastFeedUrl
-  const heading = siteSettings?.patreon?.heading || 'De extra podcast van deze week'
-  const ctaText = siteSettings?.patreon?.ctaText || 'Steun de show'
+  const patreonFeedUrl = siteSettings?.externalLinks?.patreonPodcastFeedUrl
 
   const episodes = patreonFeedUrl ? await fetchPodcastEpisodes(patreonFeedUrl, 1) : []
   const latestEpisode = episodes[0] || null
@@ -23,10 +19,10 @@ export async function PatreonSection() {
         <div className="flex flex-col gap-8 flex-1 min-w-0">
           <div className="flex flex-col gap-3">
             <IconPatreonLarge className="h-8 w-auto shrink-0" />
-            <h2 className="leading-tight">{heading}</h2>
+            <h2 className="leading-tight">De extra podcast van deze week</h2>
           </div>
-          <Button className="w-fit" href="/patreon" external>
-            {ctaText}
+          <Button className="w-fit" href="/patreon">
+            Steun de show
           </Button>
         </div>
 

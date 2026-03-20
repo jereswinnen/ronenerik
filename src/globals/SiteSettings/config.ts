@@ -126,30 +126,6 @@ export const SiteSettings: GlobalConfig = {
             description: 'Volledige URL naar Unpause',
           },
         },
-      ],
-    },
-    {
-      type: 'group',
-      name: 'patreon',
-      label: 'Patreon-sectie',
-      fields: [
-        {
-          name: 'heading',
-          type: 'text',
-          defaultValue: 'De extra podcast van deze week',
-        },
-        {
-          name: 'description',
-          type: 'text',
-          admin: {
-            description: 'Optionele ondertitel of beschrijving voor de Patreon-sectie',
-          },
-        },
-        {
-          name: 'ctaText',
-          type: 'text',
-          defaultValue: 'Steun de show',
-        },
         {
           name: 'patreonPodcastFeedUrl',
           type: 'text',
