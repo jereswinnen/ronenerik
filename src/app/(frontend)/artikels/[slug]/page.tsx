@@ -75,18 +75,25 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
         </header>
 
         <RichText data={post.content} enableGutter={false} />
-
-        {post.rating && (
-          <div className="flex flex-col items-center gap-2 py-8">
-            <p className="text-sm uppercase tracking-wider text-c-foreground/50">Ron en Erik schaal</p>
-            <span className="text-6xl font-bold text-c-accent">{post.rating}</span>
-          </div>
-        )}
       </article>
 
       <div className="w-full max-w-2xl mx-auto flex flex-col items-center gap-12">
         {post.populatedAuthors && post.populatedAuthors.length > 0 && (
-          <div className="flex flex-col gap-3">
+          <div className="flex items-start gap-12">
+            {post.rating && (
+              <div className="relative flex items-center justify-center shrink-0">
+                <img src="/RatingBadge.svg" alt="" className="w-30" />
+                <span className="absolute -mt-7 flex items-end font-bold text-c-foreground leading-none">
+                  <span className="text-7xl">
+                    {post.rating.includes('.') ? post.rating.split('.')[0] : post.rating}
+                  </span>
+                  {post.rating.includes('.') && (
+                    <span className="text-4xl -ml-3 mb-1">.{post.rating.split('.')[1]}</span>
+                  )}
+                </span>
+              </div>
+            )}
+
             {post.populatedAuthors.map((author) => (
               <AuthorCard key={author.id} author={author} />
             ))}
