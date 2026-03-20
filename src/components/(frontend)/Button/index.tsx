@@ -8,6 +8,7 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'tertiary'
   icon?: FC<SVGProps<SVGSVGElement>>
   external?: boolean
+  invert?: boolean
   children: React.ReactNode
   className?: string
 }
@@ -17,13 +18,15 @@ export function Button({
   variant = 'primary',
   icon: Icon,
   external,
+  invert,
   children,
   className = '',
 }: ButtonProps) {
   const base = 'inline-flex items-center gap-2 font-semibold leading-none transition-all ease-in-out duration-300'
   const variants = {
-    primary:
-      'text-[1.125rem] px-4.5 py-3 rounded-lg bg-c-accent text-c-background hover:text-c-accent hover:bg-white',
+    primary: invert
+      ? 'text-[1.125rem] px-4.5 py-3 rounded-lg bg-c-background text-c-accent hover:bg-white hover:text-c-background'
+      : 'text-[1.125rem] px-4.5 py-3 rounded-lg bg-c-accent text-c-background hover:text-c-accent hover:bg-white',
     secondary:
       'text-[1.125rem] px-4.5 py-3 rounded-full bg-c-foreground/5 text-c-foreground hover:bg-c-foreground hover:text-c-background',
     tertiary: 'text-base text-current',

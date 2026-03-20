@@ -106,14 +106,12 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
-    header: Header;
-    footer: Footer;
     'site-settings': SiteSetting;
+    'patreon-page': PatreonPage;
   };
   globalsSelect: {
-    header: HeaderSelect<false> | HeaderSelect<true>;
-    footer: FooterSelect<false> | FooterSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'patreon-page': PatreonPageSelect<false> | PatreonPageSelect<true>;
   };
   locale: null;
   user: User;
@@ -991,64 +989,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "header".
- */
-export interface Header {
-  id: number;
-  navItems?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "footer".
- */
-export interface Footer {
-  id: number;
-  navItems?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: number | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: number | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".
  */
 export interface SiteSetting {
@@ -1097,14 +1037,6 @@ export interface SiteSetting {
      * Volledige URL naar Unpause
      */
     unpauseUrl?: string | null;
-  };
-  patreon?: {
-    heading?: string | null;
-    /**
-     * Optionele ondertitel of beschrijving voor de Patreon-sectie
-     */
-    description?: string | null;
-    ctaText?: string | null;
     /**
      * Aparte RSS-feed-URL voor exclusieve Patreon-afleveringen
      */
@@ -1120,49 +1052,52 @@ export interface SiteSetting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "header_select".
+ * via the `definition` "patreon-page".
  */
-export interface HeaderSelect<T extends boolean = true> {
-  navItems?:
-    | T
+export interface PatreonPage {
+  id: number;
+  hero?: {
+    heading?: string | null;
+    socialProof?: string | null;
+  };
+  plans?:
     | {
-        link?:
-          | T
+        name: string;
+        /**
+         * Bijv. "€5"
+         */
+        price: string;
+        /**
+         * Optionele tekst boven de features
+         */
+        description?: string | null;
+        features?:
           | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "footer_select".
- */
-export interface FooterSelect<T extends boolean = true> {
-  navItems?:
-    | T
-    | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-            };
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        ctaText: string;
+        /**
+         * Toont het abonnement met accent-kleur
+         */
+        highlighted?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  formats?: {
+    heading?: string | null;
+    items?:
+      | {
+          title: string;
+          description?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1197,13 +1132,6 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         patreonUrl?: T;
         discordUrl?: T;
         unpauseUrl?: T;
-      };
-  patreon?:
-    | T
-    | {
-        heading?: T;
-        description?: T;
-        ctaText?: T;
         patreonPodcastFeedUrl?: T;
       };
   socials?:
@@ -1212,6 +1140,50 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         twitter?: T;
         instagram?: T;
         tiktok?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "patreon-page_select".
+ */
+export interface PatreonPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        socialProof?: T;
+      };
+  plans?:
+    | T
+    | {
+        name?: T;
+        price?: T;
+        description?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        ctaText?: T;
+        highlighted?: T;
+        id?: T;
+      };
+  formats?:
+    | T
+    | {
+        heading?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              id?: T;
+            };
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;
