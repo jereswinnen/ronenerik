@@ -75,6 +75,13 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
         </header>
 
         <RichText data={post.content} enableGutter={false} />
+
+        {post.rating && (
+          <div className="flex flex-col items-center gap-2 py-8">
+            <p className="text-sm uppercase tracking-wider text-c-foreground/50">Ron en Erik schaal</p>
+            <span className="text-6xl font-bold text-c-accent">{post.rating}</span>
+          </div>
+        )}
       </article>
 
       <div className="w-full max-w-2xl mx-auto flex flex-col items-center gap-12">

@@ -316,6 +316,7 @@ export interface Post {
    * Optionele ondertitel die onder de titel wordt getoond
    */
   subtitle?: string | null;
+  rating?: ('1' | '2' | '3' | '4' | '5' | '6' | '7' | '7.5' | '8' | '9' | '10') | null;
   heroImage?: (number | null) | Media;
   content: {
     root: {
@@ -699,6 +700,7 @@ export interface PagesSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   subtitle?: T;
+  rating?: T;
   heroImage?: T;
   content?: T;
   categories?: T;
