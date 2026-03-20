@@ -104,7 +104,9 @@ export function ShareIcons({
             aria-label={label}
             className="cursor-pointer"
           >
-            <DisplayIcon className={isCopyButton && copied ? 'text-green-400' : ''} />
+            <DisplayIcon
+              className={isCopyButton && copied ? 'animate-[scale-in_0.3s_ease-out]' : ''}
+            />
           </button>
         )
       })}

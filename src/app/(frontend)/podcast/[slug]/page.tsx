@@ -57,7 +57,7 @@ export default async function PodcastEpisodePage({ params: paramsPromise }: Args
   const spotifyUrl = siteSettings?.externalLinks?.spotifyUrl
 
   return (
-    <section className="flex flex-col gap-12 md:gap-20 pt-12 md:pt-30">
+    <section className="flex flex-col gap-12 md:gap-20 pt-6 md:pt-14">
       <section className="container flex flex-col gap-8 md:gap-14">
         {/* YouTube embed */}
         {matchedVideo && (
@@ -79,7 +79,7 @@ export default async function PodcastEpisodePage({ params: paramsPromise }: Args
               url={episodeUrl}
               title={episode.title}
               variant="podcast"
-              youtubeUrl={youtubeChannelUrl}
+              youtubeUrl={matchedVideo ? `https://www.youtube.com/watch?v=${matchedVideo.videoId}` : youtubeChannelUrl}
               spotifyUrl={spotifyUrl}
             />
           </Breadcrumb>
