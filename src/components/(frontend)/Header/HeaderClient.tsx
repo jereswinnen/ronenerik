@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import React, { useState, useEffect, useCallback } from 'react'
 
-import type { Header, SiteSetting, Media as MediaType } from '@/payload-types'
+import type { SiteSetting, Media as MediaType } from '@/payload-types'
 import type { PodcastEpisode } from '@/utilities/rss/types'
 import { Logo } from '@/components/(frontend)/Logo'
 import { Button } from '@/components/(frontend)/Button'
@@ -24,7 +24,6 @@ interface MenuArticle {
 }
 
 interface HeaderClientProps {
-  data: Header
   siteSettings: SiteSetting
   latestEpisode: PodcastEpisode | null
   episodeImage: MediaType | null

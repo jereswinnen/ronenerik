@@ -5,11 +5,10 @@ import { getPayload } from 'payload'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import React from 'react'
 
-import type { Header as HeaderType, SiteSetting, Media as MediaType } from '@/payload-types'
+import type { SiteSetting, Media as MediaType } from '@/payload-types'
 
 export async function Header() {
   const payload = await getPayload({ config: configPromise })
-  const headerData = (await getCachedGlobal('header', 1)()) as HeaderType
   const siteSettings = (await getCachedGlobal('site-settings', 1)()) as SiteSetting
 
   const feedUrl = siteSettings?.externalLinks?.podcastFeedUrl
@@ -65,7 +64,6 @@ export async function Header() {
 
   return (
     <HeaderClient
-      data={headerData}
       siteSettings={siteSettings}
       latestEpisode={latestEpisode}
       episodeImage={episodeImage}

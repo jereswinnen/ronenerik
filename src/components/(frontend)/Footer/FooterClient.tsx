@@ -4,8 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-import type { Footer as FooterType, SiteSetting } from '@/payload-types'
-import { CMSLink } from '@/components/Link'
+import type { SiteSetting } from '@/payload-types'
 
 import IconDiscord from '../../../../public/IconDiscord.svg'
 import IconYouTube from '../../../../public/IconYouTube.svg'
@@ -22,13 +21,11 @@ const socialIcons = [
 ] as const
 
 interface FooterClientProps {
-  data: FooterType
   siteSettings: SiteSetting
   className?: string
 }
 
-export function FooterClient({ data, siteSettings, className }: FooterClientProps) {
-  const navItems = data?.navItems || []
+export function FooterClient({ siteSettings, className }: FooterClientProps) {
   const socials = siteSettings?.socials
   const externalLinks = siteSettings?.externalLinks
 
