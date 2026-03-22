@@ -8,6 +8,7 @@ import {
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { revalidateMedia } from './Media/hooks/revalidateMedia'
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -16,6 +17,9 @@ export const Media: CollectionConfig = {
     plural: 'Media',
   },
   folders: true,
+  hooks: {
+    afterChange: [revalidateMedia],
+  },
   access: {
     create: authenticated,
     delete: authenticated,

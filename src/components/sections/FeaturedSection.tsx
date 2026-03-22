@@ -19,7 +19,7 @@ export function FeaturedSection({ episode, episodeImage, matchedVideo }: Feature
         <Parallax>
           <figure className="w-full h-[40vh] sm:h-[50vh] lg:h-[60vh]">
             {episodeImage ? (
-              <Media resource={episodeImage} className="h-full" imgClassName="w-full h-full object-cover" size="100vw" />
+              <Media resource={episodeImage} className="h-full" imgClassName="w-full h-full object-cover" size="100vw" priority />
             ) : episode.image ? (
               <img src={episode.image} alt="" className="w-full h-full object-cover" />
             ) : null}
