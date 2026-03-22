@@ -19,7 +19,13 @@ export function FeaturedSection({ episode, episodeImage, matchedVideo }: Feature
         <Parallax>
           <figure className="w-full h-[40vh] sm:h-[50vh] lg:h-[60vh]">
             {episodeImage ? (
-              <Media resource={episodeImage} className="h-full" imgClassName="w-full h-full object-cover" size="100vw" priority />
+              <Media
+                resource={episodeImage}
+                className="h-full"
+                imgClassName="w-full h-full object-cover"
+                size="100vw"
+                priority
+              />
             ) : episode.image ? (
               <img src={episode.image} alt="" className="w-full h-full object-cover" />
             ) : null}
@@ -30,11 +36,24 @@ export function FeaturedSection({ episode, episodeImage, matchedVideo }: Feature
         {matchedVideo && (
           <div className="absolute bottom-0 inset-x-0 translate-y-1/2">
             <div className="container flex justify-end">
-              <img
-                src={`https://i.ytimg.com/vi/${matchedVideo.videoId}/maxresdefault.jpg`}
-                alt={matchedVideo.title}
-                className="w-40 sm:w-56 md:w-64 lg:w-80 rounded-lg border-[3px] border-c-accent shadow-2xl"
-              />
+              <div className="group relative w-40 sm:w-56 md:w-64 lg:w-80">
+                <img
+                  src={`https://i.ytimg.com/vi/${matchedVideo.videoId}/maxresdefault.jpg`}
+                  alt={matchedVideo.title}
+                  className="w-full rounded-lg border-[3px] border-c-accent shadow-2xl"
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="size-10 sm:size-12 md:size-14 lg:size-16 bg-c-accent rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-115">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="white"
+                      className="size-5 sm:size-6 md:size-7 lg:size-8 ml-0.5"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
