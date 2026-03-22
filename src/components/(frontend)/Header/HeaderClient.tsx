@@ -103,7 +103,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
               <Logo className="absolute left-1/2 -translate-x-1/2 transition-all ease-in-out duration-200 hover:scale-115 hover:-rotate-4" onClick={isOpen ? handleNavClick : undefined} />
 
               <Button href="/patreon" variant="primary">
-                Steun de show
+                <span className="sm:hidden">Steun ons</span>
+                <span className="hidden sm:inline">Steun de show</span>
               </Button>
             </div>
 
@@ -112,7 +113,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
               className="grid transition-[grid-template-rows] duration-500 ease-in-out"
               style={{ gridTemplateRows: isOpen && isVisible ? '1fr' : '0fr' }}
             >
-              <div className="overflow-hidden">
+              <div className="overflow-hidden max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain">
                 <div
                   className="px-5 pb-5"
                   style={{
