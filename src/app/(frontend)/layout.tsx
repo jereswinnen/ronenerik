@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="/favicon-192.png" rel="icon" type="image/png" sizes="192x192" />
         <link href="/favicon-512.png" rel="icon" type="image/png" sizes="512x512" />
       </head>
-      <body className="antialiased text-balance">
+      <body className="antialiased">
         <Providers>
           <ViewTransition />
           <Header />
