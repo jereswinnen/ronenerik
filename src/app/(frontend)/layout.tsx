@@ -6,6 +6,7 @@ import React from 'react'
 
 import { Footer } from '@/components/(frontend)/Footer'
 import { Header } from '@/components/(frontend)/Header'
+import { ViewTransition } from '@/components/ViewTransition'
 import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="antialiased text-balance">
         <Providers>
+          <ViewTransition />
           <Header />
           <main className="mb-12 md:mb-20 flex-1 flex flex-col gap-y-20 md:gap-y-34">
             {children}

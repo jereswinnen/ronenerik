@@ -52,7 +52,7 @@ export function FooterClient({ siteSettings, className }: FooterClientProps) {
 
   return (
     <footer className={`bg-c-darkest ${className ?? ''}`}>
-      <div className="container py-8 md:py-12 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+      <div className="container py-8 md:py-12 grid grid-cols-1 md:grid-cols-3 gap-14 sm:gap-8 items-center">
         {/* Left: nav links */}
         <div className="flex flex-col gap-4">
           <p className="uppercase text-sm italic text-c-foreground/50">De Ron en Erik Podcast</p>
@@ -64,7 +64,7 @@ export function FooterClient({ siteSettings, className }: FooterClientProps) {
         </div>
 
         {/* Center: logo */}
-        <div className="flex justify-center">
+        <div className="-order-1 sm:order-0 flex sm:justify-center">
           <Link href="/">
             <Image
               src="/Logo.svg"

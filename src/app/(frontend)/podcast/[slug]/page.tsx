@@ -73,13 +73,17 @@ export default async function PodcastEpisodePage({ params: paramsPromise }: Args
         )}
 
         {/* Episode info */}
-        <article className="max-w-4xl mx-auto flex flex-col gap-12">
+        <article className="w-full max-w-4xl mx-auto flex flex-col gap-12">
           <Breadcrumb parent={{ label: 'Podcast', href: '/podcast' }} title={episode.title}>
             <ShareIcons
               url={episodeUrl}
               title={episode.title}
               variant="podcast"
-              youtubeUrl={matchedVideo ? `https://www.youtube.com/watch?v=${matchedVideo.videoId}` : youtubeChannelUrl}
+              youtubeUrl={
+                matchedVideo
+                  ? `https://www.youtube.com/watch?v=${matchedVideo.videoId}`
+                  : youtubeChannelUrl
+              }
               spotifyUrl={spotifyUrl}
             />
           </Breadcrumb>

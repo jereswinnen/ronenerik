@@ -49,7 +49,7 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
   if (!post) return <PayloadRedirects url={url} />
 
   return (
-    <section className="flex flex-col gap-12 md:gap-20 pt-12 md:pt-30">
+    <section className="flex flex-col gap-12 px-4 md:px-0 md:gap-20 pt-12 md:pt-30">
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}

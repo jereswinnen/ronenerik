@@ -10,8 +10,8 @@ interface BreadcrumbProps {
 export function Breadcrumb({ parent, title, children }: BreadcrumbProps) {
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2 min-w-0">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="flex items-center gap-2 overflow-hidden">
           <Link
             href={parent.href}
             className="text-c-foreground/50 hover:text-c-foreground transition-colors shrink-0"

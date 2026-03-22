@@ -72,7 +72,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
 
   return (
     <>
-      <div className="fixed top-4 inset-x-0 z-50 container">
+      <div className="fixed top-4 inset-x-0 z-50 container" style={{ viewTransitionName: 'header' }}>
         <div
           className={`mx-auto transition-[width] duration-500 ease-in-out ${
             isVisible ? 'w-full sm:w-[90%]' : 'w-full sm:w-3/5'

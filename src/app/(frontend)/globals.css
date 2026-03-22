@@ -127,6 +127,53 @@
   100% { transform: scale(1); }
 }
 
+/* View Transitions */
+@layer base {
+  ::view-transition-old(root) {
+    animation: vt-fade-out 200ms ease-in-out;
+  }
+
+  ::view-transition-new(root) {
+    animation: vt-fade-in 300ms ease-in-out 100ms both;
+  }
+
+  @keyframes vt-fade-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+  }
+
+  @keyframes vt-fade-in {
+    from {
+      opacity: 0;
+      transform: scale(1.02);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Header stays in place during transitions */
+  ::view-transition-old(header),
+  ::view-transition-new(header) {
+    animation: none;
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+    }
+  }
+}
+
 .prose h2 {
   font-size: 2.55rem;
 }
