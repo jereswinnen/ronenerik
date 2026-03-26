@@ -7,6 +7,7 @@ import React from 'react'
 import { Footer } from '@/components/(frontend)/Footer'
 import { Header } from '@/components/(frontend)/Header'
 import { ViewTransition } from '@/components/ViewTransition'
+import { Analytics } from '@vercel/analytics/next'
 import { Providers } from '@/providers'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </main>
           <Footer />
+          <Analytics />
         </Providers>
       </body>
     </html>
