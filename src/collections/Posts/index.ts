@@ -238,28 +238,21 @@ export const Posts: CollectionConfig<'posts'> = {
         { name: 'instagram', type: 'text' },
       ],
     },
-    {
-      name: '_status',
-      type: 'select',
-      access: {
-        update: isAdminFieldAccess,
-      },
-      options: [
-        { label: 'Draft', value: 'draft' },
-        { label: 'Published', value: 'published' },
-      ],
-      admin: {
-        disableListColumn: true,
-        disableListFilter: true,
-      },
-    },
     slugField(),
   ],
   hooks: {
     beforeChange: [
-      ({ req, data }) => {
+      ({ req, data, originalDoc }) => {
         if (!req.user || !data) return data
         if (req.user.role === 'guest') {
+          // Prevent guests from publishing or scheduling
+          if (data._status === 'published') {
+            data._status = originalDoc?._status || 'draft'
+          }
+          if (data.publishedAt !== undefined && data.publishedAt !== originalDoc?.publishedAt) {
+            data.publishedAt = originalDoc?.publishedAt
+          }
+          // Prevent self-lockout from authors array
           const authors = Array.isArray(data.authors) ? data.authors : []
           if (!authors.includes(req.user.id)) {
             data.authors = [...authors, req.user.id]
