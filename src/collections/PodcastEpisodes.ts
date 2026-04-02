@@ -20,6 +20,7 @@ export const PodcastEpisodes: CollectionConfig = {
     defaultColumns: ['title', 'publishedAt', 'featuredImage'],
     useAsTitle: 'title',
     description: 'Automatisch aangemaakt vanuit de podcast RSS-feed. Upload een uitgelichte afbeelding per aflevering.',
+    hidden: ({ user }) => user?.role === 'guest',
   },
   fields: [
     {

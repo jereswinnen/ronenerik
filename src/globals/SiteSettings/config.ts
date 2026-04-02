@@ -6,6 +6,9 @@ export const SiteSettings: GlobalConfig = {
   access: {
     read: () => true,
   },
+  admin: {
+    hidden: ({ user }) => user?.role === 'guest',
+  },
   fields: [
     {
       type: 'group',
