@@ -206,6 +206,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  createdBy?: (number | null) | User;
   folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -276,6 +277,47 @@ export interface Media {
       filename?: string | null;
     };
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  role: 'admin' | 'guest';
+  name?: string | null;
+  /**
+   * Bijv. "Co-host" of "Redacteur"
+   */
+  subtitle?: string | null;
+  /**
+   * Korte biografie
+   */
+  bio?: string | null;
+  avatar?: (number | null) | Media;
+  socials?: {
+    bluesky?: string | null;
+    twitter?: string | null;
+    instagram?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -386,46 +428,6 @@ export interface Category {
     | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  name?: string | null;
-  /**
-   * Bijv. "Co-host" of "Redacteur"
-   */
-  subtitle?: string | null;
-  /**
-   * Korte biografie
-   */
-  bio?: string | null;
-  avatar?: (number | null) | Media;
-  socials?: {
-    bluesky?: string | null;
-    twitter?: string | null;
-    instagram?: string | null;
-  };
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-  collection: 'users';
 }
 /**
  * Automatisch aangemaakt vanuit de podcast RSS-feed. Upload een uitgelichte afbeelding per aflevering.
@@ -736,6 +738,7 @@ export interface PostsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  createdBy?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -860,6 +863,7 @@ export interface PodcastEpisodesSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   name?: T;
   subtitle?: T;
   bio?: T;

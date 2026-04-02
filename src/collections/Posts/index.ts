@@ -10,8 +10,9 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
+import type { Where } from 'payload'
+
 import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { isAdmin, isAdminFieldAccess } from '../../access/isAdmin'
 import { isAdminOrOwner } from '../../access/isAdminOrSelf'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -37,14 +38,14 @@ export const Posts: CollectionConfig<'posts'> = {
     create: authenticated,
     delete: isAdmin,
     read: ({ req: { user } }) => {
-      if (!user) return { _status: { equals: 'published' } }
+      if (!user) return { _status: { equals: 'published' } } as Where
       if (user.role === 'admin') return true
       return {
         or: [
           { authors: { contains: user.id } },
           { _status: { equals: 'published' } },
         ],
-      }
+      } as Where
     },
     update: isAdminOrOwner('authors'),
   },
