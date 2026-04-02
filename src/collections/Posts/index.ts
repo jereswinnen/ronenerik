@@ -12,6 +12,8 @@ import {
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { isAdmin, isAdminFieldAccess } from '../../access/isAdmin'
+import { isAdminOrOwner } from '../../access/isAdminOrSelf'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
@@ -33,9 +35,18 @@ export const Posts: CollectionConfig<'posts'> = {
   },
   access: {
     create: authenticated,
-    delete: authenticated,
-    read: authenticatedOrPublished,
-    update: authenticated,
+    delete: isAdmin,
+    read: ({ req: { user } }) => {
+      if (!user) return { _status: { equals: 'published' } }
+      if (user.role === 'admin') return true
+      return {
+        or: [
+          { authors: { contains: user.id } },
+          { _status: { equals: 'published' } },
+        ],
+      }
+    },
+    update: isAdminOrOwner('authors'),
   },
   defaultPopulate: {
     title: true,
@@ -175,6 +186,9 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'publishedAt',
       type: 'date',
       label: 'Publicatiedatum',
+      access: {
+        update: isAdminFieldAccess,
+      },
       admin: {
         date: {
           pickerAppearance: 'dayAndTime',
@@ -223,9 +237,36 @@ export const Posts: CollectionConfig<'posts'> = {
         { name: 'instagram', type: 'text' },
       ],
     },
+    {
+      name: '_status',
+      type: 'select',
+      access: {
+        update: isAdminFieldAccess,
+      },
+      options: [
+        { label: 'Draft', value: 'draft' },
+        { label: 'Published', value: 'published' },
+      ],
+      admin: {
+        disableListColumn: true,
+        disableListFilter: true,
+      },
+    },
     slugField(),
   ],
   hooks: {
+    beforeChange: [
+      ({ req, data }) => {
+        if (!req.user || !data) return data
+        if (req.user.role === 'guest') {
+          const authors = Array.isArray(data.authors) ? data.authors : []
+          if (!authors.includes(req.user.id)) {
+            data.authors = [...authors, req.user.id]
+          }
+        }
+        return data
+      },
+    ],
     afterChange: [revalidatePost],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
