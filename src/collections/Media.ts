@@ -8,6 +8,7 @@ import {
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { isAdminOrCreator } from '../access/isAdminOrSelf'
 import { revalidateMedia } from './Media/hooks/revalidateMedia'
 
 export const Media: CollectionConfig = {
@@ -19,12 +20,20 @@ export const Media: CollectionConfig = {
   folders: true,
   hooks: {
     afterChange: [revalidateMedia],
+    beforeChange: [
+      ({ req, data, operation }) => {
+        if (operation === 'create' && req.user && data) {
+          data.createdBy = req.user.id
+        }
+        return data
+      },
+    ],
   },
   access: {
     create: authenticated,
-    delete: authenticated,
+    delete: isAdminOrCreator('createdBy'),
     read: anyone,
-    update: authenticated,
+    update: isAdminOrCreator('createdBy'),
   },
   fields: [
     {
@@ -42,6 +51,14 @@ export const Media: CollectionConfig = {
           return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
         },
       }),
+    },
+    {
+      name: 'createdBy',
+      type: 'relationship',
+      relationTo: 'users',
+      admin: {
+        hidden: true,
+      },
     },
   ],
   upload: {
