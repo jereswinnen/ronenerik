@@ -37,20 +37,28 @@ export async function fetchYouTubeVideos(
 }
 
 async function resolveYouTubeFeedUrl(url: string): Promise<string | null> {
+  // Strip tracking params (e.g. ?si=...) that YouTube adds to shared URLs
+  const cleanUrl = url.split('?')[0]
+
   // Already an RSS feed URL
-  if (url.includes('feeds/videos.xml')) {
+  if (cleanUrl.includes('feeds/videos.xml')) {
     return url
   }
 
   // Direct channel ID URL: youtube.com/channel/UC...
-  const channelIdMatch = url.match(/\/channel\/(UC[a-zA-Z0-9_-]+)/)
+  const channelIdMatch = cleanUrl.match(/\/channel\/(UC[a-zA-Z0-9_-]+)/)
   if (channelIdMatch) {
     return `https://www.youtube.com/feeds/videos.xml?channel_id=${channelIdMatch[1]}`
   }
 
-  // Handle URL: youtube.com/@handle — need to fetch page to get channel ID
+  // Handle URL: youtube.com/@handle — fetch page to extract channel ID.
+  // Uses a bot-like User-Agent to bypass YouTube's EU consent redirect,
+  // which otherwise returns a consent.youtube.com page without the channel ID.
   try {
-    const res = await fetch(url, {
+    const res = await fetch(cleanUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+      },
       next: { revalidate: 86400 }, // Cache channel resolution for 24h
     })
 
@@ -62,6 +70,7 @@ async function resolveYouTubeFeedUrl(url: string): Promise<string | null> {
     const cidMatch = html.match(/"channelId":"(UC[a-zA-Z0-9_-]+)"/)
       || html.match(/channel_id=(UC[a-zA-Z0-9_-]+)/)
       || html.match(/<meta\s+itemprop="channelId"\s+content="(UC[a-zA-Z0-9_-]+)"/)
+      || html.match(/"browseId":"(UC[a-zA-Z0-9_-]+)"/)
 
     if (cidMatch) {
       return `https://www.youtube.com/feeds/videos.xml?channel_id=${cidMatch[1]}`
