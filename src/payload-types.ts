@@ -388,6 +388,7 @@ export interface Post {
     | {
         id?: string | null;
         name?: string | null;
+        role?: string | null;
         subtitle?: string | null;
         bio?: string | null;
         avatarUrl?: string | null;
@@ -718,6 +719,7 @@ export interface PostsSelect<T extends boolean = true> {
     | {
         id?: T;
         name?: T;
+        role?: T;
         subtitle?: T;
         bio?: T;
         avatarUrl?: T;

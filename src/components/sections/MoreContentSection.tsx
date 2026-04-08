@@ -4,7 +4,12 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
-import { ContentCard, formatUploadDate, formatAuthor } from '@/components/(frontend)/ContentCard'
+import {
+  ContentCard,
+  formatUploadDate,
+  formatAuthor,
+  isCommunityPost,
+} from '@/components/(frontend)/ContentCard'
 import type { SiteSetting, Media as MediaType } from '@/payload-types'
 
 interface MoreContentSectionProps {
@@ -28,6 +33,7 @@ export async function MoreContentSection({ excludeSlug }: MoreContentSectionProp
         slug: true,
         heroImage: true,
         meta: true,
+        authors: true,
         populatedAuthors: true,
         publishedAt: true,
       },
@@ -83,6 +89,7 @@ export async function MoreContentSection({ excludeSlug }: MoreContentSectionProp
                       ? article.heroImage
                       : null
                 const author = article.populatedAuthors?.[0]?.name
+                const community = isCommunityPost(article.populatedAuthors)
                 return (
                   <ContentCard
                     key={article.slug}
@@ -90,6 +97,8 @@ export async function MoreContentSection({ excludeSlug }: MoreContentSectionProp
                     title={article.title}
                     image={metaImage}
                     meta={author ? formatAuthor(author) : undefined}
+                    tag={community ? 'Uit de community' : undefined}
+                    excerpt={community ? (article.meta?.description || undefined) : undefined}
                   />
                 )
               })}

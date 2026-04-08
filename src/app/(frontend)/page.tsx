@@ -4,7 +4,12 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import React from 'react'
 
 import type { SiteSetting, Media as MediaType } from '@/payload-types'
-import { ContentCard, formatUploadDate, formatAuthor } from '@/components/(frontend)/ContentCard'
+import {
+  ContentCard,
+  formatUploadDate,
+  formatAuthor,
+  isCommunityPost,
+} from '@/components/(frontend)/ContentCard'
 import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import { fetchYouTubeVideos } from '@/utilities/rss/fetchYouTube'
 import { matchEpisodeToVideo } from '@/utilities/rss/matchEpisodeToVideo'
@@ -13,6 +18,7 @@ import { AllContentLinks } from '@/components/sections/AllContentLinks'
 import { FeaturedSection } from '@/components/sections/FeaturedSection'
 import { SocialsSection } from '@/components/sections/SocialsSection'
 import { AboutSection } from '@/components/sections/AboutSection'
+import { CommunitySection } from '@/components/sections/CommunitySection'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -37,6 +43,7 @@ export default async function HomePage() {
         heroImage: true,
         meta: true,
         publishedAt: true,
+        authors: true,
         populatedAuthors: true,
       },
     }),
@@ -90,8 +97,9 @@ export default async function HomePage() {
     })
   }
 
-  // Add articles
+  // Add articles (exclude community posts — they have their own section)
   for (const article of articles.docs) {
+    if (isCommunityPost(article.populatedAuthors)) continue
     const metaImage: MediaType | null =
       article.meta?.image && typeof article.meta.image === 'object'
         ? article.meta.image
@@ -165,6 +173,7 @@ export default async function HomePage() {
       )}
 
       <PatreonSection />
+      <CommunitySection />
       <AboutSection />
       <AllContentLinks />
     </>

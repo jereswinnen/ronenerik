@@ -6,6 +6,7 @@ import { fetchPodcastEpisodes } from '@/utilities/rss/fetchPodcast'
 import React from 'react'
 
 import type { SiteSetting, Media as MediaType } from '@/payload-types'
+import { isCommunityPost } from '@/components/(frontend)/ContentCard'
 
 export async function Header() {
   const payload = await getPayload({ config: configPromise })
@@ -27,6 +28,7 @@ export async function Header() {
         heroImage: true,
         meta: true,
         publishedAt: true,
+        authors: true,
         populatedAuthors: true,
       },
     }),
@@ -73,6 +75,7 @@ export async function Header() {
         image: articleImage,
         author: latestPost.populatedAuthors?.[0]?.name || null,
         publishedAt: latestPost.publishedAt || null,
+        isCommunity: isCommunityPost(latestPost.populatedAuthors),
       } : null}
     />
   )

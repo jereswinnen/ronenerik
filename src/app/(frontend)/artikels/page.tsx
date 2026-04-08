@@ -2,7 +2,7 @@ import type { Metadata } from 'next/types'
 import React from 'react'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { ContentCard, formatAuthor } from '@/components/(frontend)/ContentCard'
+import { ContentCard, formatAuthor, isCommunityPost } from '@/components/(frontend)/ContentCard'
 import { ContentGrid } from '@/components/(frontend)/ContentGrid'
 import { PatreonSection } from '@/components/sections/PatreonSection'
 import type { Media as MediaType } from '@/payload-types'
@@ -40,6 +40,7 @@ export default async function ArticlesPage() {
                   : null
             const author = post.populatedAuthors?.[0]?.name
 
+            const community = isCommunityPost(post.populatedAuthors)
             return (
               <ContentCard
                 key={post.slug}
@@ -47,6 +48,8 @@ export default async function ArticlesPage() {
                 title={post.title}
                 image={articleImage}
                 meta={author ? formatAuthor(author) : undefined}
+                tag={community ? 'Uit de community' : undefined}
+                excerpt={community ? (post.meta?.description || undefined) : undefined}
               />
             )
           })}

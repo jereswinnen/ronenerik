@@ -19,6 +19,8 @@ type ContentCardProps = {
   podcastCorners?: boolean
   /** Use larger title (h5 instead of h6) */
   isLarge?: boolean
+  /** Short text excerpt shown below the title */
+  excerpt?: string
   onClick?: () => void
   className?: string
 }
@@ -33,6 +35,7 @@ export function ContentCard({
   horizontal,
   podcastCorners,
   isLarge,
+  excerpt,
   onClick,
   className = '',
 }: ContentCardProps) {
@@ -75,6 +78,7 @@ export function ContentCard({
         ) : (
           <h6 className="font-medium leading-tight line-clamp-2">{title}</h6>
         )}
+        {excerpt && <p className="text-sm line-clamp-3">{excerpt}</p>}
         {meta && <p className="text-sm italic">{meta}</p>}
       </div>
     </Link>
@@ -93,6 +97,13 @@ export function formatUploadDate(dateStr: string): string {
 
 export function formatAuthor(name: string): string {
   return `geschreven door: ${name}`
+}
+
+/** Check whether any populated author has the guest role */
+export function isCommunityPost(
+  populatedAuthors?: { role?: string | null }[] | null,
+): boolean {
+  return !!populatedAuthors?.some((a) => a.role === 'guest')
 }
 
 export function youtubeMaxRes(videoId: string): string {

@@ -230,6 +230,7 @@ export const Posts: CollectionConfig<'posts'> = {
       fields: [
         { name: 'id', type: 'text' },
         { name: 'name', type: 'text' },
+        { name: 'role', type: 'text' },
         { name: 'subtitle', type: 'text' },
         { name: 'bio', type: 'textarea' },
         { name: 'avatarUrl', type: 'text' },

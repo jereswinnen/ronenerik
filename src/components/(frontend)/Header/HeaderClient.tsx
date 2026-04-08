@@ -21,6 +21,7 @@ interface MenuArticle {
   image: MediaType | null
   author: string | null
   publishedAt: string | null
+  isCommunity: boolean
 }
 
 interface HeaderClientProps {
@@ -180,6 +181,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({
                           meta={
                             latestArticle.author ? formatAuthor(latestArticle.author) : undefined
                           }
+                          tag={latestArticle.isCommunity ? 'Uit de community' : undefined}
                           onClick={handleNavClick}
                         />
                       )}

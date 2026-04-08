@@ -3,7 +3,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import { notFound } from 'next/navigation'
-import { ContentCard, formatAuthor } from '@/components/(frontend)/ContentCard'
+import { ContentCard, formatAuthor, isCommunityPost } from '@/components/(frontend)/ContentCard'
 import { ContentGrid } from '@/components/(frontend)/ContentGrid'
 import { Pagination } from '@/components/Pagination'
 import type { Media as MediaType } from '@/payload-types'
@@ -33,6 +33,7 @@ export default async function ArticlesPageNumber({ params: paramsPromise }: Args
       slug: true,
       heroImage: true,
       meta: true,
+      authors: true,
       populatedAuthors: true,
     },
   })
@@ -53,6 +54,7 @@ export default async function ArticlesPageNumber({ params: paramsPromise }: Args
                   ? post.heroImage
                   : null
             const author = post.populatedAuthors?.[0]?.name
+            const community = isCommunityPost(post.populatedAuthors)
             return (
               <ContentCard
                 key={post.slug}
@@ -60,6 +62,8 @@ export default async function ArticlesPageNumber({ params: paramsPromise }: Args
                 title={post.title}
                 image={metaImage}
                 meta={author ? formatAuthor(author) : undefined}
+                tag={community ? 'Uit de community' : undefined}
+                excerpt={community ? (post.meta?.description || undefined) : undefined}
               />
             )
           })}
