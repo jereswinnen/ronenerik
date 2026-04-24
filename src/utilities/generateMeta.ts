@@ -3,20 +3,13 @@ import type { Metadata } from 'next'
 import type { Media, Page, Post, Config } from '../payload-types'
 
 import { mergeOpenGraph } from './mergeOpenGraph'
-import { getServerSideURL } from './getURL'
+import { getMediaUrl } from './getMediaUrl'
 
 const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
-  const serverUrl = getServerSideURL()
+  if (!image || typeof image !== 'object' || !('url' in image)) return undefined
 
-  let url = serverUrl + '/website-template-OG.webp'
-
-  if (image && typeof image === 'object' && 'url' in image) {
-    const ogUrl = image.sizes?.og?.url
-
-    url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url
-  }
-
-  return url
+  const sourceUrl = image.sizes?.og?.url || image.url
+  return sourceUrl ? getMediaUrl(sourceUrl) : undefined
 }
 
 export const generateMeta = async (args: {
@@ -32,13 +25,7 @@ export const generateMeta = async (args: {
     description: doc?.meta?.description,
     openGraph: mergeOpenGraph({
       description: doc?.meta?.description || '',
-      images: ogImage
-        ? [
-            {
-              url: ogImage,
-            },
-          ]
-        : undefined,
+      images: ogImage ? [{ url: ogImage }] : undefined,
       title,
       url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
     }),
