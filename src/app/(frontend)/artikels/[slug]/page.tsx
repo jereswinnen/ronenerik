@@ -16,6 +16,8 @@ import { AuthorCard } from '@/components/(frontend)/AuthorCard'
 import { Breadcrumb } from '@/components/(frontend)/Breadcrumb'
 import { ShareIcons } from '@/components/(frontend)/ShareIcons'
 import { getServerSideURL } from '@/utilities/getURL'
+import { CommentThread } from '@/components/Comments/CommentThread'
+import { CommentsDisabledNotice } from '@/components/Comments/CommentsDisabledNotice'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -102,6 +104,14 @@ export default async function ArticlePage({ params: paramsPromise }: Args) {
           </div>
         )}
       </div>
+
+      {post.commentsEnabled === false ? (
+        <div className="w-full max-w-2xl mx-auto px-4 md:px-0">
+          <CommentsDisabledNotice />
+        </div>
+      ) : (
+        <CommentThread postId={post.id} postSlug={post.slug ?? decodedSlug} />
+      )}
 
       <PatreonSection />
     </section>
