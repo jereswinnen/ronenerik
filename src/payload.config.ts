@@ -1,4 +1,5 @@
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
+import { resendAdapter } from '@payloadcms/email-resend'
 import { nl } from '@payloadcms/translations/languages/nl'
 import sharp from 'sharp'
 import path from 'path'
@@ -58,6 +59,11 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+  }),
+  email: resendAdapter({
+    defaultFromAddress: 'noreply@ronenerik.be',
+    defaultFromName: 'Ron en Erik',
+    apiKey: process.env.RESEND_API_KEY || '',
   }),
   collections: [Pages, Posts, Media, Categories, PodcastEpisodes, Users],
   cors: [getServerSideURL()].filter(Boolean),
