@@ -689,17 +689,18 @@ import { revalidatePath } from 'next/cache'
 import type { Comment, Post } from '@/payload-types'
 
 const slugFromPost = async (
-  postRef: Comment['post'],
+  postRef: Comment['post'] | undefined,
   payload: Parameters<CollectionAfterChangeHook<Comment>>[0]['req']['payload'],
 ): Promise<string | null> => {
   if (!postRef) return null
-  if (typeof postRef === 'object') {
+  // Guard truthiness BEFORE typeof — `typeof null === 'object'` in JS.
+  if (postRef && typeof postRef === 'object') {
     return (postRef as Post).slug ?? null
   }
   try {
     const post = await payload.findByID({
       collection: 'posts',
-      id: postRef,
+      id: postRef as number | string,
       depth: 0,
     })
     return post.slug ?? null
