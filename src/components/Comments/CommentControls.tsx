@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import type { SerializedEditorState } from 'lexical'
 import { useUser } from '@/hooks/useUser'
 import { CommentForm } from './CommentForm'
 import type { Comment } from '@/payload-types'
@@ -9,26 +10,6 @@ import type { Comment } from '@/payload-types'
 const EDIT_WINDOW_MS = 5 * 60 * 1000
 
 type Mode = 'idle' | 'replying' | 'editing'
-
-const richTextToPlain = (data: Comment['content']): string => {
-  const root = (data as { root?: { children?: unknown[] } } | null)?.root
-  if (!root?.children) return ''
-  const lines: string[] = []
-  for (const node of root.children as Array<{
-    type?: string
-    children?: Array<{ type?: string; text?: string }>
-  }>) {
-    if (node.type !== 'paragraph') continue
-    const para = (node.children ?? [])
-      .map((c) => {
-        if (c.type === 'linebreak') return '\n'
-        return c.text ?? ''
-      })
-      .join('')
-    lines.push(para)
-  }
-  return lines.join('\n\n')
-}
 
 type Props = {
   comment: Comment
@@ -77,7 +58,7 @@ export function CommentControls({ comment, postId, isReply }: Props) {
         postId={postId}
         commentId={comment.id}
         mode="edit"
-        initialText={richTextToPlain(comment.content)}
+        initialContent={comment.content as SerializedEditorState}
         onDone={() => setMode('idle')}
       />
     )

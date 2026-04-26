@@ -3,64 +3,34 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import type { SerializedEditorState } from 'lexical'
 import { useUser } from '@/hooks/useUser'
+import { CommentEditor, isEmptyContent } from './CommentEditor'
 
 type Props = {
   postId: string | number
   parentId?: string | number
-  initialText?: string
+  initialContent?: SerializedEditorState | null
   commentId?: string | number
   mode?: 'create' | 'edit'
   onDone?: () => void
 }
 
-const lexicalFromPlainText = (text: string) => ({
-  root: {
-    type: 'root',
-    format: '',
-    indent: 0,
-    version: 1,
-    direction: 'ltr',
-    children: text
-      .split(/\n{2,}/)
-      .filter((p) => p.trim().length > 0)
-      .map((para) => ({
-        type: 'paragraph',
-        format: '',
-        indent: 0,
-        version: 1,
-        direction: 'ltr',
-        children: para.split('\n').flatMap((line, idx, arr) => {
-          const node = {
-            type: 'text',
-            text: line,
-            format: 0,
-            style: '',
-            mode: 'normal',
-            detail: 0,
-            version: 1,
-          }
-          return idx < arr.length - 1
-            ? [node, { type: 'linebreak', version: 1 }]
-            : [node]
-        }),
-      })),
-  },
-})
-
 export function CommentForm({
   postId,
   parentId,
-  initialText = '',
+  initialContent = null,
   commentId,
   mode = 'create',
   onDone,
 }: Props) {
   const router = useRouter()
   const { user, loading } = useUser()
-  const [text, setText] = useState(initialText)
+  const [content, setContent] = useState<SerializedEditorState | null>(initialContent)
   const [error, setError] = useState<string | null>(null)
   const [pending, setPending] = useState(false)
+  // Force-remount the editor after a successful submit so it clears.
+  const [editorKey, setEditorKey] = useState(0)
 
   if (loading) {
     return <p className="text-sm text-c-foreground/50">Laden…</p>
@@ -84,7 +54,7 @@ export function CommentForm({
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(null)
-    if (text.trim().length === 0) {
+    if (!content || isEmptyContent(content)) {
       setError('Reactie kan niet leeg zijn.')
       return
     }
@@ -93,7 +63,7 @@ export function CommentForm({
       const body = {
         post: postId,
         parent: parentId ?? undefined,
-        content: lexicalFromPlainText(text),
+        content,
       }
       const url =
         mode === 'edit' && commentId
@@ -111,12 +81,12 @@ export function CommentForm({
           errors?: { message?: string }[]
         }
         setError(
-          json.errors?.[0]?.message ??
-            'Reactie kon niet opgeslagen worden.',
+          json.errors?.[0]?.message ?? 'Reactie kon niet opgeslagen worden.',
         )
         return
       }
-      setText('')
+      setContent(null)
+      setEditorKey((k) => k + 1)
       onDone?.()
       router.refresh()
     } finally {
@@ -126,22 +96,12 @@ export function CommentForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="sr-only">
-          {mode === 'edit' ? 'Reactie bewerken' : 'Schrijf een reactie'}
-        </span>
-        <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          rows={4}
-          className="border border-c-foreground/20 rounded p-3 bg-c-background"
-          placeholder={
-            parentId
-              ? 'Antwoord hierop…'
-              : 'Schrijf hier je reactie. Lege regels maken een nieuwe alinea.'
-          }
-        />
-      </label>
+      <CommentEditor
+        key={editorKey}
+        initialContent={initialContent}
+        onChange={setContent}
+        placeholder={parentId ? 'Antwoord hierop…' : 'Schrijf hier je reactie…'}
+      />
       {error && (
         <p role="alert" className="text-sm text-red-600">
           {error}
