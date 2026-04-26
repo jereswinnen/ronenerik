@@ -62,7 +62,7 @@ export default buildConfig({
     },
   }),
   email: resendAdapter({
-    defaultFromAddress: 'noreply@ronenerik.be',
+    defaultFromAddress: 'noreply@ronenerik.com',
     defaultFromName: 'Ron en Erik',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
