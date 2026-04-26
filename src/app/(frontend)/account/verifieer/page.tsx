@@ -1,6 +1,7 @@
 'use client'
 
 import React, { Suspense, useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import {
   AuthError,
@@ -50,9 +51,9 @@ function VerifieerInner() {
       {status === 'error' && <AuthError message={error} />}
       {status !== 'pending' && (
         <p className="text-sm">
-          <a href="/account/inloggen" className="underline">
+          <Link href="/account/inloggen" className="underline">
             Naar inloggen
-          </a>
+          </Link>
         </p>
       )}
     </>

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { Suspense, useState } from 'react'
+import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
   AuthButton,
@@ -68,13 +69,13 @@ function InloggenInner() {
       <AuthButton pending={pending}>Inloggen</AuthButton>
       <p className="text-sm text-c-foreground/60">
         Geen account?{' '}
-        <a href="/account/registreren" className="underline">
+        <Link href="/account/registreren" className="underline">
           Maak er één aan
-        </a>
+        </Link>
         . Wachtwoord vergeten?{' '}
-        <a href="/account/wachtwoord-vergeten" className="underline">
+        <Link href="/account/wachtwoord-vergeten" className="underline">
           Reset hier
-        </a>
+        </Link>
         .
       </p>
     </form>

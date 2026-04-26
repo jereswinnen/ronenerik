@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import {
   AuthButton,
   AuthError,
@@ -89,7 +90,7 @@ export default function RegistrerenPage() {
         <AuthError message={error} />
         <AuthButton pending={pending}>Account aanmaken</AuthButton>
         <p className="text-sm text-c-foreground/60">
-          Al een account? <a href="/account/inloggen" className="underline">Inloggen</a>
+          Al een account? <Link href="/account/inloggen" className="underline">Inloggen</Link>
         </p>
       </form>
     </AuthShell>
