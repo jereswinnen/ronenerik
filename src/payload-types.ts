@@ -285,7 +285,7 @@ export interface Media {
 export interface User {
   id: number;
   role: 'admin' | 'guest';
-  name?: string | null;
+  name: string;
   /**
    * Bijv. "Co-host" of "Redacteur"
    */
@@ -307,6 +307,8 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  _verified?: boolean | null;
+  _verificationToken?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
@@ -884,6 +886,8 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  _verified?: T;
+  _verificationToken?: T;
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:

@@ -1,8 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
+import { anyone } from '../../access/anyone'
 import { isAdmin, isAdminFieldAccess } from '../../access/isAdmin'
 import { isAdminOrSelfUser } from '../../access/isAdminOrSelf'
+import { lockGuestRoleOnCreate } from './hooks/lockGuestRoleOnCreate'
+import { verifyEmailHTML, verifyEmailSubject } from './email/verifyEmail'
+import {
+  forgotPasswordEmailHTML,
+  forgotPasswordEmailSubject,
+} from './email/forgotPasswordEmail'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -12,7 +19,7 @@ export const Users: CollectionConfig = {
   },
   access: {
     admin: authenticated,
-    create: isAdmin,
+    create: anyone,
     delete: isAdmin,
     read: isAdminOrSelfUser,
     update: isAdminOrSelfUser,
@@ -22,14 +29,26 @@ export const Users: CollectionConfig = {
     useAsTitle: 'name',
     hidden: ({ user }) => user?.role === 'guest',
   },
-  auth: true,
+  auth: {
+    verify: {
+      generateEmailHTML: verifyEmailHTML,
+      generateEmailSubject: verifyEmailSubject,
+    },
+    forgotPassword: {
+      generateEmailHTML: forgotPasswordEmailHTML,
+      generateEmailSubject: forgotPasswordEmailSubject,
+    },
+  },
+  hooks: {
+    beforeValidate: [lockGuestRoleOnCreate],
+  },
   fields: [
     {
       name: 'role',
       type: 'select',
       label: 'Rol',
       required: true,
-      defaultValue: 'admin',
+      defaultValue: 'guest',
       options: [
         { label: 'Admin', value: 'admin' },
         { label: 'Gast', value: 'guest' },
@@ -45,6 +64,7 @@ export const Users: CollectionConfig = {
       name: 'name',
       type: 'text',
       label: 'Naam',
+      required: true,
     },
     {
       name: 'subtitle',
@@ -73,21 +93,9 @@ export const Users: CollectionConfig = {
       name: 'socials',
       label: 'Sociale media',
       fields: [
-        {
-          name: 'bluesky',
-          type: 'text',
-          label: 'BlueSky URL',
-        },
-        {
-          name: 'twitter',
-          type: 'text',
-          label: 'X / Twitter URL',
-        },
-        {
-          name: 'instagram',
-          type: 'text',
-          label: 'Instagram URL',
-        },
+        { name: 'bluesky', type: 'text', label: 'BlueSky URL' },
+        { name: 'twitter', type: 'text', label: 'X / Twitter URL' },
+        { name: 'instagram', type: 'text', label: 'Instagram URL' },
       ],
     },
   ],

@@ -4,6 +4,7 @@ import * as migration_20260316_135443 from './20260316_135443';
 import * as migration_20260319_move_discord_spotify from './20260319_move_discord_spotify';
 import * as migration_20260402_092820 from './20260402_092820';
 import * as migration_20260408_101232 from './20260408_101232';
+import * as migration_20260426_090449_users_open_registration from './20260426_090449_users_open_registration';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20260408_101232.up,
     down: migration_20260408_101232.down,
-    name: '20260408_101232'
+    name: '20260408_101232',
+  },
+  {
+    up: migration_20260426_090449_users_open_registration.up,
+    down: migration_20260426_090449_users_open_registration.down,
+    name: '20260426_090449_users_open_registration'
   },
 ];
