@@ -1,6 +1,7 @@
 import React from 'react'
 import RichText from '@/components/RichText'
 import type { Comment, User } from '@/payload-types'
+import { CommentControls } from './CommentControls'
 
 const formatDate = (iso: string) =>
   new Intl.DateTimeFormat('nl-BE', {
@@ -35,8 +36,11 @@ export function CommentItem({ comment, replies = [], postId, postSlug }: Props) 
       <div className="prose prose-sm">
         <RichText data={comment.content} enableGutter={false} />
       </div>
-      {/* Edit/delete + reply controls live in the client form mounted by CommentThread */}
-      <div data-comment-controls={comment.id} />
+      <CommentControls
+        comment={comment}
+        postId={postId}
+        isReply={Boolean(comment.parent)}
+      />
       {replies.length > 0 && (
         <ul className="flex flex-col gap-4 mt-2">
           {replies.map((reply) => (
