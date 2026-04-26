@@ -1,15 +1,13 @@
 import { getServerSideURL } from '@/utilities/getURL'
 
-export const forgotPasswordEmailSubject = (): string =>
+export const forgotPasswordEmailSubject = (_args?: unknown): string =>
   'Wachtwoord opnieuw instellen — Ron en Erik'
 
-export const forgotPasswordEmailHTML = ({
-  token,
-  user,
-}: {
+export const forgotPasswordEmailHTML = (args?: {
   token?: string
   user?: { name?: string | null; email?: string | null }
 }): string => {
+  const { token, user } = args ?? {}
   const url = `${getServerSideURL()}/account/wachtwoord-instellen?token=${token ?? ''}`
   const naam = user?.name?.trim() || 'daar'
   return `

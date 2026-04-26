@@ -1,8 +1,8 @@
 import type { CollectionConfig } from 'payload'
 
+import type { User } from '@/payload-types'
 import { anyone } from '../../access/anyone'
 import { authenticated } from '../../access/authenticated'
-import { isAdmin } from '../../access/isAdmin'
 import { commentEditor } from '../../fields/commentEditor'
 import { isAuthorWithinEditWindowOrAdmin } from './access/isAuthorWithinEditWindowOrAdmin'
 import { enforceOneLevel } from './hooks/enforceOneLevel'
@@ -24,7 +24,7 @@ export const Comments: CollectionConfig = {
     create: authenticated,
     update: isAuthorWithinEditWindowOrAdmin,
     delete: isAuthorWithinEditWindowOrAdmin,
-    admin: isAdmin,
+    admin: ({ req: { user } }) => (user as User | null)?.role === 'admin',
   },
   admin: {
     defaultColumns: ['author', 'post', 'createdAt'],
