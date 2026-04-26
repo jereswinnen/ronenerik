@@ -5,6 +5,8 @@ import * as migration_20260319_move_discord_spotify from './20260319_move_discor
 import * as migration_20260402_092820 from './20260402_092820';
 import * as migration_20260408_101232 from './20260408_101232';
 import * as migration_20260426_090449_users_open_registration from './20260426_090449_users_open_registration';
+import * as migration_20260426_090638_posts_comments_enabled from './20260426_090638_posts_comments_enabled';
+import * as migration_20260426_091057_comments_collection from './20260426_091057_comments_collection';
 
 export const migrations = [
   {
@@ -40,6 +42,16 @@ export const migrations = [
   {
     up: migration_20260426_090449_users_open_registration.up,
     down: migration_20260426_090449_users_open_registration.down,
-    name: '20260426_090449_users_open_registration'
+    name: '20260426_090449_users_open_registration',
+  },
+  {
+    up: migration_20260426_090638_posts_comments_enabled.up,
+    down: migration_20260426_090638_posts_comments_enabled.down,
+    name: '20260426_090638_posts_comments_enabled',
+  },
+  {
+    up: migration_20260426_091057_comments_collection.up,
+    down: migration_20260426_091057_comments_collection.down,
+    name: '20260426_091057_comments_collection'
   },
 ];

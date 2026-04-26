@@ -7,6 +7,7 @@ import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
+import { Comments } from './collections/Comments'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { PodcastEpisodes } from './collections/PodcastEpisodes'
@@ -65,7 +66,7 @@ export default buildConfig({
     defaultFromName: 'Ron en Erik',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
-  collections: [Pages, Posts, Media, Categories, PodcastEpisodes, Users],
+  collections: [Pages, Posts, Media, Categories, PodcastEpisodes, Comments, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [SiteSettings, PatreonPage],
   plugins,

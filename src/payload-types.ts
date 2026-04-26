@@ -72,6 +72,7 @@ export interface Config {
     media: Media;
     categories: Category;
     'podcast-episodes': PodcastEpisode;
+    comments: Comment;
     users: User;
     redirects: Redirect;
     'payload-kv': PayloadKv;
@@ -92,6 +93,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     'podcast-episodes': PodcastEpisodesSelect<false> | PodcastEpisodesSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -465,6 +467,37 @@ export interface PodcastEpisode {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: number;
+  post: number | Post;
+  author: number | User;
+  /**
+   * Optioneel — alleen voor antwoorden (max. 1 niveau diep).
+   */
+  parent?: (number | null) | Comment;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  editedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -624,6 +657,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'podcast-episodes';
         value: number | PodcastEpisode;
+      } | null)
+    | ({
+        relationTo: 'comments';
+        value: number | Comment;
       } | null)
     | ({
         relationTo: 'users';
@@ -864,6 +901,19 @@ export interface PodcastEpisodesSelect<T extends boolean = true> {
   slug?: T;
   publishedAt?: T;
   featuredImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  post?: T;
+  author?: T;
+  parent?: T;
+  content?: T;
+  editedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
