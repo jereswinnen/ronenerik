@@ -29,7 +29,7 @@ A new visitor who self-registers becomes a `gast`. Admins can manually edit any 
 ### Flow
 
 1. Visitor goes to `/account/registreren`, fills email + password + display name.
-2. Frontend calls Payload's user-create endpoint. Payload creates the user with `role = 'gast'` and `_verified = false`.
+2. Frontend calls Payload's user-create endpoint. Payload creates the user with `role = 'guest'` (label "Gast") and `_verified = false`.
 3. Payload sends a verification email (via Resend) with a link containing a token.
 4. User clicks link → frontend route `/account/verifieer?token=…` calls Payload's verify endpoint.
 5. User can now log in at `/account/inloggen`.
@@ -40,7 +40,7 @@ In `src/collections/Users/index.ts`:
 
 - `access.create`: change from `isAdmin` to `anyone`.
 - `auth`: change from `true` to `{ verify: { generateEmailHTML, generateEmailSubject } }` with Dutch copy.
-- New `beforeValidate` (or `beforeChange` on `create`) hook: if `req.user` is not an admin, force `role = 'gast'`. This prevents anyone from POSTing `role: admin` during signup.
+- New `beforeValidate` (or `beforeChange` on `create`) hook: if `req.user` is not an admin, force `role = 'guest'`. This prevents anyone from POSTing `role: admin` during signup. (Throughout this doc, "gast" is the user-facing Dutch label; the role *value* is the existing English `'guest'` to avoid breaking five files that already check it and the Postgres enum.)
 - `role` field already has `access.update: isAdminFieldAccess` — keep it; combined with the create-side hook, role is fully locked down for non-admins.
 - `name` field: make `required: true` (currently optional) so the signup form has a sensible label everywhere a user is shown.
 
