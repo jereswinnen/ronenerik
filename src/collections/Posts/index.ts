@@ -160,6 +160,16 @@ export const Posts: CollectionConfig<'posts'> = {
       relationTo: 'categories',
     },
     {
+      name: 'commentsEnabled',
+      type: 'checkbox',
+      label: 'Reacties toestaan',
+      defaultValue: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Schakel reacties uit als je geen comments wilt op dit artikel.',
+      },
+    },
+    {
       name: 'meta',
       type: 'group',
       label: 'SEO',

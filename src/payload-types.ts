@@ -376,6 +376,10 @@ export interface Post {
     [k: string]: unknown;
   };
   categories?: (number | Category)[] | null;
+  /**
+   * Schakel reacties uit als je geen comments wilt op dit artikel.
+   */
+  commentsEnabled?: boolean | null;
   meta?: {
     title?: string | null;
     /**
@@ -707,6 +711,7 @@ export interface PostsSelect<T extends boolean = true> {
   heroImage?: T;
   content?: T;
   categories?: T;
+  commentsEnabled?: T;
   meta?:
     | T
     | {
