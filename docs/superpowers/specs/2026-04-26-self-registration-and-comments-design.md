@@ -80,6 +80,8 @@ No code changes required for the article side. The only behavioural difference v
 
 Slug: `comments`. Dutch labels: "Reactie" / "Reacties".
 
+**Admin visibility:** hidden from non-admins via `admin.hidden: ({ user }) => user?.role !== 'admin'`. Comments are written and managed on the frontend; the admin panel view is a moderation tool for admins only. Gasts never see the Comments collection in the sidebar, even though they can read comments through the public API (which the frontend uses).
+
 **Fields:**
 
 | Field | Type | Notes |
