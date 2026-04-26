@@ -13,7 +13,9 @@ export const enforceOneLevel: CollectionBeforeValidateHook<Comment> = async ({
 }) => {
   if (!data?.parent) return data
   const parentId =
-    typeof data.parent === 'object' ? (data.parent as Comment).id : data.parent
+    data.parent && typeof data.parent === 'object'
+      ? (data.parent as Comment).id
+      : data.parent
   if (!parentId) return data
   const parent = await req.payload.findByID({
     collection: 'comments',

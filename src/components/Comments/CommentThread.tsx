@@ -18,7 +18,6 @@ export async function CommentThread({ postId, postSlug }: Props) {
     sort: 'createdAt',
     depth: 1,
     limit: 200,
-    overrideAccess: true,
   })
 
   const comments = result.docs as Comment[]

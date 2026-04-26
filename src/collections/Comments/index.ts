@@ -28,7 +28,6 @@ export const Comments: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['author', 'post', 'createdAt'],
-    useAsTitle: 'id',
     hidden: ({ user }) => user?.role !== 'admin',
   },
   fields: [

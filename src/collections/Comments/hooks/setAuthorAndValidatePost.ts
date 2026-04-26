@@ -19,7 +19,9 @@ export const setAuthorAndValidatePost: CollectionBeforeChangeHook<Comment> = asy
   data.author = user.id
 
   const postId =
-    typeof data.post === 'object' ? (data.post as Post).id : data.post
+    data.post && typeof data.post === 'object'
+      ? (data.post as Post).id
+      : data.post
   if (!postId) {
     throw new APIError('Reactie heeft geen artikel.', 400)
   }
