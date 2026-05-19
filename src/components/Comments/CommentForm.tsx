@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import type { SerializedEditorState } from 'lexical'
 import { useUser } from '@/hooks/useUser'
+import { Button } from '@/components/(frontend)/Button'
 import { CommentEditor, isEmptyContent } from './CommentEditor'
 
 type Props = {
@@ -33,21 +33,22 @@ export function CommentForm({
   const [editorKey, setEditorKey] = useState(0)
 
   if (loading) {
-    return <p className="text-sm text-c-foreground/50">Laden…</p>
+    return <p className="text-c-foreground/50">Laden…</p>
   }
 
   if (!user) {
     return (
-      <p className="text-sm">
-        <Link href="/account/inloggen" className="underline">
-          Log in
-        </Link>{' '}
-        of{' '}
-        <Link href="/account/registreren" className="underline">
-          maak een account aan
-        </Link>{' '}
-        om te reageren.
-      </p>
+      <div className="flex flex-col gap-3">
+        <p className="text-c-foreground/70">
+          Log in of maak een account aan om te reageren.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Button href="/account/inloggen">Inloggen</Button>
+          <Button href="/account/registreren" variant="secondary">
+            Registreren
+          </Button>
+        </div>
+      </div>
     )
   }
 
@@ -107,22 +108,14 @@ export function CommentForm({
           {error}
         </p>
       )}
-      <div className="flex gap-2">
-        <button
-          type="submit"
-          disabled={pending}
-          className="bg-c-foreground text-c-background rounded px-4 py-2 text-sm disabled:opacity-50"
-        >
+      <div className="flex flex-wrap gap-3 mt-1">
+        <Button type="submit" disabled={pending}>
           {pending ? 'Versturen…' : mode === 'edit' ? 'Opslaan' : 'Plaats reactie'}
-        </button>
+        </Button>
         {onDone && (
-          <button
-            type="button"
-            onClick={onDone}
-            className="rounded px-4 py-2 text-sm border border-c-foreground/20"
-          >
+          <Button variant="secondary" type="button" onClick={onDone}>
             Annuleren
-          </button>
+          </Button>
         )}
       </div>
     </form>

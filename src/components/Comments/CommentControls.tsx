@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { SerializedEditorState } from 'lexical'
 import { useUser } from '@/hooks/useUser'
+import { Button } from '@/components/(frontend)/Button'
 import { CommentForm } from './CommentForm'
 import type { Comment } from '@/payload-types'
 
@@ -74,26 +75,30 @@ export function CommentControls({ comment, postId, isReply }: Props) {
     )
   }
 
+  if (!canReply && !canEdit) return null
+
   return (
-    <div className="flex gap-3 text-xs text-c-foreground/60">
+    <div className="flex flex-wrap gap-2 mt-1">
       {canReply && (
-        <button onClick={() => setMode('replying')} className="underline">
+        <Button variant="secondary" type="button" onClick={() => setMode('replying')}>
           Antwoord
-        </button>
+        </Button>
       )}
       {canEdit && (
-        <button onClick={() => setMode('editing')} className="underline">
+        <Button variant="secondary" type="button" onClick={() => setMode('editing')}>
           Bewerk
-        </button>
+        </Button>
       )}
       {canEdit && (
-        <button
+        <Button
+          variant="secondary"
+          tone="danger"
+          type="button"
           onClick={handleDelete}
           disabled={pendingDelete}
-          className="underline text-red-600"
         >
           Verwijder
-        </button>
+        </Button>
       )}
     </div>
   )

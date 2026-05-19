@@ -37,15 +37,19 @@ export async function CommentThread({ postId, postSlug }: Props) {
   return (
     <section
       id="reacties"
-      className="w-full max-w-2xl mx-auto flex flex-col gap-6 px-4 md:px-0"
+      className="w-full max-w-2xl mx-auto flex flex-col gap-8 px-4 md:px-0"
     >
-      <h3 className="text-xl font-bold">Reacties ({comments.length})</h3>
+      <div className="flex items-baseline gap-3">
+        <h3 className="text-2xl md:text-3xl font-bold leading-tight">Reacties</h3>
+        <span className="text-c-foreground/50 text-lg">({comments.length})</span>
+      </div>
+      <span className="w-full h-px bg-c-accent" />
       {topLevel.length === 0 ? (
-        <p className="text-sm text-c-foreground/60">
+        <p className="text-c-foreground/60">
           Nog geen reacties. Wees de eerste!
         </p>
       ) : (
-        <ul className="flex flex-col gap-6">
+        <ul className="flex flex-col gap-8">
           {topLevel.map((c) => (
             <CommentItem
               key={c.id}
@@ -57,7 +61,10 @@ export async function CommentThread({ postId, postSlug }: Props) {
           ))}
         </ul>
       )}
-      <CommentForm postId={postId} />
+      <div className="flex flex-col gap-3 pt-4 border-t border-c-foreground/10">
+        <h4 className="text-lg font-semibold">Schrijf een reactie</h4>
+        <CommentForm postId={postId} />
+      </div>
     </section>
   )
 }
