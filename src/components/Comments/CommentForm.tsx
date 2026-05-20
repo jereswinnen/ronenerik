@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import type { SerializedEditorState } from 'lexical'
 import { useUser } from '@/hooks/useUser'
 import { Button } from '@/components/(frontend)/Button'
@@ -25,6 +25,7 @@ export function CommentForm({
   onDone,
 }: Props) {
   const router = useRouter()
+  const pathname = usePathname()
   const { user, loading } = useUser()
   const [content, setContent] = useState<SerializedEditorState | null>(initialContent)
   const [error, setError] = useState<string | null>(null)
@@ -37,13 +38,14 @@ export function CommentForm({
   }
 
   if (!user) {
+    const redirectTo = encodeURIComponent(`${pathname}#reacties`)
     return (
       <div className="flex flex-col gap-3">
         <p className="text-c-foreground/70">
           Log in of maak een account aan om te reageren.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Button href="/account/inloggen">Inloggen</Button>
+          <Button href={`/account/inloggen?redirect=${redirectTo}`}>Inloggen</Button>
           <Button href="/account/registreren" variant="secondary">
             Registreren
           </Button>

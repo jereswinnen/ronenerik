@@ -7,6 +7,7 @@ import * as migration_20260408_101232 from './20260408_101232';
 import * as migration_20260426_090449_users_open_registration from './20260426_090449_users_open_registration';
 import * as migration_20260426_090638_posts_comments_enabled from './20260426_090638_posts_comments_enabled';
 import * as migration_20260426_091057_comments_collection from './20260426_091057_comments_collection';
+import * as migration_20260520_100000_backfill_user_verified from './20260520_100000_backfill_user_verified';
 
 export const migrations = [
   {
@@ -53,5 +54,10 @@ export const migrations = [
     up: migration_20260426_091057_comments_collection.up,
     down: migration_20260426_091057_comments_collection.down,
     name: '20260426_091057_comments_collection'
+  },
+  {
+    up: migration_20260520_100000_backfill_user_verified.up,
+    down: migration_20260520_100000_backfill_user_verified.down,
+    name: '20260520_100000_backfill_user_verified'
   },
 ];
