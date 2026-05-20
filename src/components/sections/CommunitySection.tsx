@@ -27,7 +27,7 @@ export async function CommunitySection() {
   const posts = await payload.find({
     collection: 'posts',
     depth: 1,
-    limit: 1,
+    limit: 4,
     overrideAccess: false,
     sort: '-publishedAt',
     where: {
@@ -43,32 +43,40 @@ export async function CommunitySection() {
     },
   })
 
-  const latestPost = posts.docs[0]
-  if (!latestPost) return null
+  if (posts.docs.length === 0) return null
 
-  const postImage: MediaType | null =
-    latestPost.meta?.image && typeof latestPost.meta.image === 'object'
-      ? latestPost.meta.image
-      : latestPost.heroImage && typeof latestPost.heroImage === 'object'
-        ? (latestPost.heroImage as MediaType)
-        : null
-
-  const author = latestPost.populatedAuthors?.[0]?.name
-  const excerpt = latestPost.meta?.description || undefined
+  const cards = posts.docs.map((post) => {
+    const image: MediaType | null =
+      post.meta?.image && typeof post.meta.image === 'object'
+        ? post.meta.image
+        : post.heroImage && typeof post.heroImage === 'object'
+          ? (post.heroImage as MediaType)
+          : null
+    return {
+      slug: post.slug,
+      title: post.title,
+      image,
+      author: post.populatedAuthors?.[0]?.name,
+      excerpt: post.meta?.description || undefined,
+    }
+  })
 
   return (
-    <section className="container flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
-      <div className="order-1 lg:order-0 flex-1 min-w-0 w-full lg:w-auto">
-        <ContentCard
-          href={`/artikels/${latestPost.slug}`}
-          title={latestPost.title}
-          image={postImage}
-          meta={author ? formatAuthor(author) : undefined}
-          excerpt={excerpt}
-          tag="Uit de community"
-          horizontal
-          isLarge
-        />
+    <section className="container flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+      <div className="order-1 lg:order-0 flex flex-col gap-6 flex-1 min-w-0 w-full lg:w-auto">
+        {cards.map((card) => (
+          <ContentCard
+            key={card.slug}
+            href={`/artikels/${card.slug}`}
+            title={card.title}
+            image={card.image}
+            meta={card.author ? formatAuthor(card.author) : undefined}
+            excerpt={card.excerpt}
+            tag="Uit de community"
+            horizontal
+            isLarge
+          />
+        ))}
       </div>
 
       <div className="order-0 lg:order-1 flex flex-col gap-8 flex-1 min-w-0">
