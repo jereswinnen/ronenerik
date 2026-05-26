@@ -37,6 +37,9 @@ export async function GET(request: NextRequest) {
   revalidatePath('/podcast')
   revalidatePath('/patreon')
   revalidatePath('/videos')
+  // Dynamic detail pages aren't cascaded by the parent path — revalidate explicitly
+  // so newly-published episodes pick up their matched YouTube embed on first render.
+  revalidatePath('/podcast/[slug]', 'page')
 
   return Response.json({ revalidated: true, episodesCreated: syncResult.created })
 }
